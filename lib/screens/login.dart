@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/button_refac.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
+import 'package:paws_and_tail/screens/admin.dart';
 import 'package:paws_and_tail/screens/home.dart';
 
 import 'package:paws_and_tail/screens/register.dart';
@@ -12,32 +13,50 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
    final _formKey = GlobalKey<FormState>();
   LoginScreen({super.key});
-   Future<void> _login(BuildContext context) async {
-    try {
-      if (_formKey.currentState!.validate()) {
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: _emailController.text,
-          password: _passwordController.text,
-        );
+  Future<void> _login(BuildContext context) async {
+  try {
+    if (_formKey.currentState!.validate()) {
+      // For demonstration purposes, hard-coded admin credentials
+      const String adminEmail = 'admin@example.com';
+      const String adminPassword = 'admin123';
 
-        // Navigate to the home screen after successful login
+      // Check if entered credentials match the hard-coded admin credentials
+      if (_emailController.text == adminEmail &&
+          _passwordController.text == adminPassword) {
+        // Navigate to the admin page
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => HomeScreen(),
+            builder: (_) => AdminHome(),
           ),
         );
+        return; // Exit the method after navigation
       }
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email.');
-      } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
-      } else if (e.code == 'invalid-email') {
-        print('Invalid email address.');
-      }
-      // Handle other exceptions as needed
+
+      // If not an admin login, proceed with Firebase authentication
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      // Navigate to the home screen after successful login
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => HomeScreen(),
+        ),
+      );
     }
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      print('No user found for that email.');
+    } else if (e.code == 'wrong-password') {
+      print('Wrong password provided for that user.');
+    } else if (e.code == 'invalid-email') {
+      print('Invalid email address.');
+    }
+    // Handle other exceptions as needed
   }
+}
+
  
 
   @override
