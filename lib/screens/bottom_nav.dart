@@ -23,7 +23,7 @@ class _BottomNavState extends State<BottomNav> {
       HomeScreen(),
       FoodScreen(),
       EventScreen(),
-      AccountScreen()
+      AccountScreen(),
     ];
     return Scaffold(
       body: pages[selectedTab],
@@ -44,8 +44,8 @@ class _BottomNavState extends State<BottomNav> {
                   });
                  } 
                  },
-                 selectIcon: 'assets/icon1.png', 
-                 icon: 'assets/icon1.png'),
+                 selectIcon: 'assets/home.png', 
+                 icon: 'assets/home.png'),
                  TAbButton(
                 isActive: selectedTab==1,
                  onTap:(){
@@ -56,8 +56,8 @@ class _BottomNavState extends State<BottomNav> {
                   });
                  } 
                  },
-                 selectIcon: 'assets/icon2.png', 
-                 icon: 'assets/icon2.png'),
+                 selectIcon: 'assets/shop (1).png', 
+                 icon: 'assets/shop (1).png'),
                  TAbButton(
                 isActive: selectedTab==2,
                  onTap:(){
@@ -68,8 +68,8 @@ class _BottomNavState extends State<BottomNav> {
                   });
                  } 
                  },
-                 selectIcon: 'assets/icon3.png', 
-                 icon: 'assets/icon3.png'),
+                 selectIcon: 'assets/event.png', 
+                 icon: 'assets/event.png'),
                  TAbButton(
                 isActive: selectedTab==3,
                  onTap:(){
@@ -80,8 +80,8 @@ class _BottomNavState extends State<BottomNav> {
                   });
                  } 
                  },
-                 selectIcon: 'assets/icon4.png', 
-                 icon: 'assets/icon4.png'),
+                 selectIcon: 'assets/accounticon.png', 
+                 icon: 'assets/accounticon.png'),
                  ],
             ),
           )

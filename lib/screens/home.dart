@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
+import 'package:paws_and_tail/common/productcard.dart';
 import 'package:paws_and_tail/common/listview_horizontal.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
 import 'package:paws_and_tail/screens/accessories.dart';
@@ -30,15 +32,14 @@ int _currentIndex = 0;
         actions: [
           IconButton(
             onPressed: () async {
-              // Sign out logic
-              // ...
+              FirebaseAuth.instance.signOut();
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
                   builder: (_) => LoginScreen(),
                 ),
               );
             },
-            icon: Icon(Icons.exit_to_app),
+            icon: const Icon(Icons.exit_to_app),
           )
         ],
         title: Padding(
@@ -60,7 +61,7 @@ int _currentIndex = 0;
                   hintText: 'Search',
                 ),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               // Carousel of banners
               StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
@@ -68,7 +69,7 @@ int _currentIndex = 0;
                     .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return CircularProgressIndicator (color: TColo.gray,);
                   }
                   final urls = snapshot.data!.docs
                       .map((doc) => doc['url'] as String)
@@ -136,26 +137,24 @@ int _currentIndex = 0;
                   Text("Let's find a puppy you'll love.",style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),),
                 ],
               ),
-               GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 8.0,
-                  mainAxisSpacing: 8.0,
-                ),
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  // You can return any widget for each grid item
-                  return Container(
-                    color: Colors.blueGrey,
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Grid Item $index',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  );
-                },
+              SizedBox(
+                height:MediaQuery.of(context).size.height*.02,
               ),
+              Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+                children: [
+                  ProductCard(imagePath: 'assets/dogsale1.png', productName: 'Golden retriver', price:  8000.00,),
+                  ProductCard(imagePath: 'assets/dogsale2.png', productName: 'German shepherd', price:  10000.00,),
+                ],
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height*.015,),
+               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
+                 children: [
+                   ProductCard(imagePath: 'assets/dogsale3.png', productName: 'Dobermann', price: 25000.00,),
+                    ProductCard(imagePath: 'assets/dogsale4.png', productName: 'Shih tzu', price: 30000.00,),
+                 ],
+               ),
             ],
           ),
         ),

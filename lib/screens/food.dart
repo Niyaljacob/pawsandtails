@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
-import 'package:paws_and_tail/screens/home.dart';
+import 'package:paws_and_tail/screens/bottom_nav.dart';
+
 
 class FoodScreen extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
@@ -16,7 +17,7 @@ class FoodScreen extends StatelessWidget {
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_){
-              return HomeScreen();
+              return BottomNav();
             }));
           },
         ),

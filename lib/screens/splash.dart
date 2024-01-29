@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
     // Check if the user is already logged in
     FirebaseAuth.instance.authStateChanges().listen((User? user) {

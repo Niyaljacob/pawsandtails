@@ -26,8 +26,8 @@ class TAbButton extends StatelessWidget {
                         decoration: BoxDecoration(
                          color: TColo.primaryColor1
                         ),
-                        height: 4,
-                        width: 4,
+                        height: 3,
+                        width: 3,
 
                       )
                     ],

@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-class CustomAlertBox extends StatelessWidget {
-  final String content;
+// class CustomAlertBox extends StatelessWidget {
+//   final String content;
 
-  const CustomAlertBox({
-    Key? key,
-    required this.content,
-  }) : super(key: key);
+//   const CustomAlertBox({
+//     Key? key,
+//     required this.content,
+//   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      content: Text(content),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return AlertDialog(
+//       content: Text(content),
+//     );
+//   }
+// }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/button_refac.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
 import 'package:paws_and_tail/screens/admin.dart';
-import 'package:paws_and_tail/screens/home.dart';
+import 'package:paws_and_tail/screens/bottom_nav.dart';
 
 import 'package:paws_and_tail/screens/register.dart';
 
@@ -16,32 +16,25 @@ class LoginScreen extends StatelessWidget {
   Future<void> _login(BuildContext context) async {
   try {
     if (_formKey.currentState!.validate()) {
-      // For demonstration purposes, hard-coded admin credentials
       const String adminEmail = 'admin@example.com';
       const String adminPassword = 'admin123';
-
-      // Check if entered credentials match the hard-coded admin credentials
       if (_emailController.text == adminEmail &&
           _passwordController.text == adminPassword) {
-        // Navigate to the admin page
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (_) => AdminHome(),
+            builder: (_) => const AdminHome(),
           ),
         );
-        return; // Exit the method after navigation
+        return;
       }
-
       // If not an admin login, proceed with Firebase authentication
       await FirebaseAuth.instance.signInWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
-
-      // Navigate to the home screen after successful login
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (_) => HomeScreen(),
+          builder: (_) => BottomNav(),
         ),
       );
     }
@@ -53,7 +46,6 @@ class LoginScreen extends StatelessWidget {
     } else if (e.code == 'invalid-email') {
       print('Invalid email address.');
     }
-    // Handle other exceptions as needed
   }
 }
 
@@ -68,11 +60,10 @@ class LoginScreen extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          // Background Image
            Container(
-            height: MediaQuery.of(context).size.height, // Adjust as needed
+            height: MediaQuery.of(context).size.height, 
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/login.png'),
                 fit: BoxFit.cover,
@@ -83,7 +74,7 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Image.asset('assets/Group 250.png'),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
                    Form(
             key: _formKey,
             child: Column(
@@ -105,7 +96,7 @@ class LoginScreen extends StatelessWidget {
                   return null;
                 },
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 CustomTextField(
                   controller: _passwordController,
                   labelText: 'Password',
@@ -119,22 +110,22 @@ class LoginScreen extends StatelessWidget {
                   return null;
                 },
                 ),
-                SizedBox(height: 35),
+                const SizedBox(height: 35),
                 CustomElevatedButton(
                   label: 'Login',
                   onPressed: () => _login(context),
                   width: 300,
                   height: 50,
                 ),
-                SizedBox(height: 25),
+                const SizedBox(height: 25),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'New to Paws & Tails?',
                       style: TextStyle(fontSize: 17),
                     ),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pushReplacement(
@@ -143,7 +134,7 @@ class LoginScreen extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Text(
+                      child: const Text(
                         'Register',
                         style: TextStyle(color: Colors.red, fontSize: 17),
                       ),
