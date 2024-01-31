@@ -16,9 +16,7 @@ class FoodScreen extends StatelessWidget {
          leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_){
-              return BottomNav();
-            }));
+             Navigator.of(context).pop();
           },
         ),
         title: Padding(

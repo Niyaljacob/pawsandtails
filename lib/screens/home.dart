@@ -112,19 +112,19 @@ int _currentIndex = 0;
                 onTap: (index) {
                   switch (index) {
                     case 0:
-                      Navigator.of(context).pushReplacement(
+                      Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => FoodScreen()));
                       break;
                     case 1:
-                      Navigator.of(context).pushReplacement(
+                      Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => VetItemsScreen()));
                       break;
                     case 2:
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      Navigator.of(context).push(MaterialPageRoute(
                           builder: (_) => AccessoriesScreen()));
                       break;
                     case 3:
-                      Navigator.of(context).pushReplacement(
+                      Navigator.of(context).push(
                           MaterialPageRoute(builder: (_) => IotDeviceScreen()));
                       break;
                     default:

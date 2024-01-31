@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:paws_and_tail/screens/add_adds.dart';
+import 'package:paws_and_tail/screens/add_dog_inventory.dart';
+import 'package:paws_and_tail/screens/add_dogs.dart';
 import 'package:paws_and_tail/screens/advertisement.dart';
 import 'package:paws_and_tail/screens/login.dart';
 
@@ -53,9 +56,11 @@ class _AdminHomeState extends State<AdminHome> {
               )
             ),
             ListTile(
-              title: const Text('Add Inventory'),
+              title: const Text('Add dogs'),
               onTap: () {
-                // Navigate to Add Inventory screen
+                 Navigator.of(context).push(MaterialPageRoute(builder: (_){
+                  return const AddDogInventory();
+                }));
               },
             ),
             ListTile(

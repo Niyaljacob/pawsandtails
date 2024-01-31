@@ -19,7 +19,7 @@ class ProductCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Handle the tap event here, for example, navigate to a new screen
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).push(
           MaterialPageRoute(builder: (_) => ProductDetails()),
         );
       },

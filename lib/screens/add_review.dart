@@ -16,9 +16,7 @@ class AddReview extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-              return Review();
-            }));
+            Navigator.of(context).pop();
           },
         ),
         title: Text('Add Review'),
