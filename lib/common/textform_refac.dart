@@ -29,22 +29,25 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      onFieldSubmitted: onFieldSubmitted,
-      onChanged: onChanged,
-      validator: validator,
-      decoration: InputDecoration(
-        labelText: labelText,
-        hintText: hintText,
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-        filled: true,
-        fillColor: Colors.white.withOpacity(0.3), // Background color
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
+    return Padding(
+      padding: const EdgeInsets.only(left: 10,right: 10),
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
+        onFieldSubmitted: onFieldSubmitted,
+        onChanged: onChanged,
+        validator: validator,
+        decoration: InputDecoration(
+          labelText: labelText,
+          hintText: hintText,
+          prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+          filled: true,
+          fillColor: Colors.white.withOpacity(0.3), // Background color
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
         ),
       ),
     );

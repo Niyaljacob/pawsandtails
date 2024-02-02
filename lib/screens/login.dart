@@ -80,35 +80,41 @@ class LoginScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                CustomTextField(
-                  controller: _emailController,
-                  labelText: 'Email id',
-                  hintText: 'Enter your Email Id',
-                  prefixIcon: Icons.email,
-                   validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  } else if (!RegExp(
-                          r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
-                      .hasMatch(value)) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomTextField(
+                    controller: _emailController,
+                    labelText: 'Email id',
+                    hintText: 'Enter your Email Id',
+                    prefixIcon: Icons.email,
+                     validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your email';
+                    } else if (!RegExp(
+                            r'^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$')
+                        .hasMatch(value)) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
+                  ),
                 ),
                 const SizedBox(height: 30),
-                CustomTextField(
-                  controller: _passwordController,
-                  labelText: 'Password',
-                  hintText: 'Enter your username',
-                  prefixIcon: Icons.lock,
-                  obscureText: true,
-                  validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: CustomTextField(
+                    controller: _passwordController,
+                    labelText: 'Password',
+                    hintText: 'Enter your username',
+                    prefixIcon: Icons.lock,
+                    obscureText: true,
+                    validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter your password';
+                    }
+                    return null;
+                  },
+                  ),
                 ),
                 const SizedBox(height: 35),
                 CustomElevatedButton(
@@ -128,7 +134,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(width: 4),
                     TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(
+                        Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (_) => RegisterScreen(),
                           ),

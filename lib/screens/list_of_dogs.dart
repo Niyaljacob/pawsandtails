@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:paws_and_tail/screens/update_dog.dart';
 
 class ListOfDogs extends StatelessWidget {
   const ListOfDogs({Key? key}) : super(key: key);
@@ -38,19 +39,46 @@ class ListOfDogs extends StatelessWidget {
               var doc = snapshot.data!.docs[index];
               var name = doc['name'];
               var price = doc['price'];
-              var imageUrl = doc['imageurls'][0]; // Placeholder for image URL
+              var imageUrl = doc['imageurls'] != null && doc['imageurls'].isNotEmpty ? doc['imageurls'][0] : ''; 
 
-              return ListTile(
-                
-                title: Text(name),
-                subtitle: Text(price),
-                leading: SizedBox(
-                  height: 100,
-                  width: 100,
-                  child: Image.network(imageUrl,fit: BoxFit.cover,),
+              return Dismissible(
+                key: Key(doc.id),
+                direction: DismissDirection.endToStart,
+                onDismissed: (direction) {
+                  // Remove the dog document from Firestore
+                  FirebaseFirestore.instance.collection('dogDetails').doc(doc.id).delete();
+                },
+                background: Container(
+                  alignment: Alignment.centerRight,
+                  color: Colors.red,
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 20.0),
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                      return UpdateDog(
+                        dogId: doc.id, 
+                        dogName: name,
+                      );
+                    }));
+                  },
+                  child: ListTile(
+                    title: Text(name),
+                    subtitle: Text(price),
+                    leading: SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: imageUrl.isNotEmpty ? Image.network(imageUrl, fit: BoxFit.cover) : Placeholder(),
+                    ),
+                  ),
                 ),
               );
-
             },
           );
         },

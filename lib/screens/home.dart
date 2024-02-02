@@ -1,10 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
-import 'package:paws_and_tail/common/productcard.dart';
 import 'package:paws_and_tail/common/listview_horizontal.dart';
+import 'package:paws_and_tail/common/productcard.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
 import 'package:paws_and_tail/screens/accessories.dart';
 import 'package:paws_and_tail/screens/events.dart';
@@ -16,17 +16,19 @@ import 'package:paws_and_tail/screens/vetitems.dart';
 
 class HomeScreen extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
-int _currentIndex = 0;
+  int _currentIndex = 0;
   final List<Widget> _screens = [
     EventScreen(),
     FoodScreen(),
     AccountScreen(),
   ];
+
   HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 237, 237, 237),
       appBar: AppBar(
         backgroundColor: TColo.primaryColor1,
         actions: [
@@ -64,29 +66,20 @@ int _currentIndex = 0;
               const SizedBox(height: 16),
               // Carousel of banners
               StreamBuilder<QuerySnapshot>(
-                stream: FirebaseFirestore.instance
-                    .collection('banners')
-                    .snapshots(),
+                stream: FirebaseFirestore.instance.collection('banners').snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator (color: TColo.gray,);
+                    return CircularProgressIndicator(color: TColo.gray);
                   }
-                  final urls = snapshot.data!.docs
-                      .map((doc) => doc['url'] as String)
-                      .toList();
+                  final urls = snapshot.data!.docs.map((doc) => doc['url'] as String).toList();
                   return CarouselSlider(
                     options: CarouselOptions(
                       viewportFraction: 1,
-                       
-                      height:MediaQuery.of(context).size.height*.35,
+                      height: MediaQuery.of(context).size.height * .35,
                       enableInfiniteScroll: true,
-                      
-                      
                       autoPlay: true,
                     ),
-                    items: urls
-                        .map((url) => Image.network(url, fit: BoxFit.contain))
-                        .toList(),
+                    items: urls.map((url) => Image.network(url, fit: BoxFit.contain)).toList(),
                   );
                 },
               ),
@@ -112,20 +105,16 @@ int _currentIndex = 0;
                 onTap: (index) {
                   switch (index) {
                     case 0:
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => FoodScreen()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => FoodScreen()));
                       break;
                     case 1:
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => VetItemsScreen()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => VetItemsScreen()));
                       break;
                     case 2:
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => AccessoriesScreen()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => AccessoriesScreen()));
                       break;
                     case 3:
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => IotDeviceScreen()));
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => IotDeviceScreen()));
                       break;
                     default:
                       break;
@@ -134,32 +123,19 @@ int _currentIndex = 0;
               ),
               Row(
                 children: [
-                  Text("Let's find a puppy you'll love.",style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),),
+                  Text(
+                    "Let's find a puppy you'll love.",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
                 ],
               ),
-              SizedBox(
-                height:MediaQuery.of(context).size.height*.02,
-              ),
-              Row(
-                 mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
-                children: [
-                  ProductCard(imagePath: 'assets/dogsale1.png', productName: 'Golden retriver', price:  8000.00,),
-                  ProductCard(imagePath: 'assets/dogsale2.png', productName: 'German shepherd', price:  10000.00,),
-                ],
-              ),
-              SizedBox(height: MediaQuery.of(context).size.height*.015,),
-               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly, 
-                 children: [
-                   ProductCard(imagePath: 'assets/dogsale3.png', productName: 'Dobermann', price: 25000.00,),
-                    ProductCard(imagePath: 'assets/dogsale4.png', productName: 'Shih tzu', price: 30000.00,),
-                 ],
-               ),
+              SizedBox(height: 20),
+              // GridView to display dogs from the 'dogDetails' collection
+              ProductCard()
             ],
           ),
         ),
       ),
-      
     );
   }
 }

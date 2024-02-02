@@ -59,7 +59,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         child: Container(
           color: Colors.grey,
@@ -68,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               // Background Image
               Container(
-                height: MediaQuery.of(context).size.height * 0.9,
+                height: MediaQuery.of(context).size.height * 0.9999,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   image: DecorationImage(
@@ -81,14 +81,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: 30,
+                        height: 15,
                       ),
                       Text(
                         'Create an Account',
                         style: TextStyle(fontSize: 25),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 15,
                       ),
                       Form(
                         key: _formKey,
@@ -108,7 +108,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                             ),
                             SizedBox(
-                              height: 30,
+                              height: 25,
                             ),
                             CustomTextField(
                               controller: _emailController,
@@ -128,7 +128,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                             ),
                             SizedBox(
-                              height: 30,
+                              height: 25,
                             ),
                             CustomTextField(
                               controller: _passwordController,
@@ -146,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                             ),
                             SizedBox(
-                              height: 30,
+                              height: 25,
                             ),
                             CustomTextField(
                               controller: _phoneController,
@@ -162,7 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                             ),
                             SizedBox(
-                              height: 30,
+                              height: 25,
                             ),
                             CustomElevatedButton(
                               label: 'Register',
@@ -171,7 +171,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               height: 50,
                             ),
                             SizedBox(
-                              height: 20,
+                              height: 15,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -183,7 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 SizedBox(width: 4),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.of(context).pushReplacement(
+                                    Navigator.of(context).push(
                                       MaterialPageRoute(
                                         builder: (_) => LoginScreen(),
                                       ),

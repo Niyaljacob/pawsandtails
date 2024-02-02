@@ -15,7 +15,7 @@ class EventScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+            Navigator.of(context).push(MaterialPageRoute(builder: (ctx) {
               return BottomNav();
             }));
           },

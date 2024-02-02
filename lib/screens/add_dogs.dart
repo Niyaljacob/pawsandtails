@@ -141,9 +141,9 @@ class _AddDogsState extends State<AddDogs> {
   }
 
   Future<void> _fetchImageUrls() async {
-    final snapshot = await _firestore.collection('adddogs').get();
+    final snapshot = await _firestore.collection('dogDetails').get();
     setState(() {
-      _imageUrls = snapshot.docs.map((doc) => doc['url'] as String).toList();
+      _imageUrls = snapshot.docs.map((doc) => doc['imageurls'][0] as String).toList();
     });
   }
 
@@ -155,21 +155,18 @@ class _AddDogsState extends State<AddDogs> {
         final ref = _storage.ref().child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
         await ref.putFile(File(image.path));
         final url = await ref.getDownloadURL();
-        await _firestore.collection('adddogs').add({'url': url});
+        _imageUrls.add(url);
       }
-      _fetchImageUrls();
+      setState(() {});
     }
   }
 
   Future<void> _deleteImage(String imageUrl) async {
-    final docToDelete = await _firestore.collection('adddogs').where('url', isEqualTo: imageUrl).get();
-    docToDelete.docs.forEach((doc) async {
-      await _firestore.collection('adddogs').doc(doc.id).delete();
-      await _storage.refFromURL(imageUrl).delete();
-    });
-    setState(() {
-      _imageUrls.remove(imageUrl);
-    });
+    _imageUrls.remove(imageUrl);
+    setState(() {});
+
+    // You may want to also delete the image from Firebase Storage and Firestore here
+    // Depending on your application's requirements
   }
 
   Future<void> _saveDogDetails() async {
@@ -183,7 +180,7 @@ class _AddDogsState extends State<AddDogs> {
       'mom_weight': _momWeightController.text,
       'dad_weight': _dadWeightController.text,
       'color': _colorController.text,
-      'imageurls':_imageUrls
+      'imageurls': _imageUrls
     };
 
     // Save dog details to Firestore
@@ -200,9 +197,7 @@ class _AddDogsState extends State<AddDogs> {
     _dadWeightController.clear();
     _colorController.clear();
     _imageUrls.clear();
-  setState(() {
-    
-  });
+
     // Show a success message or perform any other action after saving the details
     showDialog(
       context: context,
