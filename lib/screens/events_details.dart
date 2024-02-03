@@ -10,14 +10,12 @@ class EventDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TColo.primaryColor1,
-        // leading: IconButton(
-        //   icon: Icon(Icons.arrow_back),
-        //   onPressed: () {
-        //     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-        //       return EventScreen();
-        //     }));
-        //   },
-        // ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+        ),
         title: Text('Event Details'),
       ),
       body: ListView(

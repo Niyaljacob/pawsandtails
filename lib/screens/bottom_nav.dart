@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/tabButton.dart';
 import 'package:paws_and_tail/screens/events.dart';
-import 'package:paws_and_tail/screens/food.dart';
+import 'package:paws_and_tail/screens/products.dart';
 import 'package:paws_and_tail/screens/home.dart';
 import 'package:paws_and_tail/screens/user_account.dart';
 

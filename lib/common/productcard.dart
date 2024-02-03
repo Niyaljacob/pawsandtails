@@ -78,7 +78,7 @@ class ProductCard extends StatelessWidget {
                         // For example, add the product to the cart
                       },
                       child: Container(
-                        height: MediaQuery.of(context).size.height * 0.04,
+                        height: MediaQuery.of(context).size.height * 0.03,
                         width: MediaQuery.of(context).size.width * 0.3,
                         decoration: BoxDecoration(
                           color: TColo.primaryColor1,

@@ -8,7 +8,7 @@ import 'package:paws_and_tail/common/productcard.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
 import 'package:paws_and_tail/screens/accessories.dart';
 import 'package:paws_and_tail/screens/events.dart';
-import 'package:paws_and_tail/screens/food.dart';
+import 'package:paws_and_tail/screens/products.dart';
 import 'package:paws_and_tail/screens/iotdevice.dart';
 import 'package:paws_and_tail/screens/login.dart';
 import 'package:paws_and_tail/screens/user_account.dart';
@@ -103,22 +103,22 @@ class HomeScreen extends StatelessWidget {
                   }
                 },
                 onTap: (index) {
-                  switch (index) {
-                    case 0:
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => FoodScreen()));
-                      break;
-                    case 1:
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => VetItemsScreen()));
-                      break;
-                    case 2:
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => AccessoriesScreen()));
-                      break;
-                    case 3:
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => IotDeviceScreen()));
-                      break;
-                    default:
-                      break;
-                  }
+                  // switch (index) {
+                  //   case 0:
+                  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => FoodScreen()));
+                  //     break;
+                  //   case 1:
+                  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => VetItemsPage()));
+                  //     break;
+                  //   case 2:
+                  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => AccessoriesPage()));
+                  //     break;
+                  //   case 3:
+                  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => IOTDevicePage ()));
+                  //     break;
+                  //   default:
+                  //     break;
+                  // }
                 },
               ),
               Row(
