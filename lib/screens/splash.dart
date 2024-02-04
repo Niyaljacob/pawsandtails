@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/screens/bottom_nav.dart';
 import 'package:paws_and_tail/screens/intro1.dart';
-import 'home.dart'; // Import your Home widget here
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

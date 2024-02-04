@@ -174,9 +174,6 @@ class _UpdateDogState extends State<UpdateDog> {
 }
 
 Future<void> _uploadImage(String imagePath) async {
-  // Upload the image to Firebase Storage or your preferred storage solution
-  // Once uploaded, retrieve the URL and add it to the list of image URLs
-  // For demonstration purposes, I'll assume you are using Firebase Storage
   Reference ref = FirebaseStorage.instance
       .ref()
       .child('dog_images')

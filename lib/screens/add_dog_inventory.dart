@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/screens/List_of_dogs.dart';
+// import 'package:paws_and_tail/admin/add_dogs.dart';
 import 'package:paws_and_tail/screens/add_dogs.dart';
 
 class AddDogInventory extends StatelessWidget {

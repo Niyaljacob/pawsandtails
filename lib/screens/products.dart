@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
 import 'package:paws_and_tail/screens/bottom_nav.dart';
-import 'package:paws_and_tail/screens/products.dart';
-import 'package:paws_and_tail/screens/top_selling_food.dart'; // Import the FoodScreen where _selectedIndex is defined
+import 'package:paws_and_tail/screens/top_selling_food.dart'; 
 
 class FoodScreen extends StatefulWidget {
   
@@ -79,7 +78,7 @@ class _FoodScreenState extends State<FoodScreen> {
     }
   }
 
-  Widget _foodContent() {
+  Widget _foodContent() { 
   List<Map<String, dynamic>> foodItems = [
     {"name": "Rottweiler Puppy", "kg": "3 kg", "price": "Rs 500.00", "image": "assets/foodpop1.png"},
     {"name": "Junior Original ", "kg": "400 kg", "price": "Rs 2000.00", "image": "assets/foodpop2.png"},
@@ -143,26 +142,44 @@ class _FoodScreenState extends State<FoodScreen> {
                    ),
          ),
           const SizedBox(height: 20,),
-         Text('Recommended Food',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500)),
-         
+         const Text('Recommended Food',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500)),
+         const SizedBox(height: 10,),
+         Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    _buildProductContainer('assets/foodpop1.png', 'Rottweiler Puppy', 'Brand 1', 'Rs 500.00'),
+    _buildProductContainer('assets/foodpop2.png', 'Junior Original', 'Brand 2', 'Rs 2000.00'),
+  ],
+),
+const SizedBox(height: 20,),
+        Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    _buildProductContainer('assets/foodpop1.png', 'Rottweiler Puppy', 'Brand 1', 'Rs 500.00'),
+    _buildProductContainer('assets/foodpop2.png', 'Junior Original', 'Brand 2', 'Rs 2000.00'),
+  ],
+),
       ],
     ),
   );
 }
 Widget _buildFoodItem(Map<String, dynamic> foodItem) {
   return Container(
-    decoration: BoxDecoration(color: Colors.white,border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(5)),
+    decoration: BoxDecoration(color: Colors.white,border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(25)),
     margin: const EdgeInsets.symmetric(horizontal: 4.0),
     width: MediaQuery.of(context).size.width * .8,
     child: Row(
     
       children: [
-        Image.asset(
-          foodItem['image'],
-           height: MediaQuery.of(context).size.height * .2,
-                width: MediaQuery.of(context).size.width * .4,
-          fit: BoxFit.cover,
-        ),
+        ClipRRect(
+  borderRadius: BorderRadius.circular(30), 
+  child: Image.asset(
+    foodItem['image'],
+    height: MediaQuery.of(context).size.height * .2,
+    width: MediaQuery.of(context).size.width * .4,
+    fit: BoxFit.cover,
+  ),
+),
         const SizedBox(height: 8.0),
         Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start ,
           children: [
@@ -189,30 +206,267 @@ Widget _buildFoodItem(Map<String, dynamic> foodItem) {
 
 
   Widget _vetItemsContent() {
-    return const Column(
+     List<Map<String, dynamic>> foodItems = [
+    {"name": "Wet Dog - Flea", "kg": "210 ml", "price": "Rs 700.00", "image": "assets/vetpop1.png"},
+    {"name": "Orondo Spray", "kg": "250 ml", "price": "Rs 2000.00", "image": "assets/vetpop2.png"},
+    {"name": "Petro Mange Cream", "kg": "650 g", "price": "Rs 700.00", "image": "assets/vetpop3.png"},
+  ];
+
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Vet Items Content'),
-        // Add your vet items content widgets here
+        const Text("Top Selling",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+        const SizedBox(height: 10,),
+        GestureDetector(onTap: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (_){
+            return const TopSellingFood();
+          }));
+        },
+          child: Container(
+           height: MediaQuery.of(context).size.height * .2,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: const PageScrollPhysics(), 
+              itemCount: foodItems.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _buildFoodItem(foodItems[index]);
+              },
+            ),
+          ),
+        ),
+        const SizedBox(height: 10,),
+        const Text('Top Brands',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+         Container(
+          color: Colors.white,
+           child: CarouselSlider(
+            options: CarouselOptions(
+               height: MediaQuery.of(context).size.height * .15,
+              enableInfiniteScroll: true,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              pauseAutoPlayOnTouch: true,
+              enlargeCenterPage: true,
+              scrollDirection: Axis.horizontal,
+            ),
+            items: [
+              Image.asset('assets/vetbrands1.webp'),
+              Image.asset('assets/vetbrands2.png'),
+              Image.asset('assets/vetbrands3.png'),
+            ].map((image) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: image,
+                  );
+                },
+              );
+            }).toList(),
+                   ),
+         ),
+          const SizedBox(height: 20,),
+         const Text('Recommended Food',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500)),
+         const SizedBox(height: 10,),
+         Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    _buildProductContainer('assets/vetpop1.png', 'Wet Dog - Flea', 'Brand 1', 'Rs 700.00'),
+    _buildProductContainer('assets/vetpop2.png', 'Petro Mange Cream', 'Brand 2', 'Rs 2000.00'),
+  ],
+),
+const SizedBox(height: 20,),
+        Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    _buildProductContainer('assets/vetpop2.png', 'Wet Dog - Flea', 'Brand 1', 'Rs 700.00'),
+    _buildProductContainer('assets/vetpop1.png', 'Petro Mange Cream', 'Brand 2', 'Rs 2000.00'),
+  ],
+),
       ],
-    );
+    ),
+  );
   }
+
+
+
 
   Widget _accessoriesContent() {
-    return const Column(
+     List<Map<String, dynamic>> foodItems = [
+    {"name": "Warm fleece vest", "kg": "210 ml", "price": "Rs 1780.00", "image": "assets/iotpop1.png"},
+    {"name": "Pet Nail Clipper", "kg": "250 ml", "price": "Rs 10580.00", "image": "assets/iotpop2.png"},
+    {"name": "Flea Comb", "kg": "650 g", "price": "RS 900.00", "image": "assets/iotpop3.png"},
+  ];
+
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Accessories Content'),
-        // Add your accessories content widgets here
+        const Text("Top Selling",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+        const SizedBox(height: 10,),
+        GestureDetector(onTap: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (_){
+            return const TopSellingFood();
+          }));
+        },
+          child: Container(
+           height: MediaQuery.of(context).size.height * .2,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: const PageScrollPhysics(), 
+              itemCount: foodItems.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _buildFoodItem(foodItems[index]);
+              },
+            ),
+          ),
+        ),
+        const SizedBox(height: 10,),
+        const Text('Top Brands',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+         Container(
+          color: Colors.white,
+           child: CarouselSlider(
+            options: CarouselOptions(
+               height: MediaQuery.of(context).size.height * .15,
+              enableInfiniteScroll: true,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              pauseAutoPlayOnTouch: true,
+              enlargeCenterPage: true,
+              scrollDirection: Axis.horizontal,
+            ),
+            items: [
+              Image.asset('assets/assesbrands1.png'),
+              Image.asset('assets/assesbrands2.png'),
+              Image.asset('assets/assesbrands3.png'),
+            ].map((image) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: image,
+                  );
+                },
+              );
+            }).toList(),
+                   ),
+         ),
+          const SizedBox(height: 20,),
+         const Text('Recommended Food',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500)),
+         const SizedBox(height: 10,),
+         Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    _buildProductContainer('assets/iotpop1.png', 'Warm fleece vest', 'Brand 1', 'Rs 1780.00'),
+    _buildProductContainer('assets/iotpop2.png', 'Pet Nail Clipper', 'Brand 2', 'RS 900.00'),
+  ],
+),
+const SizedBox(height: 20,),
+        Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    _buildProductContainer('assets/iotpop2.png', 'Pet Nail Clipper', 'Brand 1', 'RS 900.00'),
+    _buildProductContainer('assets/iotpop1.png', 'Warm fleece vest', 'Brand 2', 'Rs 1780.00'),
+  ],
+),
       ],
-    );
+    ),
+  );
   }
 
+
+
+
   Widget _iotDeviceContent() {
-    return const Column(
+      List<Map<String, dynamic>> foodItems = [
+    {"name": "Automatic Feeder", "kg": "210 ml", "price": "Rs 24489.00", "image": "assets/assespop1.png"},
+    {"name": "GPS Pet Tracker", "kg": "250 ml", "price": "Rs 10580.00", "image": "assets/assespop2.png"},
+    {"name": "Petcube Pet Camera", "kg": "650 g", "price": "Rs 15965.00", "image": "assets/assespop3.png"},
+  ];
+
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('IOT Device Content'),
-        // Add your IOT device content widgets here
+        const Text("Top Selling",style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+        const SizedBox(height: 10,),
+        GestureDetector(onTap: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (_){
+            return const TopSellingFood();
+          }));
+        },
+          child: Container(
+           height: MediaQuery.of(context).size.height * .2,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              physics: const PageScrollPhysics(), 
+              itemCount: foodItems.length,
+              itemBuilder: (BuildContext context, int index) {
+                return _buildFoodItem(foodItems[index]);
+              },
+            ),
+          ),
+        ),
+        const SizedBox(height: 10,),
+        const Text('Top Brands',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),),
+         Container(
+          color: Colors.white,
+           child: CarouselSlider(
+            options: CarouselOptions(
+               height: MediaQuery.of(context).size.height * .15,
+              enableInfiniteScroll: true,
+              autoPlay: true,
+              autoPlayInterval: const Duration(seconds: 3),
+              autoPlayAnimationDuration: const Duration(milliseconds: 800),
+              pauseAutoPlayOnTouch: true,
+              enlargeCenterPage: true,
+              scrollDirection: Axis.horizontal,
+            ),
+            items: [
+              Image.asset('assets/iotbrands1.jpeg'),
+              Image.asset('assets/iotbrands2.png'),
+              Image.asset('assets/iotbrands3.jpeg'),
+            ].map((image) {
+              return Builder(
+                builder: (BuildContext context) {
+                  return Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                    child: image,
+                  );
+                },
+              );
+            }).toList(),
+                   ),
+         ),
+          const SizedBox(height: 20,),
+         const Text('Recommended Food',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500)),
+         const SizedBox(height: 10,),
+         Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    _buildProductContainer('assets/assespop1.png', 'Automatic Feeder', 'Brand 1', 'Rs 24489.00'),
+    _buildProductContainer('assets/assespop2.png', 'GPS Pet Tracker', 'Brand 2', 'Rs 10580.00'),
+  ],
+),
+const SizedBox(height: 20,),
+        Row(
+  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  children: [
+    _buildProductContainer('assets/assespop2.png', 'GPS Pet Tracker', 'Brand 1', 'Rs 10580.00'),
+    _buildProductContainer('assets/assespop1.png', 'Automatic Feeder', 'Brand 2', 'Rs 24489.00'),
+  ],
+),
       ],
-    );
+    ),
+  );
   }
 
   Widget _buildCategoryButton(BuildContext context, String assetPath, String categoryText, int index) {
@@ -256,4 +510,32 @@ Widget _buildFoodItem(Map<String, dynamic> foodItem) {
       ),
     );
   }
+
+
+
+  Widget _buildProductContainer(String imagePath, String productName, String brandName, String price) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 10,right: 10),
+    child: GestureDetector(onTap: () {
+      Navigator.of(context).push(MaterialPageRoute(builder: (_){
+            return const TopSellingFood();
+          }));
+    },
+      child: Container(decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(20) ),
+        width: MediaQuery.of(context).size.width * 0.4,
+        child: Column(
+          children: [
+            ClipRRect(borderRadius: BorderRadius.circular(20),
+              child: Image.asset(imagePath)),
+            Divider(),
+            Text(productName,style: TextStyle(fontWeight: FontWeight.w500),),
+            Text(brandName),
+            Text(price,style: TextStyle(color: TColo.primaryColor1),),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
 }

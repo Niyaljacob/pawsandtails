@@ -83,12 +83,9 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 16),
-              // Other content of the home screen
               HorizontalItemList(
                 itemCount: 4,
                 getItemText: (index) {
-                  // Provide different text for each item
                   switch (index) {
                     case 0:
                       return 'Food';

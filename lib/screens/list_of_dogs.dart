@@ -45,7 +45,6 @@ class ListOfDogs extends StatelessWidget {
                 key: Key(doc.id),
                 direction: DismissDirection.endToStart,
                 onDismissed: (direction) {
-                  // Remove the dog document from Firestore
                   FirebaseFirestore.instance.collection('dogDetails').doc(doc.id).delete();
                 },
                 background: Container(

@@ -28,10 +28,10 @@ class HorizontalItemList extends StatelessWidget {
   Widget buildItem(BuildContext context, int index) {
     // Asset paths for demonstration (replace with your actual asset paths)
     List<String> assetPaths = [
-      'assets/list1.png',
-      'assets/list2.png',
-      'assets/list3.png',
-      'assets/list4.png',
+      'assets/food.jpg',
+      'assets/vet.jpg',
+      'assets/acces.jpg',
+      'assets/iot.jpg',
     ];
 
     return GestureDetector(

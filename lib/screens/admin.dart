@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:paws_and_tail/screens/add_adds.dart';
 import 'package:paws_and_tail/screens/add_dog_inventory.dart';
 import 'package:paws_and_tail/screens/add_dogs.dart';
+import 'package:paws_and_tail/screens/add_product_inventory.dart';
+// import 'package:paws_and_tail/admin/advertisement.dart';
 import 'package:paws_and_tail/screens/advertisement.dart';
 import 'package:paws_and_tail/screens/login.dart';
 
@@ -71,7 +73,14 @@ class _AdminHomeState extends State<AdminHome> {
                 }));
               },
             ),
-            // Add more options as needed
+            ListTile(
+              title: const Text('Add Products'),
+              onTap: () {
+                 Navigator.of(context).push(MaterialPageRoute(builder: (_){
+                  return const AddProductsInventory();
+                }));
+              },
+            ),
           ],
         ),
       ),

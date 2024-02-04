@@ -39,7 +39,7 @@ class _AddDogsState extends State<AddDogs> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: const Text('Adds'),
+        title: const Text('Add Dogs'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -183,10 +183,10 @@ class _AddDogsState extends State<AddDogs> {
       'imageurls': _imageUrls
     };
 
-    // Save dog details to Firestore
+    
     await _firestore.collection('dogDetails').add(dogDetails);
 
-    // Clear text field controllers after saving
+  
     _nameController.clear();
     _priceController.clear();
     _overviewController.clear();
@@ -198,7 +198,7 @@ class _AddDogsState extends State<AddDogs> {
     _colorController.clear();
     _imageUrls.clear();
 
-    // Show a success message or perform any other action after saving the details
+    
     showDialog(
       context: context,
       builder: (context) {

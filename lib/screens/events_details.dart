@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
-import 'package:paws_and_tail/screens/events.dart';
+
 
 class EventDetails extends StatelessWidget {
   const EventDetails({Key? key});

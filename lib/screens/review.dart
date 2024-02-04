@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/screens/add_review.dart';
-import 'package:paws_and_tail/screens/product_details.dart';
+
 
 class Review extends StatelessWidget {
   const Review({Key? key});
