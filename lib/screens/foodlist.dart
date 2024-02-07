@@ -1,18 +1,16 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class IotDeviceList extends StatelessWidget {
-  const IotDeviceList({super.key});
-
+class FoodList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-         backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: Text('List of IOT Devices'),
+        backgroundColor: const Color.fromARGB(255, 96, 182, 252),
+        title: Text('List of Food'),
       ),
-       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('IOT Device').snapshots(),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('Food').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -61,9 +59,10 @@ class IotDeviceList extends StatelessWidget {
       ),
     );
   }
-   Future<void> _deleteItem(String documentId) async {
+
+  Future<void> _deleteItem(String documentId) async {
     try {
-      await FirebaseFirestore.instance.collection('IOT Device').doc(documentId).delete();
+      await FirebaseFirestore.instance.collection('Food').doc(documentId).delete();
       print('Item deleted successfully');
     } catch (e) {
       print('Error deleting item: $e');

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paws_and_tail/screens/add_adds.dart';
 import 'package:paws_and_tail/screens/add_dog_inventory.dart';
 import 'package:paws_and_tail/screens/add_dogs.dart';
-import 'package:paws_and_tail/screens/add_product_inventory.dart';
-// import 'package:paws_and_tail/admin/advertisement.dart';
+import 'package:paws_and_tail/screens/add_view_product_inventory.dart';
 import 'package:paws_and_tail/screens/advertisement.dart';
 import 'package:paws_and_tail/screens/login.dart';
 

@@ -5,15 +5,15 @@ import 'package:paws_and_tail/common/textform_refac.dart';
 import 'package:paws_and_tail/screens/bottom_nav.dart';
 import 'package:paws_and_tail/screens/top_selling_food.dart'; 
 
-class FoodScreen extends StatefulWidget {
+class ProductScreen extends StatefulWidget {
   
-  const FoodScreen({Key? key}) : super(key: key);
+  const ProductScreen({Key? key}) : super(key: key);
 
   @override
-  _FoodScreenState createState() => _FoodScreenState();
+  _ProductScreenState createState() => _ProductScreenState();
 }
 
-class _FoodScreenState extends State<FoodScreen> {
+class _ProductScreenState extends State<ProductScreen> {
    final TextEditingController _searchController = TextEditingController();
   int _selectedIndex = 0;
 
@@ -104,7 +104,7 @@ class _FoodScreenState extends State<FoodScreen> {
               physics: const PageScrollPhysics(), 
               itemCount: foodItems.length,
               itemBuilder: (BuildContext context, int index) {
-                return _buildFoodItem(foodItems[index]);
+                return _buildTopItem(foodItems[index]);
               },
             ),
           ),
@@ -163,7 +163,7 @@ const SizedBox(height: 20,),
     ),
   );
 }
-Widget _buildFoodItem(Map<String, dynamic> foodItem) {
+Widget _buildTopItem(Map<String, dynamic> foodItem) {
   return Container(
     decoration: BoxDecoration(color: Colors.white,border: Border.all(color: Colors.grey),borderRadius: BorderRadius.circular(25)),
     margin: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -231,7 +231,7 @@ Widget _buildFoodItem(Map<String, dynamic> foodItem) {
               physics: const PageScrollPhysics(), 
               itemCount: foodItems.length,
               itemBuilder: (BuildContext context, int index) {
-                return _buildFoodItem(foodItems[index]);
+                return _buildTopItem(foodItems[index]);
               },
             ),
           ),
@@ -320,7 +320,7 @@ const SizedBox(height: 20,),
               physics: const PageScrollPhysics(), 
               itemCount: foodItems.length,
               itemBuilder: (BuildContext context, int index) {
-                return _buildFoodItem(foodItems[index]);
+                return _buildTopItem(foodItems[index]);
               },
             ),
           ),
@@ -409,7 +409,7 @@ const SizedBox(height: 20,),
               physics: const PageScrollPhysics(), 
               itemCount: foodItems.length,
               itemBuilder: (BuildContext context, int index) {
-                return _buildFoodItem(foodItems[index]);
+                return _buildTopItem(foodItems[index]);
               },
             ),
           ),

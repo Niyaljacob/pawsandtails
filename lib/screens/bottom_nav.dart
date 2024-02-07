@@ -21,7 +21,7 @@ class _BottomNavState extends State<BottomNav> {
   Widget build(BuildContext context) {
     List pages = [
       HomeScreen(),
-      FoodScreen(),
+      ProductScreen(),
       EventScreen(),
       AccountScreen(),
     ];
