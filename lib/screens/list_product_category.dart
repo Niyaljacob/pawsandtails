@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/screens/accessorieslist.dart';
 import 'package:paws_and_tail/screens/foodlist.dart';
-import 'package:paws_and_tail/screens/iotdevice.dart';
+import 'package:paws_and_tail/screens/iotdevice_list.dart';
 import 'package:paws_and_tail/screens/vetitemslist.dart';
 
 class ListProductCategory extends StatelessWidget {

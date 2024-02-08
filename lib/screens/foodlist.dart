@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:paws_and_tail/screens/update_food_details.dart';
 
 class FoodList extends StatelessWidget {
   @override
@@ -49,7 +50,10 @@ class FoodList extends StatelessWidget {
                   title: Text(data['productName']),
                   subtitle: Text('\$${data['price']}'),
                   onTap: () {
-                    // Handle onTap if needed
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FoodDetails(foodId: document.id, foodName: data['productName'])),
+                    );
                   },
                 ),
               );

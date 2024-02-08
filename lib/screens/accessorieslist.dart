@@ -1,16 +1,18 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:paws_and_tail/screens/update_accessories_details.dart';
 
 class AccessoriesList extends StatelessWidget {
-  const AccessoriesList({super.key});
+  const AccessoriesList({Key? key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(
-       backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-      title: Text('List of Accessories'),
-    ),
-       body: StreamBuilder<QuerySnapshot>(
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 96, 182, 252),
+        title: Text('List of Accessories'),
+      ),
+      body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Accessories').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -50,7 +52,15 @@ class AccessoriesList extends StatelessWidget {
                   title: Text(data['productName']),
                   subtitle: Text('\$${data['price']}'),
                   onTap: () {
-                    // Handle onTap if needed
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AccessoriesDetails(
+                          productId: document.id,
+                          productName: data['productName'],
+                        ),
+                      ),
+                    );
                   },
                 ),
               );
@@ -60,6 +70,7 @@ class AccessoriesList extends StatelessWidget {
       ),
     );
   }
+
   Future<void> _deleteItem(String documentId) async {
     try {
       await FirebaseFirestore.instance.collection('Accessories').doc(documentId).delete();

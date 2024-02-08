@@ -1,15 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:paws_and_tail/screens/update_vetitems_details.dart';
 
 class VetItemList extends StatelessWidget {
-  const VetItemList({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: const Text('List of Vet Items'),
+        title: Text('List of Vet Items'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Vet Items').snapshots(),
@@ -51,7 +50,10 @@ class VetItemList extends StatelessWidget {
                   title: Text(data['productName']),
                   subtitle: Text('\$${data['price']}'),
                   onTap: () {
-                    // Handle onTap if needed
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => VetItemsDetails(vetId: document.id, vetName: data['productName'])),
+                    );
                   },
                 ),
               );
@@ -61,6 +63,7 @@ class VetItemList extends StatelessWidget {
       ),
     );
   }
+
   Future<void> _deleteItem(String documentId) async {
     try {
       await FirebaseFirestore.instance.collection('Vet Items').doc(documentId).delete();

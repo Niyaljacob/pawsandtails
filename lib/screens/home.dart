@@ -9,7 +9,7 @@ import 'package:paws_and_tail/common/textform_refac.dart';
 import 'package:paws_and_tail/screens/accessorieslist.dart';
 import 'package:paws_and_tail/screens/events.dart';
 import 'package:paws_and_tail/screens/products.dart';
-import 'package:paws_and_tail/screens/iotdevice.dart';
+import 'package:paws_and_tail/screens/iotdevice_list.dart';
 import 'package:paws_and_tail/screens/login.dart';
 import 'package:paws_and_tail/screens/user_account.dart';
 import 'package:paws_and_tail/screens/vetitemslist.dart';
