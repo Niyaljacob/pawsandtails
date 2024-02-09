@@ -137,7 +137,7 @@ class LoginScreen extends StatelessWidget {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (_) => RegisterScreen(),
+                            builder: (_) => const RegisterScreen(),
                           ),
                         );
                       },

@@ -41,7 +41,7 @@ class _UpdateDogState extends State<UpdateDog> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 96, 182, 252),
+        backgroundColor: const Color.fromARGB(255, 96, 182, 252),
         title: Text('${widget.dogName}'),
       ),
       body: SingleChildScrollView(
@@ -50,51 +50,51 @@ class _UpdateDogState extends State<UpdateDog> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Update Dog Details',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               TextFormField(
                 controller: _nameController,
-                decoration: InputDecoration(labelText: 'Name'),
+                decoration: const InputDecoration(labelText: 'Name'),
               ),
               TextFormField(
                 controller: _priceController,
-                decoration: InputDecoration(labelText: 'Price'),
+                decoration: const InputDecoration(labelText: 'Price'),
               ),
               TextFormField(
                 controller: _overviewController,
-                decoration: InputDecoration(labelText: 'Overview'),
+                decoration: const InputDecoration(labelText: 'Overview'),
               ),
               TextFormField(
                 controller: _genderController,
-                decoration: InputDecoration(labelText: 'Gender'),
+                decoration: const InputDecoration(labelText: 'Gender'),
               ),
               TextFormField(
                 controller: _ageController,
-                decoration: InputDecoration(labelText: 'Age'),
+                decoration: const InputDecoration(labelText: 'Age'),
               ),
               TextFormField(
                 controller: _birthdayController,
-                decoration: InputDecoration(labelText: 'Birthday'),
+                decoration: const InputDecoration(labelText: 'Birthday'),
               ),
               TextFormField(
                 controller: _momWeightController,
-                decoration: InputDecoration(labelText: "Mom's Weight"),
+                decoration: const InputDecoration(labelText: "Mom's Weight"),
               ),
               TextFormField(
                 controller: _dadWeightController,
-                decoration: InputDecoration(labelText: "Dad's Weight"),
+                decoration: const InputDecoration(labelText: "Dad's Weight"),
               ),
               TextFormField(
                 controller: _colorController,
-                decoration: InputDecoration(labelText: 'Color'),
+                decoration: const InputDecoration(labelText: 'Color'),
               ),
               ElevatedButton(
                 onPressed: _pickImage,
-                child: Text('Select Image'),
+                child: const Text('Select Image'),
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               _imageUrls.isEmpty
                   ? Container()
                   : CarouselSlider.builder(
@@ -110,7 +110,7 @@ class _UpdateDogState extends State<UpdateDog> {
                     ),
               ElevatedButton(
                 onPressed: _updateDogDetails,
-                child: Text('Update Dog'),
+                child: const Text('Update Dog'),
               ),
             ],
           ),
@@ -131,7 +131,7 @@ class _UpdateDogState extends State<UpdateDog> {
           top: 8,
           right: 8,
           child: IconButton(
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             color: Colors.white,
             onPressed: () {
               setState(() {
@@ -211,9 +211,9 @@ Future<void> _uploadImage(String imagePath) async {
         .doc(widget.dogId)
         .update(updatedData);
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
+      const SnackBar(
         content: Text('Dog details updated successfully'),
-        duration: Duration(seconds: 2), // Adjust duration as needed
+        duration: Duration(seconds: 2), 
       ),
     );
   } catch (error) {

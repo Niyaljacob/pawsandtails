@@ -25,7 +25,7 @@ class Intro extends StatelessWidget {
             left: 0.0,
             right: 0.0,
             child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
               child: Container(
                 color:
                     Colors.white.withOpacity(0.8), // Adjust opacity as needed
@@ -33,24 +33,24 @@ class Intro extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Image.asset('assets/logo.png'),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
-                    Text('Hey! Welcome',
+                    const Text('Hey! Welcome',
                         style: TextStyle(
                             fontSize: 32, fontWeight: FontWeight.w500)),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text(
+                    const Text(
                       'while you sit and stay - we\n       will go out and play',
                       style: TextStyle(color: Colors.grey, fontSize: 20),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     ElevatedButton(
@@ -63,9 +63,9 @@ class Intro extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: TColo.primaryColor1,
-                        minimumSize: Size(100, 50),
+                        minimumSize: const Size(100, 50),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -75,7 +75,7 @@ class Intro extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     )
                   ],
@@ -95,7 +95,7 @@ class Intro extends StatelessWidget {
                           ),
                         );
                 },
-                child: Text(
+                child: const Text(
                   'Skip',
                   style: TextStyle(fontSize: 16, color: Colors.black),
                 ),

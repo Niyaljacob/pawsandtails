@@ -24,7 +24,7 @@ class IntroTwo extends StatelessWidget {
             left: 0.0,
             right: 0.0,
             child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
               child: Container(
                 color:
                     Colors.white.withOpacity(0.8), // Adjust opacity as needed
@@ -32,24 +32,24 @@ class IntroTwo extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     ),
-                    Text('Now!',
+                    const Text('Now!',
                         style: TextStyle(
                             fontSize: 32, fontWeight: FontWeight.w500)),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
-                    Text(
+                    const Text(
                       'One tap for foods, accessories, \n health care products & digital \n                   gadgets',
                       style: TextStyle(color: Colors.grey, fontSize: 20),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 35,
                     ),
                     ElevatedButton(
@@ -62,9 +62,9 @@ class IntroTwo extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: TColo.primaryColor1,
-                        minimumSize: Size(100, 50),
+                        minimumSize: const Size(100, 50),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -74,7 +74,7 @@ class IntroTwo extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     )
                   ],

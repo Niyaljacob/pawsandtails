@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paws_and_tail/screens/update_dog.dart';
@@ -9,14 +10,14 @@ class ListOfDogs extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 96, 182, 252),
-        title: Text('List Of Dogs'),
+        backgroundColor: const Color.fromARGB(255, 96, 182, 252),
+        title: const Text('List Of Dogs'),
       ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('dogDetails').snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -28,7 +29,7 @@ class ListOfDogs extends StatelessWidget {
           }
 
           if (snapshot.hasData && snapshot.data!.docs.isEmpty) {
-            return Center(
+            return const Center(
               child: Text('No dogs found.'),
             );
           }
@@ -50,7 +51,7 @@ class ListOfDogs extends StatelessWidget {
                 background: Container(
                   alignment: Alignment.centerRight,
                   color: Colors.red,
-                  child: Padding(
+                  child: const Padding(
                     padding: EdgeInsets.only(right: 20.0),
                     child: Icon(
                       Icons.delete,
@@ -73,7 +74,7 @@ class ListOfDogs extends StatelessWidget {
                     leading: SizedBox(
                       height: 100,
                       width: 100,
-                      child: imageUrl.isNotEmpty ? Image.network(imageUrl, fit: BoxFit.cover) : Placeholder(),
+                      child: imageUrl.isNotEmpty ? Image.network(imageUrl, fit: BoxFit.cover) : const Placeholder(),
                     ),
                   ),
                 ),

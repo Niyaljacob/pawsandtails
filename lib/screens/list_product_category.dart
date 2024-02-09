@@ -22,7 +22,7 @@ class ListProductCategory extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                    return FoodList();
+                    return const FoodList();
                   }));
                 },
                 child: Card(elevation: 7,
@@ -32,7 +32,7 @@ class ListProductCategory extends StatelessWidget {
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
                                   ),
-                                  child: Center(child: Text('List of Food',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
+                                  child: const Center(child: Text('List of Food',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
                             ),
                           ),
               ),
@@ -50,7 +50,7 @@ class ListProductCategory extends StatelessWidget {
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
                                   ),
-                                  child: Center(child: Text('List of Vet Items',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
+                                  child: const Center(child: Text('List of Vet Items',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
                             ),
                           ),
                         ),
@@ -58,7 +58,7 @@ class ListProductCategory extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                              Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                    return AccessoriesList();
+                    return const AccessoriesList();
                   }));
                           },
                           child: Card(elevation: 7,
@@ -68,7 +68,7 @@ class ListProductCategory extends StatelessWidget {
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
                                   ),
-                                  child: Center(child: Text('List of Accessories',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
+                                  child: const Center(child: Text('List of Accessories',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
                             ),
                           ),
                         ),
@@ -76,7 +76,7 @@ class ListProductCategory extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                              Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                    return IotDeviceList();
+                    return const IotDeviceList();
                   }));
                           },
                           child: Card(elevation: 7,
@@ -86,7 +86,7 @@ class ListProductCategory extends StatelessWidget {
                                   decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
                                     color: Colors.white,
                                   ),
-                                  child: Center(child: Text('List of IOT Devices',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
+                                  child: const Center(child: Text('List of IOT Devices',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
                             ),
                           ),
                         ),

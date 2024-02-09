@@ -11,7 +11,7 @@ class IotDeviceList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: Text('List of IOT Devices'),
+        title: const Text('List of IOT Devices'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('IOT Device').snapshots(),
@@ -23,7 +23,7 @@ class IotDeviceList extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }

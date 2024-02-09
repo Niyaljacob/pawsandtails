@@ -1,9 +1,11 @@
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+import 'dart:io';
+
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class FoodDetails extends StatefulWidget {
   final String foodId;
@@ -22,7 +24,8 @@ class _FoodDetailsState extends State<FoodDetails> {
   TextEditingController brandNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
-   bool addToPopularItems = false;
+  bool addToPopularItems = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +99,7 @@ class _FoodDetailsState extends State<FoodDetails> {
               onPressed: getImage,
               child: const Text('Select New Image',style: TextStyle(color:Colors.white),),
             ),
-                        const Divider(),
+            const Divider(),
             const SizedBox(height: 30,),
             TextFormField(
               controller: productNameController,
@@ -124,7 +127,8 @@ class _FoodDetailsState extends State<FoodDetails> {
                 });
               },
             ),
-            ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
+            ElevatedButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
               onPressed: updateFoodDetails,
               child: const Text('Update',style: TextStyle(color: Colors.white),),
             ),
@@ -224,6 +228,16 @@ class _FoodDetailsState extends State<FoodDetails> {
       });
 
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Food details updated')));
+
+      if (addToPopularItems) {
+        await FirebaseFirestore.instance.collection('FoodPopular').doc(widget.foodId).set({
+          'productName': productNameController.text,
+          'brandName': brandNameController.text,
+          'price': double.parse(priceController.text),
+          'details': detailsController.text,
+          'imageURLs': updatedImageURLs,
+        });
+      }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to update food details')));
     }

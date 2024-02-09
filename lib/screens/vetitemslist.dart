@@ -8,7 +8,7 @@ class VetItemList extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: Text('List of Vet Items'),
+        title: const Text('List of Vet Items'),
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Vet Items').snapshots(),
@@ -20,7 +20,7 @@ class VetItemList extends StatelessWidget {
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -34,8 +34,8 @@ class VetItemList extends StatelessWidget {
                 background: Container(
                   color: Colors.red,
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Icon(Icons.delete, color: Colors.white),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: const Icon(Icons.delete, color: Colors.white),
                 ),
                 onDismissed: (direction) {
                   _deleteItem(document.id);

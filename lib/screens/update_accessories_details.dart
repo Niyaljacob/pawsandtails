@@ -31,7 +31,7 @@ class _AccessoriesDetailsState extends State<AccessoriesDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Details'),
+        title: const Text('Update Details'),
         backgroundColor: const Color.fromARGB(255, 96, 182, 252),
       ),
       body: SingleChildScrollView(
@@ -61,7 +61,7 @@ class _AccessoriesDetailsState extends State<AccessoriesDetails> {
                               onPressed: () {
                                 deleteImage(url);
                               },
-                              icon: Icon(Icons.delete),
+                              icon: const Icon(Icons.delete),
                               color: Colors.red,
                             ),
                           ),
@@ -105,7 +105,7 @@ class _AccessoriesDetailsState extends State<AccessoriesDetails> {
               ),
             ),
             const Divider(),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             TextFormField(

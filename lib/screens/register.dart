@@ -11,7 +11,7 @@ import 'package:paws_and_tail/common/textform_refac.dart';
 import 'package:paws_and_tail/screens/login.dart';
 
 class RegisterScreen extends StatefulWidget {
-  RegisterScreen({super.key});
+  const RegisterScreen({super.key});
 
   @override
   State<RegisterScreen> createState() => _RegisterScreenState();
@@ -70,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Container(
                 height: MediaQuery.of(context).size.height * 0.9999,
                 width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/register_img.png'),
                     fit: BoxFit.cover,
@@ -80,14 +80,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
-                      Text(
+                      const Text(
                         'Create an Account',
                         style: TextStyle(fontSize: 25),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Form(
@@ -107,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 return null;
                               },
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 25,
                             ),
                             CustomTextField(
@@ -127,7 +127,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 return null;
                               },
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 25,
                             ),
                             CustomTextField(
@@ -145,7 +145,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 return null;
                               },
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 25,
                             ),
                             CustomTextField(
@@ -161,7 +161,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 return null;
                               },
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 25,
                             ),
                             CustomElevatedButton(
@@ -170,17 +170,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               width: 300, // Set custom width
                               height: 50,
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 15,
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text(
+                                const Text(
                                   'Already have an account?',
                                   style: TextStyle(fontSize: 17),
                                 ),
-                                SizedBox(width: 4),
+                                const SizedBox(width: 4),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).push(
@@ -189,11 +189,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       ),
                                     );
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     'Login',
                                     style: TextStyle(
                                       color:
-                                          const Color.fromARGB(255, 43, 116, 46),
+                                          Color.fromARGB(255, 43, 116, 46),
                                       fontSize: 17,
                                     ),
                                   ),

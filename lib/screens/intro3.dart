@@ -25,7 +25,7 @@ class IntroThree extends StatelessWidget {
             left: 0.0,
             right: 0.0,
             child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
               child: Container(
                 color:
                     Colors.white.withOpacity(0.8), // Adjust opacity as needed
@@ -33,20 +33,20 @@ class IntroThree extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Text('We Provide',
+                    const Text('We Provide',
                         style: TextStyle(
                             fontSize: 32, fontWeight: FontWeight.w500)),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
-                    Text(
+                    const Text(
                       ' selection of lovable dogs \n  available for purchase, \n   providing the perfect \nopportunity for individuals \n  and families to find their \n ideal canine companions.',
                       style: TextStyle(color: Colors.grey, fontSize: 20),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     ElevatedButton(
@@ -59,9 +59,9 @@ class IntroThree extends StatelessWidget {
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: TColo.primaryColor1,
-                        minimumSize: Size(100, 50),
+                        minimumSize: const Size(100, 50),
                       ),
-                      child: Row(
+                      child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
@@ -71,7 +71,7 @@ class IntroThree extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 50,
                     )
                   ],
