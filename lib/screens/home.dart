@@ -6,20 +6,17 @@ import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/listview_horizontal.dart';
 import 'package:paws_and_tail/common/productcard.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
-import 'package:paws_and_tail/screens/accessorieslist.dart';
+
 import 'package:paws_and_tail/screens/events.dart';
 import 'package:paws_and_tail/screens/products.dart';
-import 'package:paws_and_tail/screens/iotdevice_list.dart';
 import 'package:paws_and_tail/screens/login.dart';
 import 'package:paws_and_tail/screens/user_account.dart';
-import 'package:paws_and_tail/screens/vetitemslist.dart';
-
 class HomeScreen extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
   int _currentIndex = 0;
   final List<Widget> _screens = [
     ProductScreen(),
-    EventScreen(),
+    DogShowList(),
     
     AccountScreen(),
   ];
@@ -119,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                   // }
                 },
               ),
-              Row(
+              const Row(
                 children: [
                   Text(
                     "Let's find a puppy you'll love.",
@@ -127,7 +124,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // GridView to display dogs from the 'dogDetails' collection
               ProductCard()
             ],

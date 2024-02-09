@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:paws_and_tail/screens/add_adds.dart';
+// import 'package:paws_and_tail/screens/add_adds.dart';
 import 'package:paws_and_tail/screens/add_dog_inventory.dart';
-import 'package:paws_and_tail/screens/add_dogs.dart';
+import 'package:paws_and_tail/screens/add_view_dog_show.dart';
+// import 'package:paws_and_tail/screens/add_dogs.dart';
 import 'package:paws_and_tail/screens/add_view_product_inventory.dart';
 import 'package:paws_and_tail/screens/advertisement.dart';
 import 'package:paws_and_tail/screens/login.dart';
@@ -80,13 +81,21 @@ class _AdminHomeState extends State<AdminHome> {
                 }));
               },
             ),
+            ListTile(
+              title: const Text('Add Dog Show Events'),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_){
+                  return const AddViewDogShows();
+                }));
+              },
+            )
           ],
         ),
       ),
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/adminhome.png'), // Your background image asset
+            image: AssetImage('assets/adminhome.png'), 
             fit: BoxFit.cover,
           ),
         ),

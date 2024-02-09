@@ -9,7 +9,7 @@ class FoodDetails extends StatefulWidget {
   final String foodId;
   final String foodName;
 
-  const FoodDetails({Key? key, required this.foodId, required this.foodName}) : super(key: key);
+  FoodDetails({Key? key, required this.foodId, required this.foodName}) : super(key: key);
 
   @override
   _FoodDetailsState createState() => _FoodDetailsState();
@@ -22,7 +22,7 @@ class _FoodDetailsState extends State<FoodDetails> {
   TextEditingController brandNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
-
+   bool addToPopularItems = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,6 +115,15 @@ class _FoodDetailsState extends State<FoodDetails> {
               decoration: const InputDecoration(labelText: 'Details'),
             ),
             const SizedBox(height: 20.0),
+            CheckboxListTile(
+              title: const Text('Add to Popular Items'),
+              value: addToPopularItems,
+              onChanged: (value) {
+                setState(() {
+                  addToPopularItems = value!;
+                });
+              },
+            ),
             ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
               onPressed: updateFoodDetails,
               child: const Text('Update',style: TextStyle(color: Colors.white),),

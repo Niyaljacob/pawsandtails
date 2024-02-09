@@ -19,7 +19,7 @@ class ProductCard extends StatelessWidget {
         return GridView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
@@ -60,10 +60,10 @@ class ProductCard extends StatelessWidget {
                             fit: BoxFit.cover,
                           ),
                         ),
-                        SizedBox(height: 1),
+                        const SizedBox(height: 1),
                         Text(
                           dogName ?? 'Unknown',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           'Rs ${dog['price'] ?? 'N/A'}',
@@ -84,7 +84,7 @@ class ProductCard extends StatelessWidget {
                           color: TColo.primaryColor1,
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        child: Row(
+                        child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(

@@ -22,7 +22,7 @@ class _BottomNavState extends State<BottomNav> {
     List pages = [
       HomeScreen(),
       ProductScreen(),
-      EventScreen(),
+      DogShowList(),
       AccountScreen(),
     ];
     return Scaffold(
