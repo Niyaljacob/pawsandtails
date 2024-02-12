@@ -1,9 +1,9 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class AccessoriesDetails extends StatefulWidget {
   final String productId;
@@ -26,6 +26,7 @@ class _AccessoriesDetailsState extends State<AccessoriesDetails> {
   TextEditingController brandNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
+  bool addToPopularItems = false;
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +125,15 @@ class _AccessoriesDetailsState extends State<AccessoriesDetails> {
               controller: detailsController,
               decoration: const InputDecoration(labelText: 'Details'),
             ),
-            const SizedBox(height: 20.0),
+            CheckboxListTile(
+              title: const Text('Add to Popular Items'),
+              value: addToPopularItems,
+              onChanged: (value) {
+                setState(() {
+                  addToPopularItems = value!;
+                });
+              },
+            ),
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor:
@@ -161,6 +170,7 @@ class _AccessoriesDetailsState extends State<AccessoriesDetails> {
         brandNameController.text = data['brandName'];
         priceController.text = data['price'].toString();
         detailsController.text = data['details'];
+        addToPopularItems = data['addToPopularItems'] ?? false;
       });
     } catch (e) {
       print('Error fetching details: $e');
@@ -212,7 +222,20 @@ class _AccessoriesDetailsState extends State<AccessoriesDetails> {
         'price': double.parse(priceController.text),
         'details': detailsController.text,
         'imageURLs': updatedImageURLs,
+        'addToPopularItems': addToPopularItems,
       });
+
+      if (addToPopularItems) {
+        await FirebaseFirestore.instance.collection('AccessoriesPopular').doc(widget.productId).set({
+          'productName': productNameController.text,
+          'brandName': brandNameController.text,
+          'price': double.parse(priceController.text),
+          'details': detailsController.text,
+          'imageURLs': updatedImageURLs,
+        });
+      } else {
+        await FirebaseFirestore.instance.collection('AccessoriesPopular').doc(widget.productId).delete();
+      }
 
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Details updated')));

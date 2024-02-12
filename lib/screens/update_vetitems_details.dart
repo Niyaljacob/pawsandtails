@@ -1,9 +1,10 @@
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 class VetItemsDetails extends StatefulWidget {
   final String vetId;
@@ -12,16 +13,17 @@ class VetItemsDetails extends StatefulWidget {
   const VetItemsDetails({Key? key, required this.vetId, required this.vetName}) : super(key: key);
 
   @override
-  _FoodDetailsState createState() => _FoodDetailsState();
+  _VetItemsDetailsState createState() => _VetItemsDetailsState();
 }
 
-class _FoodDetailsState extends State<VetItemsDetails> {
-  List<String> imageURLs = []; 
-  List<XFile> selectedImages = []; 
+class _VetItemsDetailsState extends State<VetItemsDetails> {
+  List<String> imageURLs = [];
+  List<XFile> selectedImages = [];
   TextEditingController productNameController = TextEditingController();
   TextEditingController brandNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
+  bool addToPopularItems = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +96,9 @@ class _FoodDetailsState extends State<VetItemsDetails> {
             ElevatedButton(
               style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
               onPressed: getImage,
-              child: const Text('Select New Image',style: TextStyle(color:Colors.white),),
+              child: const Text('Select New Image', style: TextStyle(color: Colors.white)),
             ),
-                        const Divider(),
+            const Divider(),
             const SizedBox(height: 30,),
             TextFormField(
               controller: productNameController,
@@ -115,9 +117,20 @@ class _FoodDetailsState extends State<VetItemsDetails> {
               decoration: const InputDecoration(labelText: 'Details'),
             ),
             const SizedBox(height: 20.0),
-            ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
-              onPressed: updateFoodDetails,
-              child: const Text('Update',style: TextStyle(color: Colors.white),),
+            CheckboxListTile(
+              title: const Text('Add to Popular Items'),
+              value: addToPopularItems,
+              onChanged: (value) {
+                setState(() {
+                  addToPopularItems = value!;
+                });
+              },
+            ),
+            const SizedBox(height: 20.0),
+            ElevatedButton(
+              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
+              onPressed: updateVetDetails,
+              child: const Text('Update', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -128,13 +141,12 @@ class _FoodDetailsState extends State<VetItemsDetails> {
   @override
   void initState() {
     super.initState();
-    fetchFoodDetails();
+    fetchVetDetails();
   }
 
-  Future<void> fetchFoodDetails() async {
+  Future<void> fetchVetDetails() async {
     try {
-      DocumentSnapshot documentSnapshot =
-          await FirebaseFirestore.instance.collection('Vet Items').doc(widget.vetId).get();
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance.collection('Vet Items').doc(widget.vetId).get();
       Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
       setState(() {
         imageURLs = List<String>.from(data['imageURLs']);
@@ -144,7 +156,7 @@ class _FoodDetailsState extends State<VetItemsDetails> {
         detailsController.text = data['details'];
       });
     } catch (e) {
-      print('Error fetching food details: $e');
+      print('Error fetching vet details: $e');
     }
   }
 
@@ -193,7 +205,7 @@ class _FoodDetailsState extends State<VetItemsDetails> {
     });
   }
 
-  Future<void> updateFoodDetails() async {
+  Future<void> updateVetDetails() async {
     try {
       List<String> updatedImageURLs = [...imageURLs];
       for (XFile image in selectedImages) {
@@ -206,6 +218,7 @@ class _FoodDetailsState extends State<VetItemsDetails> {
         updatedImageURLs.add(imageURL);
       }
 
+      // Update details in 'Vet Items' collection
       await FirebaseFirestore.instance.collection('Vet Items').doc(widget.vetId).update({
         'productName': productNameController.text,
         'brandName': brandNameController.text,
@@ -213,6 +226,15 @@ class _FoodDetailsState extends State<VetItemsDetails> {
         'details': detailsController.text,
         'imageURLs': updatedImageURLs,
       });
+      if (addToPopularItems) {
+        await FirebaseFirestore.instance.collection('VetPopular').doc(widget.vetId).set({
+          'productName': productNameController.text,
+          'brandName': brandNameController.text,
+          'price': double.parse(priceController.text),
+          'details': detailsController.text,
+          'imageURLs': updatedImageURLs,
+        });
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Vet Items details updated')));
     } catch (e) {

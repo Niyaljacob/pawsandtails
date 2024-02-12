@@ -11,15 +11,12 @@ class Intro extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
           Positioned.fill(
             child: Image.asset(
-              'assets/dogs1.png', // Replace with your image asset
+              'assets/dogs1.png', 
               fit: BoxFit.cover,
             ),
           ),
-
-          // Stack Overlay
           Positioned(
             bottom: 0.0,
             left: 0.0,
