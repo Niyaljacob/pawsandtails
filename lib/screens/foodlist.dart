@@ -32,7 +32,7 @@ class FoodList extends StatelessWidget {
               }
 
               return SizedBox(
-                height: 150,
+                height: 160,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data!.docs.length,
@@ -41,15 +41,18 @@ class FoodList extends StatelessWidget {
                     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Column(
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Stack(
                             children: [
-                              Image.network(
-                                data['imageURLs'][0],
-                                width: 80,
-                                height: 80,
-                                fit: BoxFit.cover,
+                              ClipRRect(
+                                 borderRadius: BorderRadius.circular(8.0),
+                                child: Image.network(
+                                  data['imageURLs'][0],
+                                  width: 150,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                               Positioned(
                                 top: 0,
@@ -57,7 +60,7 @@ class FoodList extends StatelessWidget {
                                 child: IconButton(
                                   icon: const Icon(Icons.delete,color: Colors.red,),
                                   onPressed: () {
-                                    _deleteItem(document.id);
+                                    _deletePopularItem(document.id);
                                   },
                                 ),
                               ),
@@ -140,10 +143,19 @@ class FoodList extends StatelessWidget {
   Future<void> _deleteItem(String documentId) async {
     try {
       await FirebaseFirestore.instance.collection('Food').doc(documentId).delete();
-      await FirebaseFirestore.instance.collection('FoodPopular').doc(documentId).delete(); // Delete from FoodPopular collection
+      await FirebaseFirestore.instance.collection('FoodPopular').doc(documentId).delete(); 
       print('Item deleted successfully');
     } catch (e) {
       print('Error deleting item: $e');
+    }
+  }
+
+    Future<void> _deletePopularItem(String documentId) async {
+    try {
+      await FirebaseFirestore.instance.collection('FoodPopular').doc(documentId).delete();
+      print('Popular item deleted successfully');
+    } catch (e) {
+      print('Error deleting popular item: $e');
     }
   }
 }

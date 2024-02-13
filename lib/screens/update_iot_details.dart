@@ -26,6 +26,7 @@ class _IotDeviceDetailsState extends State<IotDeviceDetails> {
   TextEditingController brandNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController detailsController = TextEditingController();
+  bool addToPopularItems = false;
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +95,15 @@ class _IotDeviceDetailsState extends State<IotDeviceDetails> {
                 })
               ],
             ),
-            ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
               onPressed: getImage,
-              child: const Text('Select New Image',style: TextStyle(color: Colors.white),),
+              child: const Text(
+                'Select New Image',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
             const Divider(),
             const SizedBox(height: 30,),
@@ -117,9 +124,22 @@ class _IotDeviceDetailsState extends State<IotDeviceDetails> {
               decoration: const InputDecoration(labelText: 'Details'),
             ),
             const SizedBox(height: 20.0),
-            ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
+            CheckboxListTile(
+              title: const Text('Add to Popular Items'),
+              value: addToPopularItems,
+              onChanged: (value) {
+                setState(() {
+                  addToPopularItems = value!;
+                });
+              },
+            ),
+            const SizedBox(height: 20.0),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+              ),
               onPressed: updateDetails,
-              child: const Text('Update',style: TextStyle(color: Colors.white),),
+              child: const Text('Update', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -172,7 +192,7 @@ class _IotDeviceDetailsState extends State<IotDeviceDetails> {
     });
   }
 
-  void updateDetails() async {
+  Future<void> updateDetails() async {
     try {
       List<String> updatedImageURLs = [...imageURLs];
       for (XFile image in selectedImages) {
@@ -192,6 +212,16 @@ class _IotDeviceDetailsState extends State<IotDeviceDetails> {
         'details': detailsController.text,
         'imageURLs': updatedImageURLs,
       });
+
+      if (addToPopularItems) {
+        await FirebaseFirestore.instance.collection('IOTPopular').doc(widget.productId).set({
+          'productName': productNameController.text,
+          'brandName': brandNameController.text,
+          'price': double.parse(priceController.text),
+          'details': detailsController.text,
+          'imageURLs': updatedImageURLs,
+        });
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Details updated')));
     } catch (e) {

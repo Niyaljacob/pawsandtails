@@ -24,7 +24,7 @@ class VetItemList extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 200, // Adjust the height as per your requirement
+            height: 200, 
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection('VetPopular').snapshots(),
               builder: (context, snapshot) {

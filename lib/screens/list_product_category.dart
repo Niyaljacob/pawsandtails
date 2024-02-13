@@ -76,7 +76,7 @@ class ListProductCategory extends StatelessWidget {
                         GestureDetector(
                           onTap: () {
                              Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                    return const IotDeviceList();
+                    return IotDeviceList();
                   }));
                           },
                           child: Card(elevation: 7,

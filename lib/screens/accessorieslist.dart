@@ -163,8 +163,7 @@ class AccessoriesList extends StatelessWidget {
     try {
       await FirebaseFirestore.instance.collection('Accessories').doc(documentId).delete();
       print('Item deleted successfully');
-      
-      // Delete from 'AccessoriesPopular' collection if it was added to popular items
+    
       if (addToPopularItems) {
         await FirebaseFirestore.instance.collection('AccessoriesPopular').doc(documentId).delete();
         print('Item deleted from AccessoriesPopular successfully');
