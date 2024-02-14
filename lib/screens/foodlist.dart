@@ -68,7 +68,7 @@ class FoodList extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(data['productName']),
-                          Text('\$${data['price']}'),
+                          Text('Rs ${data['price']}'),
                         ],
                       ),
                     );
@@ -121,7 +121,7 @@ class FoodList extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                         title: Text(data['productName']),
-                        subtitle: Text('\$${data['price']}'),
+                        subtitle: Text('Rs ${data['price']}'),
                         onTap: () {
                           Navigator.push(
                             context,

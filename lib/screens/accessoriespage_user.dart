@@ -172,7 +172,7 @@ class AccessoriesPage extends StatelessWidget {
           stream: FirebaseFirestore.instance.collection('Accessories').snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -185,9 +185,9 @@ class AccessoriesPage extends StatelessWidget {
 
             return GridView.count(
               crossAxisCount: 2,
-              padding: EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               children: snapshot.data!.docs.map((DocumentSnapshot document) {
                 Map<String, dynamic> data =
                     document.data() as Map<String, dynamic>;
@@ -213,7 +213,7 @@ class AccessoriesPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(16.0),
                             topRight: Radius.circular(16.0),
                           ),
@@ -236,13 +236,13 @@ class AccessoriesPage extends StatelessWidget {
                             children: [
                               Text(
                                 data['productName'] ?? '',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(fontWeight: FontWeight.bold),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                'Price: \$${data['price'] ?? ''}',
-                                style: TextStyle(color: Colors.green),
+                                'Rs ${data['price'] ?? ''}',
+                                style: const TextStyle(color: Colors.green),
                               ),
                             ],
                           ),

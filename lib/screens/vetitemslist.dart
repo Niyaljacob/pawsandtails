@@ -69,7 +69,7 @@ class VetItemList extends StatelessWidget {
                                   data['productName'],
                                   style: const TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                Text('\$${data['price']}'),
+                                Text('Rs ${data['price']}'),
                               ],
                             ),
                           ),
@@ -134,7 +134,7 @@ class VetItemList extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                         title: Text(data['productName']),
-                        subtitle: Text('\$${data['price']}'),
+                        subtitle: Text('Rs ${data['price']}'),
                         onTap: () {
                           Navigator.push(
                             context,

@@ -77,7 +77,7 @@ class IotDeviceList extends StatelessWidget {
                           const SizedBox(height: 4),
                           Text(data['productName']),
                           Text(
-                            '\$${data['price']}',
+                            'Rs ${data['price']}',
                             style: const TextStyle(fontSize: 14),
                           ),
                         ],
@@ -147,7 +147,7 @@ class IotDeviceList extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                         title: Text(data['productName']),
-                        subtitle: Text('\$${data['price']}'),
+                        subtitle: Text('Rs ${data['price']}'),
                       ),
                     );
                   }).toList(),

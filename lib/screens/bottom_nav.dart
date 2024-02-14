@@ -56,8 +56,8 @@ class _BottomNavState extends State<BottomNav> {
                   });
                  } 
                  },
-                 selectIcon: 'assets/shop (1).png', 
-                 icon: 'assets/shop (1).png'),
+                 selectIcon: 'assets/producticon.png', 
+                 icon: 'assets/producticon.png'),
                  TAbButton(
                 isActive: selectedTab==2,
                  onTap:(){
