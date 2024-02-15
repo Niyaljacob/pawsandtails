@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:paws_and_tail/common/color_extention.dart';
+import 'package:paws_and_tail/common/popular_itmes_admin.dart';
+import 'package:paws_and_tail/common/stat.dart';
 import 'package:paws_and_tail/screens/add_dog_inventory.dart';
 import 'package:paws_and_tail/screens/add_view_dog_show.dart';
 import 'package:paws_and_tail/screens/add_view_product_inventory.dart';
@@ -124,15 +128,28 @@ class _AdminHomeState extends State<AdminHome> {
           ],
         ),
       ),
-      body:const Padding(
-        padding: EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Text('Top Popular Food Items',style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),)
-            
-          ],
+      body:SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+        Text('Top Popular Food Items', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+             ProductList(stream: FirebaseFirestore.instance.collection('FoodPopular').snapshots()),
+             Divider(),
+        Text('Top Popular Vet Items', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+         ProductList(stream: FirebaseFirestore.instance.collection('VetPopular').snapshots()),
+          Divider(),
+          Text('Top Popular Accessories Items', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+         ProductList(stream: FirebaseFirestore.instance.collection('AccessoriesPopular').snapshots()),
+         Divider(),
+                 Text('Top Popular Accessories Items', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
+         ProductList(stream: FirebaseFirestore.instance.collection('IOTPopular').snapshots()),
+            ],
+          ),
         ),
-      )
+      ),
+
     );
   }
 }
