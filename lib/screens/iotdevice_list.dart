@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/screens/update_iot_details.dart';
 
 class IotDeviceList extends StatelessWidget {
@@ -8,10 +9,10 @@ class IotDeviceList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: const Text('List of IOT Devices'),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: const Color.fromARGB(255, 96, 182, 252),
+      //   title: const Text('List of IOT Devices'),
+      // ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -23,7 +24,7 @@ class IotDeviceList extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 200, // Adjust height as needed
+            height: 200, 
             child: StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection('IOTPopular').snapshots(),
               builder: (context, snapshot) {
@@ -76,10 +77,8 @@ class IotDeviceList extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(data['productName']),
-                          Text(
-                            'Rs ${data['price']}',
-                            style: const TextStyle(fontSize: 14),
-                          ),
+                          Text(data['brandName']),
+                          Text('Rs ${data['price']}',style: TextStyle(color: TColo.primaryColor1),),
                         ],
                       ),
                     );

@@ -9,92 +9,30 @@ class ListProductCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: const Text('View Products'),
-      ),
-      body:  Center(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                    return const FoodList();
-                  }));
-                },
-                child: Card(elevation: 7,
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * .15,
-                                  width: MediaQuery.of(context).size.width * .9,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white,
-                                  ),
-                                  child: const Center(child: Text('List of Food',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
-                            ),
-                          ),
-              ),
-
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                    return VetItemList();
-                  }));
-                          },
-                          child: Card(elevation: 7,
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * .15,
-                                  width: MediaQuery.of(context).size.width * .9,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white,
-                                  ),
-                                  child: const Center(child: Text('List of Vet Items',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
-                            ),
-                          ),
-                        ),
-
-                        GestureDetector(
-                          onTap: () {
-                             Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                    return const AccessoriesList();
-                  }));
-                          },
-                          child: Card(elevation: 7,
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * .15,
-                                  width: MediaQuery.of(context).size.width * .9,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white,
-                                  ),
-                                  child: const Center(child: Text('List of Accessories',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
-                            ),
-                          ),
-                        ),
-
-                        GestureDetector(
-                          onTap: () {
-                             Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                    return IotDeviceList();
-                  }));
-                          },
-                          child: Card(elevation: 7,
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * .15,
-                                  width: MediaQuery.of(context).size.width * .9,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white,
-                                  ),
-                                  child: const Center(child: Text('List of IOT Devices',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
-                            ),
-                          ),
-                        ),
+    return DefaultTabController(
+      length: 4,
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color.fromARGB(255, 96, 182, 252),
+          title: const Text('View Products'),
+          bottom: const TabBar(
+            tabs: [
+              Tab(text: 'Food'),
+              Tab(text: 'Vet Items'),
+              Tab(text: 'Accessories'),
+              Tab(text: 'IOT Devices'),
             ],
           ),
         ),
+        body: const TabBarView(
+          children: [
+            FoodList(),
+            VetItemList(),
+            AccessoriesList(),
+            IotDeviceList(),
+          ],
+        ),
       ),
     );
-}
-
+  }
 }

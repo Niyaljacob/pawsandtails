@@ -1,24 +1,23 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/listview_horizontal.dart';
 import 'package:paws_and_tail/common/productcard.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
-
 import 'package:paws_and_tail/screens/events.dart';
 import 'package:paws_and_tail/screens/products.dart';
 import 'package:paws_and_tail/screens/login.dart';
 import 'package:paws_and_tail/screens/user_account.dart';
+
 class HomeScreen extends StatelessWidget {
   final TextEditingController _searchController = TextEditingController();
   int _currentIndex = 0;
   final List<Widget> _screens = [
-    ProductScreen(),
-    DogShowList(),
-    
-    AccountScreen(),
+    const ProductScreen(),
+    const DogShowList(),
+    const AccountScreen(),
   ];
 
   HomeScreen({Key? key}) : super(key: key);
@@ -26,18 +25,13 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 237, 237, 237),
+      backgroundColor: const Color.fromARGB(255, 237, 237, 237),
       appBar: AppBar(
         backgroundColor: TColo.primaryColor1,
         actions: [
           IconButton(
-            onPressed: () async {
-              FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (_) => LoginScreen(),
-                ),
-              );
+            onPressed: () {
+              _showSignOutDialog(context);
             },
             icon: const Icon(Icons.exit_to_app),
           )
@@ -53,7 +47,7 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: 45,
                 child: SearchTextField(
                   controller: _searchController,
@@ -62,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              // Carousel of banners
+
               StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance.collection('banners').snapshots(),
                 builder: (context, snapshot) {
@@ -97,24 +91,7 @@ class HomeScreen extends StatelessWidget {
                       return '';
                   }
                 },
-                onTap: (index) {
-                  // switch (index) {
-                  //   case 0:
-                  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => FoodScreen()));
-                  //     break;
-                  //   case 1:
-                  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => VetItemsPage()));
-                  //     break;
-                  //   case 2:
-                  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => AccessoriesPage()));
-                  //     break;
-                  //   case 3:
-                  //     Navigator.of(context).push(MaterialPageRoute(builder: (_) => IOTDevicePage ()));
-                  //     break;
-                  //   default:
-                  //     break;
-                  // }
-                },
+                onTap: (index) {},
               ),
               const Row(
                 children: [
@@ -126,11 +103,42 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               // GridView to display dogs from the 'dogDetails' collection
-              ProductCard()
+              const ProductCard()
             ],
           ),
         ),
       ),
+    );
+  }
+
+  void _showSignOutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Sign Out'),
+          content: const Text('Are you sure you want to sign out?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (_) => LoginScreen(),
+                  ),
+                );
+              },
+              child: const Text('Sign Out'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/screens/update_accessories_details.dart';
 
 class AccessoriesList extends StatelessWidget {
@@ -8,10 +9,10 @@ class AccessoriesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: const Text('List of Accessories'),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: const Color.fromARGB(255, 96, 182, 252),
+      //   title: const Text('List of Accessories'),
+      // ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -50,7 +51,7 @@ class AccessoriesList extends StatelessWidget {
                       padding: const EdgeInsets.all(8.0),
                       child: Stack(
                         children: [
-                          Container(
+                          SizedBox(
                             width: 150, 
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +70,8 @@ class AccessoriesList extends StatelessWidget {
                                   data['productName'],
                                   style: const TextStyle(fontWeight: FontWeight.bold),
                                 ),
-                                Text('Rs ${data['price']}'),
+                                Text(data['brandName']),
+                          Text('Rs ${data['price']}',style: TextStyle(color: TColo.primaryColor1),),
                               ],
                             ),
                           ),

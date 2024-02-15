@@ -2,8 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
+import 'package:paws_and_tail/common/stat.dart';
 import 'package:paws_and_tail/screens/foodpopular_details_user.dart';
-
 import 'package:paws_and_tail/screens/foodrecommended_details_user.dart';
 
 class FoodPage extends StatelessWidget {
@@ -100,10 +100,14 @@ class FoodPage extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
+                                      data['brandName'],
+                                    ),
+                                    Text(
                                       'Rs ${data['price']}',
                                       style:
                                           TextStyle(color: TColo.primaryColor1),
                                     ),
+                                   const StarRating(filledStars: 4, halfFilledStars: 1, totalStars: 5)
                                   ],
                                 ),
                               ),
@@ -132,32 +136,52 @@ class FoodPage extends StatelessWidget {
         ),
         Container(
           color: Colors.white,
-          child: CarouselSlider(
-            options: CarouselOptions(
-              height: MediaQuery.of(context).size.height * .15,
-              enableInfiniteScroll: true,
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 3),
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
-              pauseAutoPlayOnTouch: true,
-              enlargeCenterPage: true,
-              scrollDirection: Axis.horizontal,
-            ),
-            items: [
-              Image.asset('assets/foodbrands1.webp'),
-              Image.asset('assets/foodbrands2.webp'),
-              Image.asset('assets/foodbrands3.webp'),
-            ].map((image) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: image,
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('food_brands')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              final List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
+
+              return CarouselSlider(
+                options: CarouselOptions(
+                  height: MediaQuery.of(context).size.height * .15,
+                  enableInfiniteScroll: true,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                  pauseAutoPlayOnTouch: true,
+                  scrollDirection: Axis.horizontal,
+                ),
+                items: documents.map((document) {
+                  final String imageUrl = document['image_url'];
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
                   );
-                },
+                }).toList(),
               );
-            }).toList(),
+            },
           ),
         ),
         const SizedBox(
@@ -207,7 +231,7 @@ class FoodPage extends StatelessWidget {
                     );
                   },
                   child: Card(
-                    elevation: 4.0,
+                    color: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),
@@ -222,7 +246,8 @@ class FoodPage extends StatelessWidget {
                           child: Image.network(
                             data['imageURLs'] != null &&
                                     data['imageURLs'] is List<dynamic>
-                                ? (data['imageURLs'] as List<dynamic>).isNotEmpty
+                                ? (data['imageURLs'] as List<dynamic>)
+                                        .isNotEmpty
                                     ? (data['imageURLs'] as List<dynamic>)[0]
                                     : ''
                                 : '',
@@ -238,7 +263,8 @@ class FoodPage extends StatelessWidget {
                             children: [
                               Text(
                                 data['productName'] ?? '',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),

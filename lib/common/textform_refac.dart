@@ -13,7 +13,7 @@ class CustomTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final FormFieldValidator<String>? validator;
 
-  CustomTextField({
+  const CustomTextField({
     required this.controller,
     required this.labelText,
     required this.hintText,
@@ -44,7 +44,7 @@ class CustomTextField extends StatelessWidget {
           hintText: hintText,
           prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
           filled: true,
-          fillColor: Colors.white.withOpacity(0.3), // Background color
+          fillColor: Colors.white.withOpacity(0.3),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30.0),
           ),
@@ -68,7 +68,7 @@ class SearchTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final FormFieldValidator<String>? validator;
 
-  SearchTextField({
+  const SearchTextField({
     required this.controller,
     required this.labelText,
     required this.hintText,
@@ -84,22 +84,27 @@ class SearchTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      onFieldSubmitted: onFieldSubmitted,
-      onChanged: onChanged,
-      validator: validator,
-      decoration: InputDecoration(
-        labelText: labelText,
-        hintText: hintText,
-        prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
-        filled: false, // Remove fill color
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: BorderSide(color: Colors.black), // Set outline color
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: TextFormField(
+        controller: controller,
+        obscureText: obscureText,
+        keyboardType: keyboardType,
+        textInputAction: textInputAction,
+        onFieldSubmitted: onFieldSubmitted,
+        onChanged: onChanged,
+        validator: validator,
+        decoration: InputDecoration(
+          labelText: labelText,
+          hintText: hintText,
+          prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
+          filled: false, 
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+            borderSide: const BorderSide(color: Colors.black),
+          ),
         ),
       ),
     );

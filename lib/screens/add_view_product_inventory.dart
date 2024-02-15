@@ -21,7 +21,7 @@ class AddProductsInventory extends StatelessWidget {
               GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                    return AddProductCategory();
+                    return const AddProductCategory();
                   }));
                 },
                 child: Card(elevation: 7,
@@ -31,15 +31,15 @@ class AddProductsInventory extends StatelessWidget {
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
                         ),
-                        child: Center(child: Text('Add Products Category',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
+                        child: const Center(child: Text('Add Products Category',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
                   ),
                 ),
               ),
-              SizedBox(height: 30,),
+              const SizedBox(height: 30,),
               GestureDetector(
                 onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                  return ListProductCategory();
+                  return const ListProductCategory();
                 }));
                 },
                 child: Card(elevation: 7,
@@ -49,7 +49,7 @@ class AddProductsInventory extends StatelessWidget {
                         decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
                           color: Colors.white,
                         ),
-                        child: Center(child: Text('view Add Products Category',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
+                        child: const Center(child: Text('view Add Products Category',style: TextStyle(fontSize: 20,fontWeight:FontWeight.w500),)),
                   ),
                 ),
               ),

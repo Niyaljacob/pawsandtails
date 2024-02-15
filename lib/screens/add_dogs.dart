@@ -37,10 +37,6 @@ class _AddDogsState extends State<AddDogs> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: const Text('Add Dogs'),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -48,16 +44,16 @@ class _AddDogsState extends State<AddDogs> {
           children: [
             ElevatedButton(
               onPressed: _pickImages,
-              child: const Text(
-                'Select Images',
-                style: TextStyle(color: Colors.white),
-              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color.fromARGB(255, 96, 182, 252),
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
+              child: const Text(
+                'Select Images',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
-            SizedBox(height: 10), // Add spacing between the button and containers
+            const SizedBox(height: 10), // Add spacing between the button and containers
             SizedBox(
               height: 160,
               child: ListView(
@@ -67,52 +63,52 @@ class _AddDogsState extends State<AddDogs> {
                 }).toList(),
               ),
             ),
-            SizedBox(height: 20),
-            Text('Dog Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(height: 10),
+            const SizedBox(height: 20),
+            const Text('Dog Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
             TextFormField(
               controller: _nameController,
-              decoration: InputDecoration(labelText: 'Name'),
+              decoration: const InputDecoration(labelText: 'Name'),
             ),
             TextFormField(
               controller: _priceController,
-              decoration: InputDecoration(labelText: 'Price'),
+              decoration: const InputDecoration(labelText: 'Price'),
             ),
             TextFormField(
               controller: _overviewController,
-              decoration: InputDecoration(labelText: 'Overview'),
+              decoration: const InputDecoration(labelText: 'Overview'),
             ),
             TextFormField(
               controller: _genderController,
-              decoration: InputDecoration(labelText: 'Gender'),
+              decoration: const InputDecoration(labelText: 'Gender'),
             ),
             TextFormField(
               controller: _ageController,
-              decoration: InputDecoration(labelText: 'Age'),
+              decoration: const InputDecoration(labelText: 'Age'),
             ),
             TextFormField(
               controller: _birthdayController,
-              decoration: InputDecoration(labelText: 'Birthday'),
+              decoration: const InputDecoration(labelText: 'Birthday'),
             ),
             TextFormField(
               controller: _momWeightController,
-              decoration: InputDecoration(labelText: "Mom's Weight"),
+              decoration: const InputDecoration(labelText: "Mom's Weight"),
             ),
             TextFormField(
               controller: _dadWeightController,
-              decoration: InputDecoration(labelText: "Dad's Weight"),
+              decoration: const InputDecoration(labelText: "Dad's Weight"),
             ),
             TextFormField(
               controller: _colorController,
-              decoration: InputDecoration(labelText: 'Color'),
+              decoration: const InputDecoration(labelText: 'Color'),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Colors.blue), // Change color as per your requirement
               ),
               onPressed: _saveDogDetails,
-              child: Text('Save Dog Details', style: TextStyle(color: Colors.white)),
+              child: const Text('Save Dog Details', style: TextStyle(color: Colors.white)),
             ),
           ],
         ),
@@ -123,7 +119,7 @@ class _AddDogsState extends State<AddDogs> {
   Widget buildImageContainer(double screenWidth, String imageUrl) {
     return Container(
       width: screenWidth * 0.9,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
       decoration: BoxDecoration(
         color: Colors.grey,
         image: DecorationImage(
@@ -134,7 +130,7 @@ class _AddDogsState extends State<AddDogs> {
       ),
       child: IconButton(
         onPressed: () => _deleteImage(imageUrl),
-        icon: Icon(Icons.delete),
+        icon: const Icon(Icons.delete),
         color: Colors.white,
       ),
     );
@@ -150,16 +146,14 @@ class _AddDogsState extends State<AddDogs> {
   Future<void> _pickImages() async {
     final pickedImages = await _picker.pickMultiImage();
 
-    if (pickedImages != null) {
-      for (var image in pickedImages) {
-        final ref = _storage.ref().child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
-        await ref.putFile(File(image.path));
-        final url = await ref.getDownloadURL();
-        _imageUrls.add(url);
-      }
-      setState(() {});
+    for (var image in pickedImages) {
+      final ref = _storage.ref().child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
+      await ref.putFile(File(image.path));
+      final url = await ref.getDownloadURL();
+      _imageUrls.add(url);
     }
-  }
+    setState(() {});
+    }
 
   Future<void> _deleteImage(String imageUrl) async {
     _imageUrls.remove(imageUrl);
@@ -203,14 +197,14 @@ class _AddDogsState extends State<AddDogs> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Success'),
-          content: Text('Dog details saved successfully!'),
+          title: const Text('Success'),
+          content: const Text('Dog details saved successfully!'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('OK'),
+              child: const Text('OK'),
             ),
           ],
         );

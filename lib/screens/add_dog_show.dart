@@ -24,10 +24,6 @@ class _AddDogShowState extends State<AddDogShow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add Dog Show Events'),
-        backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(

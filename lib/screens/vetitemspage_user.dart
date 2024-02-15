@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
+import 'package:paws_and_tail/common/stat.dart';
 import 'package:paws_and_tail/screens/vetpopular_details_user.dart';
 import 'package:paws_and_tail/screens/vetrecommended_details_user.dart';
 
@@ -99,10 +100,14 @@ class VetItemsPage extends StatelessWidget {
                                           fontWeight: FontWeight.bold),
                                     ),
                                     Text(
+                                      data['brandName'],
+                                    ),
+                                    Text(
                                       'Rs ${data['price']}',
                                       style:
                                           TextStyle(color: TColo.primaryColor1),
                                     ),
+                                    const StarRating(filledStars: 4, halfFilledStars: 1, totalStars: 5)
                                   ],
                                 ),
                               ),
@@ -129,34 +134,52 @@ class VetItemsPage extends StatelessWidget {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
         ),
-        Container(
+       Container(
           color: Colors.white,
-          child: CarouselSlider(
-            options: CarouselOptions(
-              height: MediaQuery.of(context).size.height * .15,
-              enableInfiniteScroll: true,
-              autoPlay: true,
-              autoPlayInterval: const Duration(seconds: 3),
-              autoPlayAnimationDuration: const Duration(milliseconds: 800),
-              pauseAutoPlayOnTouch: true,
-              enlargeCenterPage: true,
-              scrollDirection: Axis.horizontal,
-            ),
-            items: [
-              Image.asset('assets/vetbrands1.webp'),
-              Image.asset('assets/vetbrands2.png'),
-              Image.asset('assets/vetbrands3.png'),
-            ].map((image) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                    child: image,
+          child: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection('vet_brands').snapshots(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'),
+                );
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              final List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
+
+              return CarouselSlider(
+                options: CarouselOptions(
+                  height: MediaQuery.of(context).size.height * .15,
+                  enableInfiniteScroll: true,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                  pauseAutoPlayOnTouch: true,
+                  scrollDirection: Axis.horizontal,
+                ),
+                items: documents.map((document) {
+                  final String imageUrl = document['image_url'];
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                        child: Image.network(
+                          imageUrl,
+                          fit: BoxFit.cover,
+                        ),
+                      );
+                    },
                   );
-                },
+                }).toList(),
               );
-            }).toList(),
+            },
           ),
         ),
         const SizedBox(
@@ -205,8 +228,7 @@ class VetItemsPage extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Card(
-                    elevation: 4.0,
+                  child: Card(color: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),

@@ -1,16 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
 import 'package:paws_and_tail/screens/accessoriesPage_user.dart';
-import 'package:paws_and_tail/screens/bottom_nav.dart';
 import 'package:paws_and_tail/screens/foodpage_user.dart';
 import 'package:paws_and_tail/screens/iotdevicespage_user.dart';
 import 'package:paws_and_tail/screens/vetitemspage_user.dart';
 
-
 class ProductScreen extends StatefulWidget {
-  
   const ProductScreen({Key? key}) : super(key: key);
 
   @override
@@ -18,27 +14,16 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-   final TextEditingController searchController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
   int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 237, 237, 237),
+      backgroundColor: const Color.fromARGB(255, 237, 237, 237),
       appBar: AppBar(
         backgroundColor: TColo.primaryColor1,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-              return BottomNav();
-            }));
-          },
-        ),
-        title: Padding(
-          padding: const EdgeInsets.only(left: 100),
-          child: Text('Products'),
-        ),
+        title: const Text('Products'),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -46,7 +31,7 @@ class _ProductScreenState extends State<ProductScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
+              SizedBox(
                 height: 45,
                 child: SearchTextField(
                   controller: searchController,
@@ -57,7 +42,6 @@ class _ProductScreenState extends State<ProductScreen> {
               const SizedBox(height: 10),
               buildCategoriesRow(context),
               const SizedBox(height: 20),
-
               SingleChildScrollView(child: buildContent(context)),
             ],
           ),
@@ -66,7 +50,6 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
- 
   Widget buildContent(BuildContext context) {
     switch (selectedIndex) {
       case 0:
@@ -76,14 +59,14 @@ class _ProductScreenState extends State<ProductScreen> {
       case 2:
         return AccessoriesPage();
       case 3:
-       return IotDevicesPage();
+        return IotDevicesPage();
       default:
         return Container();
     }
   }
 
-
   Widget buildCategoryButton(BuildContext context, String assetPath, String categoryText, int index) {
+    bool isSelected = selectedIndex == index;
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -97,7 +80,7 @@ class _ProductScreenState extends State<ProductScreen> {
             width: MediaQuery.of(context).size.width * 0.15,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(18),
-              color: Colors.white,
+              color: isSelected ? TColo.primaryColor1 : Colors.white, // Change color based on selection
               image: DecorationImage(
                 image: AssetImage(assetPath),
               ),
@@ -110,7 +93,7 @@ class _ProductScreenState extends State<ProductScreen> {
   }
 
   Widget buildCategoriesRow(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height * 0.11,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Row(
@@ -124,7 +107,4 @@ class _ProductScreenState extends State<ProductScreen> {
       ),
     );
   }
-
-
-
 }

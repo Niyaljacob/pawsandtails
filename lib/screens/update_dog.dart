@@ -90,9 +90,9 @@ class _UpdateDogState extends State<UpdateDog> {
                 controller: _colorController,
                 decoration: const InputDecoration(labelText: 'Color'),
               ),
-              ElevatedButton(
+              ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
                 onPressed: _pickImage,
-                child: const Text('Select Image'),
+                child: const Text('Select Image',style: TextStyle(color:Colors.white)),
               ),
               const SizedBox(height: 16),
               _imageUrls.isEmpty
@@ -108,9 +108,9 @@ class _UpdateDogState extends State<UpdateDog> {
                         return _buildImageCarouselItem(index);
                       },
                     ),
-              ElevatedButton(
+              ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
                 onPressed: _updateDogDetails,
-                child: const Text('Update Dog'),
+                child: const Text('Update the Details',style: TextStyle(color:Colors.white)),
               ),
             ],
           ),
@@ -131,7 +131,7 @@ class _UpdateDogState extends State<UpdateDog> {
           top: 8,
           right: 8,
           child: IconButton(
-            icon: const Icon(Icons.delete),
+            icon: const Icon(Icons.delete,color: Colors.red,),
             color: Colors.white,
             onPressed: () {
               setState(() {

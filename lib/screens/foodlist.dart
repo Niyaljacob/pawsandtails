@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/screens/update_food_details.dart';
 
 class FoodList extends StatelessWidget {
@@ -8,10 +9,10 @@ class FoodList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: const Text('List of Food'),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: const Color.fromARGB(255, 96, 182, 252),
+      //   title: const Text('List of Food'),
+      // ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -32,7 +33,7 @@ class FoodList extends StatelessWidget {
               }
 
               return SizedBox(
-                height: 160,
+                height: 190,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: snapshot.data!.docs.length,
@@ -68,7 +69,8 @@ class FoodList extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(data['productName']),
-                          Text('Rs ${data['price']}'),
+                          Text(data['brandName']),
+                          Text('Rs ${data['price']}',style: TextStyle(color: TColo.primaryColor1),),
                         ],
                       ),
                     );
@@ -121,7 +123,7 @@ class FoodList extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                         title: Text(data['productName']),
-                        subtitle: Text('Rs ${data['price']}'),
+                        subtitle: Text('Rs ${data['price']}',style: TextStyle(color: TColo.primaryColor1),),
                         onTap: () {
                           Navigator.push(
                             context,
