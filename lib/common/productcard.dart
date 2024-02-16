@@ -18,7 +18,7 @@ class ProductCard extends StatelessWidget {
         final dogs = snapshot.data!.docs;
         return GridView.builder(
           shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 8,
@@ -62,14 +62,14 @@ class ProductCard extends StatelessWidget {
                         ),
                         const SizedBox(height: 1),
                         Text(
-                          dogName ?? 'Unknown',
+                          dogName,
                           style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           'Rs ${dog['price'] ?? 'N/A'}',
                           style: TextStyle(fontSize: 14, color: TColo.primaryColor1),
                         ),
-                        Divider(),
+                        const Divider(),
                       ],
                     ),
                     GestureDetector(
@@ -81,20 +81,20 @@ class ProductCard extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.03,
                         width: MediaQuery.of(context).size.width * 0.3,
                         decoration: BoxDecoration(
-                          color: TColo.primaryColor1,
+                          
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: const Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.add_shopping_cart,
-                              color: Colors.white,
+                              Icons.shopping_bag_outlined,
+                              color: Colors.green,
                             ),
                             SizedBox(width: 8),
                             Text(
                               'Add to Cart',
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),

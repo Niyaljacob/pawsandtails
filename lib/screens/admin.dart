@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:paws_and_tail/common/color_extention.dart';
+import 'package:paws_and_tail/common/button_refac.dart';
 import 'package:paws_and_tail/common/popular_itmes_admin.dart';
-import 'package:paws_and_tail/common/stat.dart';
 import 'package:paws_and_tail/screens/add_dog_inventory.dart';
 import 'package:paws_and_tail/screens/add_view_dog_show.dart';
 import 'package:paws_and_tail/screens/add_view_product_inventory.dart';
 import 'package:paws_and_tail/screens/advertisement.dart';
+import 'package:paws_and_tail/screens/list_product_category.dart';
 import 'package:paws_and_tail/screens/login.dart';
 
 class AdminHome extends StatefulWidget {
@@ -35,7 +35,8 @@ class _AdminHomeState extends State<AdminHome> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
+                Navigator.of(context)
+                    .pushReplacement(MaterialPageRoute(builder: (_) {
                   return LoginScreen();
                 }));
               },
@@ -52,10 +53,14 @@ class _AdminHomeState extends State<AdminHome> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 33, 150, 243).withOpacity(0.3),
-        title: const Text('Admin'),
+        backgroundColor:
+            const Color.fromARGB(255, 33, 150, 243).withOpacity(0.3),
+         title: Padding(
+          padding: const EdgeInsets.only(top: 35),
+          child: Image.asset('assets/logomini.png'),
+        ),
         leading: IconButton(
-          icon: const Icon(Icons.menu), 
+          icon: const Icon(Icons.menu),
           onPressed: () {
             _scaffoldKey.currentState?.openDrawer();
           },
@@ -70,7 +75,7 @@ class _AdminHomeState extends State<AdminHome> {
         ],
       ),
       drawer: Drawer(
-        backgroundColor: Colors.white.withOpacity(0.7),
+        backgroundColor: Colors.white.withOpacity(0.9),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -128,28 +133,88 @@ class _AdminHomeState extends State<AdminHome> {
           ],
         ),
       ),
-      body:SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-        Text('Top Popular Food Items', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-             ProductList(stream: FirebaseFirestore.instance.collection('FoodPopular').snapshots()),
-             Divider(),
-        Text('Top Popular Vet Items', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-         ProductList(stream: FirebaseFirestore.instance.collection('VetPopular').snapshots()),
-          Divider(),
-          Text('Top Popular Accessories Items', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-         ProductList(stream: FirebaseFirestore.instance.collection('AccessoriesPopular').snapshots()),
-         Divider(),
-                 Text('Top Popular Accessories Items', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-         ProductList(stream: FirebaseFirestore.instance.collection('IOTPopular').snapshots()),
-            ],
+      body: SingleChildScrollView(
+        child: Container(decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 243, 246, 255)
+        ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomRowWithButton(
+                  customText: 'Top Popular Food Items',
+                  buttonText: 'View more',
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) {
+                        return const ListProductCategory(initialTabIndex: 0);
+                      }),
+                    );
+                  },
+                ),
+                ProductList(
+                    stream: FirebaseFirestore.instance
+                        .collection('FoodPopular')
+                        .snapshots()),
+                const Divider(),
+                CustomRowWithButton(
+                  customText: 'Top Popular Vet Items',
+                  buttonText: 'View more',
+                  onPressed: () {
+                     Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) {
+                        return const ListProductCategory(initialTabIndex: 1);
+                      }),
+                    );
+                  },
+                ),
+                ProductList(
+                    stream: FirebaseFirestore.instance
+                        .collection('VetPopular')
+                        .snapshots()),
+                const Divider(),
+                CustomRowWithButton(
+                  customText: 'Top Accessories Vet Items',
+                  buttonText: 'View more',
+                  onPressed: () {
+                     Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) {
+                        return const ListProductCategory(initialTabIndex: 2);
+                      }),
+                    );
+                  },
+                ),
+                ProductList(
+                    stream: FirebaseFirestore.instance
+                        .collection('AccessoriesPopular')
+                        .snapshots()),
+                const Divider(),
+                CustomRowWithButton(
+                  customText: 'Top IOT Devies',
+                  buttonText: 'View more',
+                  onPressed: () {
+                     Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) {
+                        return const ListProductCategory(initialTabIndex: 3);
+                      }),
+                    );
+                  },
+                ),
+                ProductList(
+                    stream: FirebaseFirestore.instance
+                        .collection('IOTPopular')
+                        .snapshots()),
+                        
+              ],
+            ),
           ),
         ),
       ),
-
     );
   }
 }

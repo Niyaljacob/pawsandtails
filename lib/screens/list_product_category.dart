@@ -5,11 +5,14 @@ import 'package:paws_and_tail/screens/iotdevice_list.dart';
 import 'package:paws_and_tail/screens/vetitemslist.dart';
 
 class ListProductCategory extends StatelessWidget {
-  const ListProductCategory({Key? key}) : super(key: key);
+  final int initialTabIndex; 
+
+  const ListProductCategory({Key? key, this.initialTabIndex = 0}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: initialTabIndex, 
       length: 4,
       child: Scaffold(
         appBar: AppBar(

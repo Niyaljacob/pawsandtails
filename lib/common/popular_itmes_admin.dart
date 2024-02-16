@@ -12,16 +12,16 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-    boxShadow: [
-      BoxShadow(
-        color: const Color.fromARGB(255, 197, 197, 197).withOpacity(0.5), // Shadow color
-        blurRadius: 7, // Blur radius
-        offset: Offset(0, 3), // Offset in x and y directions
+        boxShadow: [
+          BoxShadow(
+            color: const Color.fromARGB(255, 197, 197, 197).withOpacity(0.5),
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
       ),
-    ],
-  ),
       child: SizedBox(
-        height: 150, // Set the desired height
+        height: 150,
         child: StreamBuilder(
           stream: stream,
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -30,23 +30,26 @@ class ProductList extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
-      
+
             if (snapshot.hasError) {
               return Center(
                 child: Text('Error: ${snapshot.error}'),
               );
             }
-      
+
+            final List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
+
+            final List<Widget> productWidgets = documents.take(4).map((document) {
+              Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ProductItem(data: data),
+              );
+            }).toList();
+
             return ListView(
               scrollDirection: Axis.horizontal,
-              children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-      
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ProductItem(data: data),
-                );
-              }).toList(),
+              children: productWidgets.isNotEmpty ? productWidgets : [Text('No products found')],
             );
           },
         ),
@@ -54,6 +57,7 @@ class ProductList extends StatelessWidget {
     );
   }
 }
+
 
 class ProductItem extends StatelessWidget {
   final Map<String, dynamic> data;
