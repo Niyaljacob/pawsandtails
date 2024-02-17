@@ -5,7 +5,7 @@ class HorizontalItemList extends StatelessWidget {
   final String Function(int index) getItemText;
   final void Function(int index) onTap;
 
-  HorizontalItemList({
+  const HorizontalItemList({super.key, 
     required this.itemCount,
     required this.getItemText,
     required this.onTap,
@@ -13,7 +13,7 @@ class HorizontalItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height*.2,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
@@ -26,23 +26,22 @@ class HorizontalItemList extends StatelessWidget {
   }
 
   Widget buildItem(BuildContext context, int index) {
-    // Asset paths for demonstration (replace with your actual asset paths)
     List<String> assetPaths = [
-      'assets/food.jpg',
-      'assets/vet.jpg',
-      'assets/acces.jpg',
-      'assets/iot.jpg',
+      'assets/newicon1.jpg',
+      'assets/newicon2.jpg',
+      'assets/newicon3.jpg',
+      'assets/newicon4.jpg',
     ];
 
     return GestureDetector(
       onTap: () {
-        onTap(index); // Trigger the onTap callback with the index
+        onTap(index); 
       },
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.all(15),
-            child: CircleAvatar(
+            child: CircleAvatar(backgroundColor: Colors.white,
               radius: 30,
               backgroundImage: AssetImage(assetPaths[index]),
             ),

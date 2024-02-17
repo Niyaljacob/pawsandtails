@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:paws_and_tail/screens/payment.dart';
 
 class DogDetails extends StatelessWidget {
   final String dogId;
   final String dogName;
 
-  DogDetails({required this.dogId, required this.dogName});
+  const DogDetails({Key? key, required this.dogId, required this.dogName});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: TColo.primaryColor1,
-        title: Text('${dogName}'),
+        title: Text(dogName),
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
@@ -42,11 +43,10 @@ class DogDetails extends StatelessWidget {
           String color = dogData['color'] ?? 'Color not available';
 
           return SingleChildScrollView(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Carousel to display images of the dog
                 CarouselSlider(
                   options: CarouselOptions(
                     height: 200.0,
@@ -64,8 +64,7 @@ class DogDetails extends StatelessWidget {
                     );
                   }).toList(),
                 ),
-                Divider(),
-                // Dog details
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -74,14 +73,14 @@ class DogDetails extends StatelessWidget {
                       children: [
                         Text(
                           breed,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 20.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: 6.0),
+                        const SizedBox(height: 6.0),
                         Text(
-                          '$price',
+                          price,
                           style: TextStyle(
                             fontSize: 16.0,
                             color: TColo.primaryColor1,
@@ -89,13 +88,13 @@ class DogDetails extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Icon(Icons.add_shopping_cart),
+                    const Icon(Icons.add_shopping_cart),
                   ],
                 ),
-                SizedBox(height: 35.0),
+                const SizedBox(height: 35.0),
                 _buildDetailItem(context, title: 'Overview', value: overview),
-                SizedBox(height: 25),
-                Text(
+                const SizedBox(height: 25),
+                const Text(
                   'Details',
                   style: TextStyle(
                     fontSize: 18,
@@ -111,24 +110,30 @@ class DogDetails extends StatelessWidget {
                 _buildDetailItem(context,
                     title: "Dad's Weight", value: dadWeight),
                 _buildDetailItem(context, title: "Color", value: color),
-                SizedBox(height: 25),
-                Container(
+                const SizedBox(height: 25),
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 1.1,
                   child: ElevatedButton.icon(
                     onPressed: () {
-                      // Handle add to cart action
+                      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                        return Payment(
+                          dogName: breed,
+                          price: price,
+                          imageUrls: imageUrls,
+                        );
+                      }));
                     },
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.shop_two_rounded,
                       color: Colors.white,
                     ),
-                    label: Text(
+                    label: const Text(
                       'Buy',
                       style: TextStyle(color: Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: TColo.primaryColor1,
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      padding: const EdgeInsets.symmetric(vertical: 16.0),
                     ),
                   ),
                 ),
@@ -143,13 +148,13 @@ class DogDetails extends StatelessWidget {
   Widget _buildDetailItem(BuildContext context,
       {required String title, required String value}) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 16.0,
               fontWeight: FontWeight.bold,
             ),

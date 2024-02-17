@@ -239,16 +239,21 @@ class AccessoriesPage extends StatelessWidget {
                             topLeft: Radius.circular(16.0),
                             topRight: Radius.circular(16.0),
                           ),
-                          child: Image.network(
-                            data['imageURLs'] != null &&
-                                    data['imageURLs'] is List<dynamic>
-                                ? (data['imageURLs'] as List<dynamic>).isNotEmpty
-                                    ? (data['imageURLs'] as List<dynamic>)[0]
-                                    : ''
-                                : '',
-                            width: double.infinity,
-                            height: 115,
-                            fit: BoxFit.cover,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(
+                              child: Image.network(
+                                data['imageURLs'] != null &&
+                                        data['imageURLs'] is List<dynamic>
+                                    ? (data['imageURLs'] as List<dynamic>).isNotEmpty
+                                        ? (data['imageURLs'] as List<dynamic>)[0]
+                                        : ''
+                                    : '',
+                                width: 90,
+                                height: 100,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
                         ),
                         Padding(

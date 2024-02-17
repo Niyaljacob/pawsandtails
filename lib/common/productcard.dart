@@ -40,8 +40,8 @@ class ProductCard extends StatelessWidget {
                 }));
               },
               child: Container(
-                height: MediaQuery.of(context).size.height * .5,
-                width: MediaQuery.of(context).size.width * .4,
+                // height: MediaQuery.of(context).size.height * .5,
+                // width: MediaQuery.of(context).size.width * .4,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
