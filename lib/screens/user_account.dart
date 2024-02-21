@@ -1,4 +1,10 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -8,19 +14,114 @@ class AccountScreen extends StatefulWidget {
   _AccountScreenState createState() => _AccountScreenState();
 }
 
-class _AccountScreenState extends State<AccountScreen> with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+class _AccountScreenState extends State<AccountScreen> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _ageController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+
+  late String _imageUrl = '';
+
+  File? _image;
+  final picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 2, vsync: this);
+    fetchUserData();
   }
 
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
+  fetchUserData() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    DocumentSnapshot snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(user?.uid)
+        .get();
+    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+    setState(() {
+      _usernameController.text = data['username'];
+      _emailController.text = data['email'];
+      _phoneController.text = data['phoneNumber'];
+      _ageController.text = data['age'];
+      _genderController.text = data['gender'];
+      _addressController.text = data['address'];
+      _imageUrl = data['imageUrl'];
+    });
+  }
+
+  Future<void> _updateProfile() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    try {
+      // Update user details
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user?.uid)
+          .update({
+        'username': _usernameController.text,
+        'email': _emailController.text,
+        'phoneNumber': _phoneController.text,
+        'age': _ageController.text,
+        'gender': _genderController.text,
+        'address': _addressController.text,
+      });
+
+      // Upload image if available
+      if (_image != null) {
+        String imageUrl = await _uploadImage();
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user?.uid)
+            .update({
+          'imageUrl': imageUrl,
+        });
+        setState(() {
+          _imageUrl = imageUrl;
+        });
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Profile updated successfully')));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error updating profile')));
+    }
+  }
+
+  Future<String> _uploadImage() async {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    Reference reference =
+        FirebaseStorage.instance.ref().child('user_images/$fileName');
+    UploadTask uploadTask = reference.putFile(_image!);
+    TaskSnapshot storageTaskSnapshot =
+        await uploadTask.whenComplete(() => null);
+    String imageUrl = await storageTaskSnapshot.ref.getDownloadURL();
+    return imageUrl;
+  }
+
+  Future<void> _getImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  ImageProvider _buildNetworkImage() {
+    try {
+      if (_imageUrl.isNotEmpty) {
+        return NetworkImage(_imageUrl);
+      }
+    } catch (e) {
+      print('Error loading network image: $e');
+    }
+    return const AssetImage('assets/dogs1.png');
   }
 
   @override
@@ -29,40 +130,66 @@ class _AccountScreenState extends State<AccountScreen> with SingleTickerProvider
       appBar: AppBar(
         title: const Text('Account'),
         backgroundColor: TColo.primaryColor1,
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
             GestureDetector(
-              onTap: () {
-                _tabController.animateTo(0); // Select the first tab
-              },
-              child: const Tab(
-                text: 'User Account',
+              onTap: _getImage,
+              child: CircleAvatar(
+                radius: 50,
+                backgroundImage:
+                    _image != null ? FileImage(_image!) : _buildNetworkImage(),
+                child: const Padding(
+                  padding: EdgeInsets.only(top: 60, left: 70),
+                  child: Icon(Icons.edit),
+                ),
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                _tabController.animateTo(1); // Select the second tab
-              },
-              child: const Tab(
-                text: 'My Orders',
+            const SizedBox(height: 20),
+            TextFormField(
+              controller: _usernameController,
+              decoration: const InputDecoration(labelText: 'Username'),
+            ),
+            TextFormField(
+              controller: _emailController,
+              decoration: const InputDecoration(labelText: 'Email'),
+            ),
+            TextFormField(
+              controller: _phoneController,
+              decoration: const InputDecoration(labelText: 'Phone Number'),
+            ),
+            TextFormField(
+              controller: _ageController,
+              decoration: const InputDecoration(labelText: 'Age'),
+            ),
+            TextFormField(
+              controller: _genderController,
+              decoration: const InputDecoration(labelText: 'Gender'),
+            ),
+            TextFormField(
+              controller: _addressController,
+              decoration: const InputDecoration(
+                labelText: 'Address',
+              ),
+              maxLines: null,
+            ),
+            const SizedBox(height: 25),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(TColo.primaryColor1)),
+              onPressed: _updateProfile,
+              child: const Text(
+                'Update Profile',
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],
         ),
-      ),
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          // First tab content: User Account
-          Center(
-            child: Text('User Account Content'),
-          ),
-          // Second tab content: Edit Account
-          Center(
-            child: Text('Edit Account Content'),
-          ),
-        ],
       ),
     );
   }

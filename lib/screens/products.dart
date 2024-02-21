@@ -53,13 +53,13 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget buildContent(BuildContext context) {
     switch (selectedIndex) {
       case 0:
-        return FoodPage();
+        return const FoodPage();
       case 1:
         return VetItemsPage();
       case 2:
-        return AccessoriesPage();
+        return const AccessoriesPage();
       case 3:
-        return IotDevicesPage();
+        return const IotDevicesPage();
       default:
         return Container();
     }

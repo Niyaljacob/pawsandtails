@@ -82,11 +82,11 @@ class AddProductCategoryState extends State<AddProductCategory> {
         selectedImages.clear();
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Product uploaded successfully')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Product uploaded successfully')));
     } catch (e) {
       print('Error uploading product: $e');
 
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to upload product')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to upload product')));
     }
   }
 

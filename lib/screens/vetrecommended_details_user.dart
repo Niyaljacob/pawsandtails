@@ -1,4 +1,4 @@
-
+ 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -131,7 +131,7 @@ class VetRecommendedDetailsUser extends StatelessWidget {
                       _buildDetailItem('Brand Name', brandName),
                       _buildDetailItem('Details', details),
                       const SizedBox(height: 25),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width * 1.1,
                         child: ElevatedButton.icon(
                           onPressed: () {

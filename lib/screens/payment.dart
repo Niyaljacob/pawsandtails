@@ -41,12 +41,13 @@ class _PaymentState extends State<Payment> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 900),
     );
     _imageAnimation = Tween<Offset>(
-      begin: const Offset(1.0, 0.0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _imageAnimationController,
-      curve: Curves.easeInOut,
-    ));
+  begin: const Offset(1.0, 0.0), // Start from the right
+  end: Offset.zero, // Slide to the center
+).animate(CurvedAnimation(
+  parent: _imageAnimationController,
+  curve: Curves.easeInOut,
+));
+
 
     // Breed Animation
     _breedAnimationController = AnimationController(
@@ -103,20 +104,26 @@ class _PaymentState extends State<Payment> with TickerProviderStateMixin {
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SlideTransition(
               position: _imageAnimation,
               child: Container(
-                decoration: const BoxDecoration(color: Color.fromARGB(255, 255, 202, 41)),
+                decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 211, 211, 211)),
                 height: 100,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
-                  itemCount: widget.imageUrls.length,
+                  itemCount:
+                      1, 
                   itemBuilder: (context, index) {
+                    
+                    final imageUrl =
+                        widget.imageUrls.isNotEmpty ? widget.imageUrls[0] : '';
+
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Image.network(widget.imageUrls[index]),
+                      child: Image.network(imageUrl),
                     );
                   },
                 ),
@@ -131,31 +138,50 @@ class _PaymentState extends State<Payment> with TickerProviderStateMixin {
                     position: _breedAnimation,
                     child: Text(
                       widget.dogName,
-                      style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                   ),
                   SlideTransition(
                     position: _priceAnimation,
                     child: Text(
                       widget.price,
-                      style: TextStyle(color: TColo.primaryColor1, fontSize: 15),
+                      style:
+                          TextStyle(color: TColo.primaryColor1, fontSize: 15),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  CustomTextField(controller: _fullNameController, labelText: 'Full Name', hintText: 'Enter your Full Name'),
+                  CustomTextField(
+                      controller: _fullNameController,
+                      labelText: 'Full Name',
+                      hintText: 'Enter your Full Name'),
                   const SizedBox(height: 20),
-                 
-                  CustomTextField(controller: _emailController, labelText: 'Email', hintText: 'Enter your Email'),
+                  CustomTextField(
+                      controller: _emailController,
+                      labelText: 'Email',
+                      hintText: 'Enter your Email'),
                   const SizedBox(height: 20),
-                  CustomTextField(controller: _phoneNumberController, labelText: 'Phone Number', hintText: 'Enter your Phone Number'),
+                  CustomTextField(
+                      controller: _phoneNumberController,
+                      labelText: 'Phone Number',
+                      hintText: 'Enter your Phone Number'),
                   const SizedBox(height: 20),
-                  CustomTextField(controller: _addressController, labelText: 'Address', hintText: 'Enter your Address'),
+                  CustomTextField(
+                      controller: _addressController,
+                      labelText: 'Address',
+                      hintText: 'Enter your Address'),
                   const SizedBox(height: 20),
-                  ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(TColo.primaryColor1)),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(
+                            TColo.primaryColor1)),
                     onPressed: () {
                       // Handle cash on delivery procedure
                     },
-                    child: const Text('Proceed with Cash on Delivery',style: TextStyle(color: Colors.white),),
+                    child: const Text(
+                      'Proceed with Cash on Delivery',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ],
               ),

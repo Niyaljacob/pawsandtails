@@ -42,7 +42,7 @@ class _UpdateDogState extends State<UpdateDog> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-        title: Text('${widget.dogName}'),
+        title: Text(widget.dogName),
       ),
       body: SingleChildScrollView(
         child: Padding(

@@ -32,7 +32,7 @@ class EventCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
               child: Image.asset(
                 imagePath,
                 width: double.infinity,
@@ -50,10 +50,10 @@ class EventCard extends StatelessWidget {
                       child: Row(
                         children: [
                           Icon(Icons.location_on, color: TColo.gray),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           Text(
                             eventName,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -64,8 +64,8 @@ class EventCard extends StatelessWidget {
                           horizontal: 8.0, vertical: 4),
                       child: Row(
                         children: [
-                          Icon(Icons.timelapse_sharp, color: Colors.grey),
-                          SizedBox(width: 8),
+                          const Icon(Icons.timelapse_sharp, color: Colors.grey),
+                          const SizedBox(width: 8),
                           Text(
                             eventDate,
                             style: TextStyle(fontSize: 14, color: TColo.gray),
@@ -75,7 +75,7 @@ class EventCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Icon(Icons.favorite_border, color: Colors.grey),
+                const Icon(Icons.favorite_border, color: Colors.grey),
               ],
             ),
           ],

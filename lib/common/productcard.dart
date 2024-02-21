@@ -4,7 +4,117 @@ import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/screens/dog_details.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard();
+  const ProductCard({Key? key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('dogDetails').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator(color: TColo.gray);
+        }
+
+        final dogs = snapshot.data!.docs;
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 8,
+            mainAxisSpacing: 8,
+          ),
+          itemCount: dogs.length > 4 ? 4 : dogs.length, // Limit to the first 4 items
+          itemBuilder: (context, index) {
+            var dog = dogs[index];
+            String dogId = dog.id;
+            String dogName = dog['name'];
+
+            return GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                  return DogDetails(
+                    dogId: dogId,
+                    dogName: dogName,
+                  );
+                }));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                child: Column(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5),
+                          child: Image.network(
+                            dog['imageurls'][0],
+                            height: 80,
+                            width: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        const SizedBox(height: 1),
+                        Text(
+                          dogName,
+                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'Rs ${dog['price'] ?? 'N/A'}',
+                          style: TextStyle(fontSize: 14, color: TColo.primaryColor1),
+                        ),
+                        const Divider(),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Handle onTap function here
+                        // For example, add the product to the cart
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.03,
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.shopping_bag_outlined,
+                              color: Colors.green,
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              'Add to Cart',
+                              style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+
+
+
+
+
+class ProductCardViewMore extends StatelessWidget {
+   const ProductCardViewMore({super.key});
 
   @override
   Widget build(BuildContext context) {

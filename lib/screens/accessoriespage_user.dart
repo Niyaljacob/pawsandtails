@@ -6,6 +6,8 @@ import 'package:paws_and_tail/common/stat.dart';
 import 'package:paws_and_tail/screens/accessories_popular_details_user.dart';
 import 'package:paws_and_tail/screens/accessories_recommended_user.dart';
 class AccessoriesPage extends StatelessWidget {
+  const AccessoriesPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(

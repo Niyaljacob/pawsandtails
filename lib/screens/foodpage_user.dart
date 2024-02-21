@@ -7,6 +7,8 @@ import 'package:paws_and_tail/screens/foodpopular_details_user.dart';
 import 'package:paws_and_tail/screens/foodrecommended_details_user.dart';
 
 class FoodPage extends StatelessWidget {
+  const FoodPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(

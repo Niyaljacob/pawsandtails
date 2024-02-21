@@ -11,7 +11,7 @@ class FoodDetails extends StatefulWidget {
   final String foodId;
   final String foodName;
 
-  FoodDetails({Key? key, required this.foodId, required this.foodName}) : super(key: key);
+  const FoodDetails({Key? key, required this.foodId, required this.foodName}) : super(key: key);
 
   @override
   _FoodDetailsState createState() => _FoodDetailsState();

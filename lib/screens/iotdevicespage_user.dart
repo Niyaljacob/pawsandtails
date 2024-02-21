@@ -9,6 +9,8 @@ import 'package:paws_and_tail/screens/iot_popular_user.dart';
 import 'package:paws_and_tail/screens/iot_recommended_user.dart';
 
 class IotDevicesPage extends StatelessWidget {
+  const IotDevicesPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(

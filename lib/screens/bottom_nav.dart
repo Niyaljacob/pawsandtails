@@ -56,8 +56,8 @@ class _BottomNavState extends State<BottomNav> {
                   });
                  } 
                  },
-                 selectIcon: 'assets/producticon.png', 
-                 icon: 'assets/producticon.png'),
+                 selectIcon: 'assets/pet-food (1).png', 
+                 icon: 'assets/pet-food (1).png'),
                  TAbButton(
                 isActive: selectedTab==2,
                  onTap:(){

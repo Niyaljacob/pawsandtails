@@ -13,7 +13,7 @@ class CustomTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final FormFieldValidator<String>? validator;
 
-  const CustomTextField({
+  const CustomTextField({super.key, 
     required this.controller,
     required this.labelText,
     required this.hintText,
@@ -68,7 +68,7 @@ class SearchTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final FormFieldValidator<String>? validator;
 
-  const SearchTextField({
+  const SearchTextField({super.key, 
     required this.controller,
     required this.labelText,
     required this.hintText,

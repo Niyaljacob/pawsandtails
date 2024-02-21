@@ -6,7 +6,7 @@ import 'package:paws_and_tail/common/stat.dart';
 class ProductList extends StatelessWidget {
   final Stream<QuerySnapshot> stream;
 
-  const ProductList({required this.stream});
+  const ProductList({super.key, required this.stream});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class ProductList extends StatelessWidget {
           BoxShadow(
             color: const Color.fromARGB(255, 197, 197, 197).withOpacity(0.5),
             blurRadius: 7,
-            offset: Offset(0, 3),
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -26,7 +26,7 @@ class ProductList extends StatelessWidget {
           stream: stream,
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(),
               );
             }
@@ -49,7 +49,7 @@ class ProductList extends StatelessWidget {
 
             return ListView(
               scrollDirection: Axis.horizontal,
-              children: productWidgets.isNotEmpty ? productWidgets : [Text('No products found')],
+              children: productWidgets.isNotEmpty ? productWidgets : [const Text('No products found')],
             );
           },
         ),
@@ -62,7 +62,7 @@ class ProductList extends StatelessWidget {
 class ProductItem extends StatelessWidget {
   final Map<String, dynamic> data;
 
-  const ProductItem({required this.data});
+  const ProductItem({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -92,10 +92,10 @@ class ProductItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(data['productName'] ?? 'Product Name', style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(data['productName'] ?? 'Product Name', style: const TextStyle(fontWeight: FontWeight.bold)),
                 Text(data['brandName'] ?? 'Brand Name'),
                 Text('Rs ${data['price'] ?? 'Price'}',style: TextStyle(color: TColo.primaryColor1),),
-                StarRating(filledStars: 4, halfFilledStars: 1, totalStars: 5)
+                const StarRating(filledStars: 4, halfFilledStars: 1, totalStars: 5)
               ],
             ),
           ),

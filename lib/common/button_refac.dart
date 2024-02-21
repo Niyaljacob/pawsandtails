@@ -8,7 +8,7 @@ class CustomElevatedButton extends StatelessWidget {
   final double? width;
   final double? height;
   final double? opacity;
-  CustomElevatedButton({
+  const CustomElevatedButton({super.key, 
     required this.label,
     required this.onPressed,
     this.width,
@@ -26,7 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: TColo.primaryColor1.withOpacity(0.5), // Customize button color
         ),
-        child: Text(label,style: TextStyle(color: Colors.black,fontSize: 25),),
+        child: Text(label,style: const TextStyle(color: Colors.black,fontSize: 25),),
       ),
     );
   }
@@ -40,7 +40,7 @@ class CustomRowWithButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback onPressed;
 
-  const CustomRowWithButton({
+  const CustomRowWithButton({super.key, 
     required this.customText,
     required this.buttonText,
     required this.onPressed,
@@ -53,7 +53,7 @@ class CustomRowWithButton extends StatelessWidget {
       children: [
         Text(
           customText,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 30),

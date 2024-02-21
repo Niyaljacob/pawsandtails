@@ -20,7 +20,7 @@ class AddDogInventory extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             AddDogs(),
             ListOfDogs(),

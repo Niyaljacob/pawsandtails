@@ -34,14 +34,15 @@ class _AdminHomeState extends State<AdminHome> {
               child: const Text("CANCEL"),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pushReplacement(MaterialPageRoute(builder: (_) {
-                  return LoginScreen();
-                }));
-              },
-              child: const Text("SIGN OUT"),
-            ),
+  onPressed: () {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => LoginScreen()),
+      (Route<dynamic> route) => false,
+    );
+  },
+  child: const Text("SIGN OUT"),
+),
+
           ],
         );
       },
@@ -142,6 +143,15 @@ class _AdminHomeState extends State<AdminHome> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+               SizedBox(
+              height: 200,
+              width: double.infinity,
+              child: Image.asset(
+                'assets/adminhomemain2.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+           
                 CustomRowWithButton(
                   customText: 'Top Popular Food Items',
                   buttonText: 'View more',
