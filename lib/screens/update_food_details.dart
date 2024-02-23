@@ -112,6 +112,7 @@ class _FoodDetailsState extends State<FoodDetails> {
             TextFormField(
               controller: priceController,
               decoration: const InputDecoration(labelText: 'Price'),
+               keyboardType: TextInputType.number,
             ),
             TextFormField(
               controller: detailsController,

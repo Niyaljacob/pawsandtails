@@ -61,6 +61,7 @@ class _UpdateDogState extends State<UpdateDog> {
               TextFormField(
                 controller: _priceController,
                 decoration: const InputDecoration(labelText: 'Price'),
+                 keyboardType: TextInputType.number,
               ),
               TextFormField(
                 controller: _overviewController,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
@@ -24,7 +25,8 @@ class ProductCard extends StatelessWidget {
             crossAxisSpacing: 8,
             mainAxisSpacing: 8,
           ),
-          itemCount: dogs.length > 4 ? 4 : dogs.length, // Limit to the first 4 items
+          itemCount:
+              dogs.length > 4 ? 4 : dogs.length, // Limit to the first 4 items
           itemBuilder: (context, index) {
             var dog = dogs[index];
             String dogId = dog.id;
@@ -40,36 +42,36 @@ class ProductCard extends StatelessWidget {
                 }));
               },
               child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.white,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+                  color: Colors.white, // Set the card background color to white
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5),
-                          child: Image.network(
-                            dog['imageurls'][0],
-                            height: 80,
-                            width: 100,
-                            fit: BoxFit.cover,
-                          ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: CachedNetworkImage(
+                        imageUrl: dog['imageurls'][0],
+                        height: 80,
+                        width: 100,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
                         ),
-                        const SizedBox(height: 1),
-                        Text(
-                          dogName,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          'Rs ${dog['price'] ?? 'N/A'}',
-                          style: TextStyle(fontSize: 14, color: TColo.primaryColor1),
-                        ),
-                        const Divider(),
-                      ],
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                      ),
                     ),
+                    const SizedBox(height: 1),
+                    Text(
+                      dogName,
+                      style: const TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Rs ${dog['price'] ?? 'N/A'}',
+                      style: TextStyle(fontSize: 14, color: TColo.primaryColor1),
+                    ),
+                    const Divider(),
                     GestureDetector(
                       onTap: () {
                         // Handle onTap function here
@@ -91,7 +93,9 @@ class ProductCard extends StatelessWidget {
                             SizedBox(width: 8),
                             Text(
                               'Add to Cart',
-                              style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
@@ -109,12 +113,8 @@ class ProductCard extends StatelessWidget {
 }
 
 
-
-
-
-
 class ProductCardViewMore extends StatelessWidget {
-   const ProductCardViewMore({super.key});
+  const ProductCardViewMore({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -150,8 +150,6 @@ class ProductCardViewMore extends StatelessWidget {
                 }));
               },
               child: Container(
-                // height: MediaQuery.of(context).size.height * .5,
-                // width: MediaQuery.of(context).size.width * .4,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
@@ -163,21 +161,32 @@ class ProductCardViewMore extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 5),
-                          child: Image.network(
-                            dog['imageurls'][0],
+                          child: CachedNetworkImage(
+                            imageUrl: dog['imageurls'][0],
                             height: 80,
                             width: 100,
                             fit: BoxFit.cover,
+                            placeholder: (context, url) => const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
                           ),
                         ),
                         const SizedBox(height: 1),
                         Text(
                           dogName,
-                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
                           'Rs ${dog['price'] ?? 'N/A'}',
-                          style: TextStyle(fontSize: 14, color: TColo.primaryColor1),
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: TColo.primaryColor1,
+                          ),
                         ),
                         const Divider(),
                       ],
@@ -191,7 +200,6 @@ class ProductCardViewMore extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.03,
                         width: MediaQuery.of(context).size.width * 0.3,
                         decoration: BoxDecoration(
-                          
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: const Row(
@@ -204,7 +212,10 @@ class ProductCardViewMore extends StatelessWidget {
                             SizedBox(width: 8),
                             Text(
                               'Add to Cart',
-                              style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),

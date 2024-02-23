@@ -9,94 +9,90 @@ class IotDeviceList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-      //   title: const Text('List of IOT Devices'),
-      // ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'Popular Items',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Popular Items',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-          SizedBox(
-            height: 200, 
-            child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('IOTPopular').snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Center(
-                    child: Text('Error: ${snapshot.error}'),
-                  );
-                }
-
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                return ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: snapshot.data!.docs.length,
-                  itemBuilder: (context, index) {
-                    DocumentSnapshot document = snapshot.data!.docs[index];
-                    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
-                    return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  data['imageURLs'][0],
-                                  width: 150,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Positioned(
-                                top: 4,
-                                right: 4,
-                                child: IconButton(
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    _deletePopularItem(document.id);
-                                  },
-                                  color: Colors.red,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Text(data['productName']),
-                          Text(data['brandName']),
-                          Text('Rs ${data['price']}',style: TextStyle(color: TColo.primaryColor1),),
-                        ],
-                      ),
+            SizedBox(
+              height: 200,
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('IOTPopular').snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Error: ${snapshot.error}'),
                     );
-                  },
-                );
-              },
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  return ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot document = snapshot.data!.docs[index];
+                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                      return Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Stack(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    data['imageURLs'][0],
+                                    width: 150,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 4,
+                                  right: 4,
+                                  child: IconButton(
+                                    icon: const Icon(Icons.delete),
+                                    onPressed: () {
+                                      _deletePopularItem(document.id);
+                                    },
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 4),
+                            Text(data['productName']),
+                            Text(data['brandName']),
+                            Text('Rs ${data['price']}',style: TextStyle(color: TColo.primaryColor1),),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text(
-              'IOT Device products',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'IOT Device products',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
             ),
-          ),
-           const Center(child: Text('<<<<<sype Left to Delete<<<<<',style: TextStyle(color: Colors.blue),)),
-          Expanded(
-            child: StreamBuilder<QuerySnapshot>(
+            const Center(child: Text('<<<<<sype Left to Delete<<<<<',style: TextStyle(color: Colors.blue),)),
+            StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection('IOT Device').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -113,6 +109,7 @@ class IotDeviceList extends StatelessWidget {
 
                 return ListView(
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   children: snapshot.data!.docs.map((DocumentSnapshot document) {
                     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
                     return Dismissible(
@@ -153,8 +150,8 @@ class IotDeviceList extends StatelessWidget {
                 );
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -1,7 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:paws_and_tail/common/color_extention.dart'; 
+import 'package:paws_and_tail/common/color_extention.dart';
 
 class FoodPopularDetailsUser extends StatelessWidget {
   final String productId;
@@ -27,7 +28,10 @@ class FoodPopularDetailsUser extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StreamBuilder<DocumentSnapshot>(
-                stream: FirebaseFirestore.instance.collection('FoodPopular').doc(productId).snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('FoodPopular')
+                    .doc(productId)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
@@ -47,9 +51,10 @@ class FoodPopularDetailsUser extends StatelessWidget {
                     );
                   }
 
-                  var productDetails = snapshot.data!.data() as Map<String, dynamic>;
+                  var productDetails =
+                      snapshot.data!.data() as Map<String, dynamic>;
                   List<dynamic> imageURLs = productDetails['imageURLs'] ?? [];
-                  
+
                   if (imageURLs.isEmpty) {
                     return const Center(
                       child: Text('No images available'),
@@ -59,12 +64,11 @@ class FoodPopularDetailsUser extends StatelessWidget {
                   return CarouselSlider(
                     options: CarouselOptions(
                       height: 200.0,
-                      enlargeCenterPage: true,
-                      autoPlay: true,
                       aspectRatio: 16 / 9,
                       autoPlayCurve: Curves.fastOutSlowIn,
                       enableInfiniteScroll: true,
-                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
                       viewportFraction: 0.8,
                     ),
                     items: imageURLs.map<Widget>((imageURL) {
@@ -76,9 +80,14 @@ class FoodPopularDetailsUser extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: Colors.grey[200],
                             ),
-                            child: Image.network(
-                              imageURL,
+                            child: CachedNetworkImage(
+                              imageUrl: imageURL,
                               fit: BoxFit.cover,
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
                           );
                         },
@@ -87,9 +96,14 @@ class FoodPopularDetailsUser extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 18,),
+              const SizedBox(
+                height: 18,
+              ),
               StreamBuilder<DocumentSnapshot>(
-                stream: FirebaseFirestore.instance.collection('FoodPopular').doc(productId).snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('FoodPopular')
+                    .doc(productId)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
@@ -109,10 +123,13 @@ class FoodPopularDetailsUser extends StatelessWidget {
                     );
                   }
 
-                  var productDetails = snapshot.data!.data() as Map<String, dynamic>;
+                  var productDetails =
+                      snapshot.data!.data() as Map<String, dynamic>;
                   String productName = productDetails['productName'] ?? '';
                   String brandName = productDetails['brandName'] ?? '';
-                  String price = productDetails['price'] != null ? 'Rs ${productDetails['price']}' : '';
+                  String price = productDetails['price'] != null
+                      ? 'Rs ${productDetails['price']}'
+                      : '';
                   String details = productDetails['details'] ?? '';
 
                   return Column(
@@ -120,11 +137,15 @@ class FoodPopularDetailsUser extends StatelessWidget {
                     children: [
                       Text(
                         productName,
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w500),
                       ),
                       Text(
                         price,
-                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: TColo.primaryColor1),
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            color: TColo.primaryColor1),
                       ),
                       const Divider(),
                       _buildDetailItem('Brand Name', brandName),

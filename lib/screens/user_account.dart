@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -108,20 +109,9 @@ class _AccountScreenState extends State<AccountScreen> {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
       } else {
-        print('No image selected.');
+        const Text('No image selected.');
       }
     });
-  }
-
-  ImageProvider _buildNetworkImage() {
-    try {
-      if (_imageUrl.isNotEmpty) {
-        return NetworkImage(_imageUrl);
-      }
-    } catch (e) {
-      print('Error loading network image: $e');
-    }
-    return const AssetImage('assets/dogs1.png');
   }
 
   @override
@@ -141,8 +131,12 @@ class _AccountScreenState extends State<AccountScreen> {
               onTap: _getImage,
               child: CircleAvatar(
                 radius: 50,
-                backgroundImage:
-                    _image != null ? FileImage(_image!) : _buildNetworkImage(),
+                backgroundImage: _image != null
+                    ? FileImage(_image!) as ImageProvider<Object>?
+                    : (_imageUrl.isNotEmpty
+                            ? CachedNetworkImageProvider(_imageUrl)
+                            : const AssetImage('assets/dogs1.png'))
+                        as ImageProvider<Object>?,
                 child: const Padding(
                   padding: EdgeInsets.only(top: 60, left: 70),
                   child: Icon(Icons.edit),

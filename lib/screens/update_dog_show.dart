@@ -145,6 +145,7 @@ class _UpdateDogShowState extends State<UpdateDogShow> {
             TextFormField(
               controller: contactController,
               decoration: const InputDecoration(labelText: 'Contact'),
+              keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 20.0),
             ElevatedButton(

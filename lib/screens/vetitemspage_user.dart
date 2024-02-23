@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +23,8 @@ class VetItemsPage extends StatelessWidget {
         SizedBox(
           height: 150,
           child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('VetPopular')
-                .snapshots(),
+            stream:
+                FirebaseFirestore.instance.collection('VetPopular').snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Center(
@@ -80,8 +80,13 @@ class VetItemsPage extends StatelessWidget {
                             children: [
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
-                                child: Image.network(
-                                  imageUrl,
+                                child: CachedNetworkImage(
+                                  imageUrl: imageUrl,
+                                  placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
                                   width: 150,
                                   height: 130,
                                   fit: BoxFit.cover,
@@ -107,7 +112,10 @@ class VetItemsPage extends StatelessWidget {
                                       style:
                                           TextStyle(color: TColo.primaryColor1),
                                     ),
-                                    const StarRating(filledStars: 4, halfFilledStars: 1, totalStars: 5)
+                                    const StarRating(
+                                        filledStars: 4,
+                                        halfFilledStars: 1,
+                                        totalStars: 5)
                                   ],
                                 ),
                               ),
@@ -134,10 +142,11 @@ class VetItemsPage extends StatelessWidget {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
         ),
-       Container(
+        Container(
           color: Colors.white,
           child: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('vet_brands').snapshots(),
+            stream:
+                FirebaseFirestore.instance.collection('vet_brands').snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Center(
@@ -170,8 +179,12 @@ class VetItemsPage extends StatelessWidget {
                       return Container(
                         width: MediaQuery.of(context).size.width,
                         margin: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Image.network(
-                          imageUrl,
+                        child:CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                           fit: BoxFit.cover,
                         ),
                       );
@@ -193,7 +206,8 @@ class VetItemsPage extends StatelessWidget {
           ),
         ),
         StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('Vet Items').snapshots(),
+          stream:
+              FirebaseFirestore.instance.collection('Vet Items').snapshots(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
@@ -228,7 +242,8 @@ class VetItemsPage extends StatelessWidget {
                       ),
                     );
                   },
-                  child: Card(color: Colors.white,
+                  child: Card(
+                    color: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16.0),
                     ),
@@ -243,13 +258,19 @@ class VetItemsPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Center(
-                              child: Image.network(
-                                data['imageURLs'] != null &&
+                              child: CachedNetworkImage(
+                                imageUrl: data['imageURLs'] != null &&
                                         data['imageURLs'] is List<dynamic>
-                                    ? (data['imageURLs'] as List<dynamic>).isNotEmpty
-                                        ? (data['imageURLs'] as List<dynamic>)[0]
+                                    ? (data['imageURLs'] as List<dynamic>)
+                                            .isNotEmpty
+                                        ? (data['imageURLs']
+                                            as List<dynamic>)[0]
                                         : ''
                                     : '',
+                                placeholder: (context, url) =>
+                                    const Center(child: CircularProgressIndicator()),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
                                 width: 90,
                                 height: 100,
                                 fit: BoxFit.cover,
@@ -264,7 +285,8 @@ class VetItemsPage extends StatelessWidget {
                             children: [
                               Text(
                                 data['productName'] ?? '',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -287,4 +309,3 @@ class VetItemsPage extends StatelessWidget {
     );
   }
 }
-

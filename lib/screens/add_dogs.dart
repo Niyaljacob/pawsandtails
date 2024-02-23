@@ -72,7 +72,8 @@ class _AddDogsState extends State<AddDogs> {
             ),
             TextFormField(
               controller: _priceController,
-              decoration: const InputDecoration(labelText: 'Price'),
+              decoration: const InputDecoration(labelText: 'Price',),
+               keyboardType: TextInputType.number,
             ),
             TextFormField(
               controller: _overviewController,

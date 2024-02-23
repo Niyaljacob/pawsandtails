@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,8 @@ class EventDetails extends StatelessWidget {
   final String showId;
   final String showName;
 
-  const EventDetails({Key? key, required this.showId, required this.showName}) : super(key: key);
+  const EventDetails({Key? key, required this.showId, required this.showName})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,10 @@ class EventDetails extends StatelessWidget {
         title: Text(showName),
       ),
       body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('dog_shows').doc(showId).get(),
+        future: FirebaseFirestore.instance
+            .collection('dog_shows')
+            .doc(showId)
+            .get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -46,13 +51,14 @@ class EventDetails extends StatelessWidget {
                           ),
                           items: List.generate(
                             data['imageUrls'].length,
-                            (index) => Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(data['imageUrls'][index]),
-                                  fit: BoxFit.cover,
-                                ),
+                            (index) => CachedNetworkImage(
+                              imageUrl: data['imageUrls'][index],
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(),
                               ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
@@ -74,7 +80,11 @@ class EventDetails extends StatelessWidget {
 
   List<Widget> _buildEventDetails(Map<String, dynamic> data) {
     List<Map<String, dynamic>> eventDetails = [
-      {'title': 'Posted On', 'value': data['postedOn'], 'icon': Icons.timelapse_sharp},
+      {
+        'title': 'Posted On',
+        'value': data['postedOn'],
+        'icon': Icons.timelapse_sharp
+      },
       {'title': 'Event', 'value': data['eventDetails']},
       {'title': 'Where', 'value': data['where']},
       {'title': 'When', 'value': data['when']},
@@ -110,7 +120,6 @@ class EventDetails extends StatelessWidget {
                     value,
                     style: TextStyle(color: Colors.grey[700]),
                   ),
-                  
                 ],
               ),
             ),
@@ -122,7 +131,8 @@ class EventDetails extends StatelessWidget {
 
   Widget _buildLiveRunningDateWidget(Duration remainingTime) {
     return StreamBuilder<int>(
-      stream: Stream.periodic(const Duration(seconds: 1), (i) => i).take(remainingTime.inSeconds),
+      stream: Stream.periodic(const Duration(seconds: 1), (i) => i)
+          .take(remainingTime.inSeconds),
       builder: (context, snapshot) {
         int secondsRemaining = remainingTime.inSeconds - (snapshot.data ?? 0);
         int days = secondsRemaining ~/ (24 * 3600);
@@ -138,14 +148,18 @@ class EventDetails extends StatelessWidget {
                 padding: EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    Text("Tail-Wagging Days Ahead",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                    Text(
+                      "Tail-Wagging Days Ahead",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _buildCountdownItem(days, 'Days'), 
+                  _buildCountdownItem(days, 'Days'),
                   _buildCountdownItem(hours, 'Hours'),
                   _buildCountdownItem(minutes, 'Minutes'),
                   _buildCountdownItem(seconds, 'Seconds'),
@@ -163,20 +177,20 @@ class EventDetails extends StatelessWidget {
       width: 80,
       height: 70,
       decoration: BoxDecoration(
-        color: TColo.primaryColor1, 
+        color: TColo.primaryColor1,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          
           Text(
             '$value',
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white), 
+            style: const TextStyle(
+                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           Text(
             unit,
-            style: const TextStyle(fontSize: 16, color: Colors.white), 
+            style: const TextStyle(fontSize: 16, color: Colors.white),
           ),
         ],
       ),

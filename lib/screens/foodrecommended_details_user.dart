@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -60,12 +61,11 @@ class FoodRecommendedDetailsUser extends StatelessWidget {
                   return CarouselSlider(
                     options: CarouselOptions(
                       height: 200.0,
-                      enlargeCenterPage: true,
-                      autoPlay: true,
                       aspectRatio: 16 / 9,
                       autoPlayCurve: Curves.fastOutSlowIn,
                       enableInfiniteScroll: true,
-                      autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 800),
                       viewportFraction: 0.8,
                     ),
                     items: imageURLs.map<Widget>((imageURL) {
@@ -77,9 +77,14 @@ class FoodRecommendedDetailsUser extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: Colors.grey[200],
                             ),
-                            child: Image.network(
-                              imageURL,
+                            child: CachedNetworkImage(
+                              imageUrl: imageURL,
                               fit: BoxFit.cover,
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
                             ),
                           );
                         },

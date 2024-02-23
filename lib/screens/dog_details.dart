@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -48,22 +49,27 @@ class DogDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CarouselSlider(
-                  options: CarouselOptions(
-                    height: 200.0,
-                    enableInfiniteScroll: false,
-                    enlargeCenterPage: true,
-                  ),
-                  items: imageUrls.map((imageUrl) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Image.network(
-                          imageUrl,
-                          fit: BoxFit.cover,
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
+  options: CarouselOptions(
+    height: 200.0,
+    enableInfiniteScroll: false,
+    enlargeCenterPage: true,
+  ),
+  items: imageUrls.map((imageUrl) {
+    return Builder(
+      builder: (BuildContext context) {
+        return CachedNetworkImage(
+          imageUrl: imageUrl,
+          placeholder: (context, url) => const Center(
+            child: CircularProgressIndicator(),
+          ),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+          fit: BoxFit.cover,
+        );
+      },
+    );
+  }).toList(),
+),
+
                 const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
