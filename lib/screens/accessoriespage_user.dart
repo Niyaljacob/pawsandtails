@@ -58,8 +58,13 @@ class AccessoriesPage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => AccessoriesPopularDetailsUser(
-                                productId: document.id,
-                                productName: data['productName'],
+                                 productId: document.id,
+                          productName: data['productName'] ?? '',
+                          imageURLs: data['imageURLs'] != null &&
+                                  data['imageURLs'] is List<dynamic>
+                              ? (data['imageURLs'] as List<dynamic>)
+                                  .cast<String>()
+                              : [], 
                               ),
                             ),
                           );
@@ -234,7 +239,12 @@ class AccessoriesPage extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => AccessoriesRecommendedDetailsUser(
                           productId: document.id,
-                          productName: data['productName'],
+                          productName: data['productName'] ?? '',
+                          imageURLs: data['imageURLs'] != null &&
+                                  data['imageURLs'] is List<dynamic>
+                              ? (data['imageURLs'] as List<dynamic>)
+                                  .cast<String>()
+                              : [], 
                         ),
                       ),
                     );
@@ -275,7 +285,7 @@ class AccessoriesPage extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(left: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

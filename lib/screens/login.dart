@@ -12,7 +12,7 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _passwordController = TextEditingController();
    final _formKey = GlobalKey<FormState>();
   LoginScreen({super.key});
-  Future<void> _login(BuildContext context) async {
+ Future<void> _login(BuildContext context) async {
   try {
     if (_formKey.currentState!.validate()) {
       const String adminEmail = 'admin@example.com';
@@ -31,6 +31,7 @@ class LoginScreen extends StatelessWidget {
         email: _emailController.text,
         password: _passwordController.text,
       );
+      // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (_) => BottomNav(),
@@ -38,15 +39,23 @@ class LoginScreen extends StatelessWidget {
       );
     }
   } on FirebaseAuthException catch (e) {
+    String errorMessage = 'Check the User Name and Password.';
+
     if (e.code == 'user-not-found') {
-      print('No user found for that email.');
+      errorMessage = 'No user found for that email.';
     } else if (e.code == 'wrong-password') {
-      print('Wrong password provided for that user.');
+      errorMessage = 'Wrong password provided for that user.';
     } else if (e.code == 'invalid-email') {
-      print('Invalid email address.');
+      errorMessage = 'Invalid email address.';
     }
+
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(errorMessage)),
+    );
   }
 }
+
 
  
 

@@ -60,7 +60,12 @@ class FoodPage extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => FoodPopularDetailsUser(
                                 productId: document.id,
-                                productName: data['productName'],
+                          productName: data['productName'] ?? '',
+                          imageURLs: data['imageURLs'] != null &&
+                                  data['imageURLs'] is List<dynamic>
+                              ? (data['imageURLs'] as List<dynamic>)
+                                  .cast<String>()
+                              : [], 
                               ),
                             ),
                           );
@@ -240,7 +245,12 @@ class FoodPage extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => FoodRecommendedDetailsUser(
                           productId: document.id,
-                          productName: data['productName'],
+                          productName: data['productName'] ?? '',
+                          imageURLs: data['imageURLs'] != null &&
+                                  data['imageURLs'] is List<dynamic>
+                              ? (data['imageURLs'] as List<dynamic>)
+                                  .cast<String>()
+                              : [], // Convert imageURLs to List<String>
                         ),
                       ),
                     );
@@ -270,8 +280,8 @@ class FoodPage extends StatelessWidget {
                                             as List<dynamic>)[0]
                                         : ''
                                     : '',
-                                placeholder: (context, url) =>
-                                    const Center(child: CircularProgressIndicator()),
+                                placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator()),
                                 errorWidget: (context, url, error) =>
                                     const Icon(Icons.error),
                                 width: 90,
@@ -282,7 +292,7 @@ class FoodPage extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(4.0),
+                          padding: const EdgeInsets.only(left: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

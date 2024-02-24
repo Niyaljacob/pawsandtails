@@ -53,14 +53,19 @@ class VetItemsPage extends StatelessWidget {
                       child: GestureDetector(
                         onTap: () {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => VetPopularDetailsUser(
-                                productId: document.id,
-                                productName: data['productName'],
-                              ),
-                            ),
-                          );
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VetPopularDetailsUser(
+                          productId: document.id,
+                          productName: data['productName'] ?? '',
+                          imageURLs: data['imageURLs'] != null &&
+                                  data['imageURLs'] is List<dynamic>
+                              ? (data['imageURLs'] as List<dynamic>)
+                                  .cast<String>()
+                              : [], // Convert imageURLs to List<String>
+                        ),
+                      ),
+                    );
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -232,12 +237,17 @@ class VetItemsPage extends StatelessWidget {
 
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => VetRecommendedDetailsUser(
                           productId: document.id,
-                          productName: data['productName'],
+                          productName: data['productName'] ?? '',
+                          imageURLs: data['imageURLs'] != null &&
+                                  data['imageURLs'] is List<dynamic>
+                              ? (data['imageURLs'] as List<dynamic>)
+                                  .cast<String>()
+                              : [], // Convert imageURLs to List<String>
                         ),
                       ),
                     );
@@ -279,7 +289,7 @@ class VetItemsPage extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(left: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -291,7 +301,7 @@ class VetItemsPage extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                               Text(
-                                'Price: \$${data['price'] ?? ''}',
+                                'Rs ${data['price'] ?? ''}',
                                 style: const TextStyle(color: Colors.green),
                               ),
                             ],

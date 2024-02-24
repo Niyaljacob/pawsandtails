@@ -58,8 +58,6 @@ class HomeScreen extends StatelessWidget {
                   hintText: 'Search',
                 ),
               ),
-              const SizedBox(height: 16),
-
               StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('banners')

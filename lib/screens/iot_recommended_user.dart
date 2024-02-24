@@ -2,16 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:paws_and_tail/common/color_extention.dart'; 
+import 'package:paws_and_tail/common/color_extention.dart';
+import 'package:paws_and_tail/screens/payment_product.dart'; 
 
 class IotRecommendedDetailsUser extends StatelessWidget {
   final String productId;
   final String productName;
+  final List<String> imageURLs;
 
   const IotRecommendedDetailsUser({
     Key? key,
     required this.productId,
     required this.productName,
+    required this.imageURLs,
   }) : super(key: key);
 
   @override
@@ -139,7 +142,13 @@ class IotRecommendedDetailsUser extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 1.1,
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            // Handle add to cart action
+                             Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                              return PaymentProducts(
+                                productName: productName,
+                                price: price,
+                                imageURLs: imageURLs.cast<String>(), // Convert to String List
+                              );
+                            }));
                           },
                           icon: const Icon(
                             Icons.shop_two_rounded,

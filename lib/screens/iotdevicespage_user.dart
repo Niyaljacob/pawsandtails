@@ -62,7 +62,12 @@ class IotDevicesPage extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => IotPopularDetailsUser(
                                 productId: document.id,
-                                productName: data['productName'],
+                          productName: data['productName'] ?? '',
+                          imageURLs: data['imageURLs'] != null &&
+                                  data['imageURLs'] is List<dynamic>
+                              ? (data['imageURLs'] as List<dynamic>)
+                                  .cast<String>()
+                              : [],
                               ),
                             ),
                           );
@@ -237,7 +242,12 @@ class IotDevicesPage extends StatelessWidget {
                       MaterialPageRoute(
                         builder: (context) => IotRecommendedDetailsUser(
                           productId: document.id,
-                          productName: data['productName'],
+                          productName: data['productName'] ?? '',
+                          imageURLs: data['imageURLs'] != null &&
+                                  data['imageURLs'] is List<dynamic>
+                              ? (data['imageURLs'] as List<dynamic>)
+                                  .cast<String>()
+                              : [],
                         ),
                       ),
                     );
@@ -278,7 +288,7 @@ class IotDevicesPage extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.only(left: 15),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
