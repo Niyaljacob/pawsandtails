@@ -18,7 +18,8 @@ class PaymentProducts extends StatefulWidget {
   _PaymentProductsState createState() => _PaymentProductsState();
 }
 
-class _PaymentProductsState extends State<PaymentProducts> with SingleTickerProviderStateMixin {
+class _PaymentProductsState extends State<PaymentProducts>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<Offset> _animation;
 
@@ -26,6 +27,10 @@ class _PaymentProductsState extends State<PaymentProducts> with SingleTickerProv
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
+
+  bool _isCashOnDeliverySelected = false;
+
+  int _currentStep = 0;
 
   @override
   void initState() {
@@ -73,7 +78,8 @@ class _PaymentProductsState extends State<PaymentProducts> with SingleTickerProv
                   scrollDirection: Axis.horizontal,
                   itemCount: widget.imageURLs.length,
                   itemBuilder: (context, index) {
-                    final imageUrl = widget.imageURLs.isNotEmpty ? widget.imageURLs[index] : '';
+                    final imageUrl =
+                        widget.imageURLs.isNotEmpty ? widget.imageURLs[index] : '';
 
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -83,13 +89,13 @@ class _PaymentProductsState extends State<PaymentProducts> with SingleTickerProv
                               errorBuilder: (context, error, stackTrace) {
                                 // Handle image loading errors
                                 print('Error loading image: $error');
-                                return const Icon(Icons.error); // Placeholder for error
+                                return const Icon(Icons.error);
                               },
                             )
                           : Container(
                               width: 100,
                               height: 100,
-                              color: Colors.grey, // Placeholder for empty URLs
+                              color: Colors.grey,
                             ),
                     );
                   },
@@ -97,88 +103,212 @@ class _PaymentProductsState extends State<PaymentProducts> with SingleTickerProv
               ),
             ),
             const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: AnimatedBuilder(
-                animation: _animationController,
-                builder: (context, child) {
-                  return Transform.translate(
-                    offset: Offset(-50 * (1 - _animationController.value), 0.0),
-                    child: Opacity(
-                      opacity: _animationController.value,
-                      child: Column(
-                        children: [
-                          Text(
-                            widget.productName,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
+            Stepper(
+              currentStep: _currentStep,
+              onStepContinue: () {
+                if (_currentStep < 3 - 1) {
+                  if (_validateStep()) {
+                    if (_currentStep == 1) {
+                      if (_isCashOnDeliverySelected) {
+                        setState(() {
+                          _currentStep += 1;
+                        });
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please select Cash on Delivery'),
                           ),
-                          Text(
-                            widget.price,
-                            style: TextStyle(
-                              color: TColo.primaryColor1,
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
+                        );
+                      }
+                    } else {
+                      setState(() {
+                        _currentStep += 1;
+                      });
+                    }
+                  }
+                } else {
+                  // Complete
+                }
+              },
+              onStepCancel: () {
+                if (_currentStep > 0) {
+                  setState(() {
+                    _currentStep -= 1;
+                  });
+                } else {
+                  _currentStep = 0;
+                }
+              },
+              steps: [
+                Step(
+                  title: const Text('Details'),
+                  isActive: _currentStep >= 0,
+                  content: Column(
+                    children: [
+                      Text(
+                        widget.productName,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  CustomTextField(
-                    controller: _fullNameController,
-                    labelText: 'Full Name',
-                    hintText: 'Enter your Full Name',
-                  ),
-                  const SizedBox(height: 20),
-                  CustomTextField(
-                    controller: _emailController,
-                    labelText: 'Email',
-                    hintText: 'Enter your Email',
-                  ),
-                  const SizedBox(height: 20),
-                  CustomTextField(
-                    controller: _phoneNumberController,
-                    labelText: 'Phone Number',
-                    hintText: 'Enter your Phone Number',
-                  ),
-                  const SizedBox(height: 20),
-                  CustomTextField(
-                    controller: _addressController,
-                    labelText: 'Address',
-                    hintText: 'Enter your Address',
-                    
-                  ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                        TColo.primaryColor1,
+                      Text(
+                        widget.price,
+                        style: TextStyle(
+                          color: TColo.primaryColor1,
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                    onPressed: () {
-                      // Handle payment processing
-                    },
-                    child: const Text(
-                      'Proceed with Payment',
-                      style: TextStyle(color: Colors.white),
-                    ),
+                      CustomTextField(
+                        controller: _fullNameController,
+                        labelText: 'Full Name',
+                        hintText: 'Enter your Full Name',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your full name';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _emailController,
+                        labelText: 'Email',
+                        hintText: 'Enter your Email',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!_isValidEmail(value)) {
+                            return 'Please enter a valid email';
+                          }
+                          return null;
+                        },
+                      ),
+                      if (_emailController.text.isNotEmpty &&
+                          !_isValidEmail(_emailController.text))
+                        const Text(
+                          'Please enter a valid email',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _phoneNumberController,
+                        labelText: 'Phone Number',
+                        hintText: 'Enter your Phone Number',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your phone number';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField(
+                        controller: _addressController,
+                        labelText: 'Address',
+                        hintText: 'Enter your Address',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your address';
+                          }
+                          return null;
+                        },
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Step(
+                  title: const Text('Payment'),
+                  isActive: _currentStep >= 1,
+                  content: Column(
+                    children: [
+                      Text(
+                        'Product Name: ${widget.productName}',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Price: ${widget.price}',
+                        style: TextStyle(fontWeight: FontWeight.bold, color: TColo.primaryColor1),
+                      ),
+                      Text(
+                        'Full Name: ${_fullNameController.text}',
+                      ),
+                      Text(
+                        'Email: ${_emailController.text}',
+                      ),
+                      Text(
+                        'Phone Number: ${_phoneNumberController.text}',
+                      ),
+                      Text(
+                        'Address: ${_addressController.text}',
+                      ),
+                      const SizedBox(height: 16),
+                      CheckboxListTile(
+                        title: const Text('Cash on Delivery'),
+                        value: _isCashOnDeliverySelected,
+                        onChanged: (value) {
+                          setState(() {
+                            _isCashOnDeliverySelected = value!;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                Step(
+                  title: const Text('Confirm'),
+                  isActive: _currentStep >= 2,
+                  content: Column(
+                    children: [
+                       Text(
+                        'Product Name: ${widget.productName}',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        'Price: ${widget.price}',
+                        style: TextStyle(fontWeight: FontWeight.bold, color: TColo.primaryColor1),
+                      ),
+                      Text(
+                        'Full Name: ${_fullNameController.text}',
+                      ),
+                      Text(
+                        'Email: ${_emailController.text}',
+                      ),
+                      Text(
+                        'Phone Number: ${_phoneNumberController.text}',
+                      ),
+                      Text(
+                        'Address: ${_addressController.text}',
+                      ),
+                      Text('Payment Method : Cash on delivery'),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  bool _validateStep() {
+    switch (_currentStep) {
+      case 0:
+        if (_fullNameController.text.isEmpty ||
+            _emailController.text.isEmpty ||
+            _phoneNumberController.text.isEmpty ||
+            _addressController.text.isEmpty) {
+          return false;
+        }
+        break;
+    }
+    return true;
+  }
+
+  bool _isValidEmail(String email) {
+    String emailPattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
+    RegExp regExp = RegExp(emailPattern);
+    return regExp.hasMatch(email);
   }
 }
