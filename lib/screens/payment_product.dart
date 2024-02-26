@@ -1,6 +1,8 @@
+import 'package:blinking_text/blinking_text.dart';
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PaymentProducts extends StatefulWidget {
   final String productName;
@@ -78,8 +80,9 @@ class _PaymentProductsState extends State<PaymentProducts>
                   scrollDirection: Axis.horizontal,
                   itemCount: widget.imageURLs.length,
                   itemBuilder: (context, index) {
-                    final imageUrl =
-                        widget.imageURLs.isNotEmpty ? widget.imageURLs[index] : '';
+                    final imageUrl = widget.imageURLs.isNotEmpty
+                        ? widget.imageURLs[index]
+                        : '';
 
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -127,7 +130,7 @@ class _PaymentProductsState extends State<PaymentProducts>
                     }
                   }
                 } else {
-                  // Complete
+                  _showConfirmationDialog();
                 }
               },
               onStepCancel: () {
@@ -228,7 +231,9 @@ class _PaymentProductsState extends State<PaymentProducts>
                       ),
                       Text(
                         'Price: ${widget.price}',
-                        style: TextStyle(fontWeight: FontWeight.bold, color: TColo.primaryColor1),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: TColo.primaryColor1),
                       ),
                       Text(
                         'Full Name: ${_fullNameController.text}',
@@ -260,13 +265,15 @@ class _PaymentProductsState extends State<PaymentProducts>
                   isActive: _currentStep >= 2,
                   content: Column(
                     children: [
-                       Text(
+                      Text(
                         'Product Name: ${widget.productName}',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       Text(
                         'Price: ${widget.price}',
-                        style: TextStyle(fontWeight: FontWeight.bold, color: TColo.primaryColor1),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: TColo.primaryColor1),
                       ),
                       Text(
                         'Full Name: ${_fullNameController.text}',
@@ -280,7 +287,19 @@ class _PaymentProductsState extends State<PaymentProducts>
                       Text(
                         'Address: ${_addressController.text}',
                       ),
-                      Text('Payment Method : Cash on delivery'),
+                      const SizedBox(height: 16),
+                      const Text('Your order place with in 5 Days'),
+                      const SizedBox(height: 16),
+                      const BlinkText(
+                        'Payment Method: Cash on delivery',
+                        style: TextStyle(
+                            color: Colors.redAccent,
+                            fontWeight: FontWeight.bold),
+                        beginColor: Colors.black,
+                        endColor: Colors.orange,
+                        times: 50,
+                        duration: Duration(seconds: 1),
+                      ),
                     ],
                   ),
                 ),
@@ -290,6 +309,56 @@ class _PaymentProductsState extends State<PaymentProducts>
         ),
       ),
     );
+  }
+
+  void _showConfirmationDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confirmation'),
+          content: const Text('Are you sure you want to confirm the payment?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                _storePaymentData();
+                _clearFields();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Payment successful!'),
+                  ),
+                );
+                Navigator.of(context).pop(); 
+              },
+              child: const Text('Confirm'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _storePaymentData() {
+    // Store payment data in the Firestore collection
+    FirebaseFirestore.instance.collection('product_payment').add({
+      'productName': widget.productName,
+      'price': widget.price,
+      'fullName': _fullNameController.text,
+      'email': _emailController.text,
+      'phoneNumber': _phoneNumberController.text,
+      'address': _addressController.text,
+      'imageURLs': widget.imageURLs,
+    }).then((value) {
+      print('Payment data stored successfully');
+    }).catchError((error) {
+      print('Failed to store payment data: $error');
+    });
   }
 
   bool _validateStep() {
@@ -310,5 +379,16 @@ class _PaymentProductsState extends State<PaymentProducts>
     String emailPattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
     RegExp regExp = RegExp(emailPattern);
     return regExp.hasMatch(email);
+  }
+
+  void _clearFields() {
+    _fullNameController.clear();
+    _emailController.clear();
+    _phoneNumberController.clear();
+    _addressController.clear();
+    setState(() {
+      _isCashOnDeliverySelected = false;
+      _currentStep = 0;
+    });
   }
 }

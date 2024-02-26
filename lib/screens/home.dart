@@ -7,7 +7,6 @@ import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/footer_container.dart';
 import 'package:paws_and_tail/common/listview_horizontal.dart';
 import 'package:paws_and_tail/common/productcard.dart';
-import 'package:paws_and_tail/common/textform_refac.dart';
 import 'package:paws_and_tail/screens/events.dart';
 import 'package:paws_and_tail/screens/products.dart';
 import 'package:paws_and_tail/screens/login.dart';
@@ -15,7 +14,6 @@ import 'package:paws_and_tail/screens/user_account.dart';
 import 'package:paws_and_tail/screens/view_more_dog.dart';
 
 class HomeScreen extends StatelessWidget {
-  final TextEditingController _searchController = TextEditingController();
   int _currentIndex = 0;
   final List<Widget> _screens = [
     const ProductScreen(),
@@ -50,14 +48,6 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 45,
-                child: SearchTextField(
-                  controller: _searchController,
-                  labelText: 'Search',
-                  hintText: 'Search',
-                ),
-              ),
               StreamBuilder<QuerySnapshot>(
                 stream: FirebaseFirestore.instance
                     .collection('banners')

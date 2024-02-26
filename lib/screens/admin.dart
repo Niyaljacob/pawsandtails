@@ -6,6 +6,7 @@ import 'package:paws_and_tail/screens/add_dog_inventory.dart';
 import 'package:paws_and_tail/screens/add_view_dog_show.dart';
 import 'package:paws_and_tail/screens/add_view_product_inventory.dart';
 import 'package:paws_and_tail/screens/advertisement.dart';
+import 'package:paws_and_tail/screens/dog_sales.dart';
 import 'package:paws_and_tail/screens/list_product_category.dart';
 import 'package:paws_and_tail/screens/login.dart';
 
@@ -130,7 +131,16 @@ class _AdminHomeState extends State<AdminHome> {
                   return const AddViewDogShows();
                 }));
               },
-            )
+            ),
+            ListTile(
+              leading: const Icon(Icons.sell),
+              title: const Text('Dog Sales'),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                  return  DogSales();
+                }));
+              },
+            ),
           ],
         ),
       ),

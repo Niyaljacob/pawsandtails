@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
-import 'package:paws_and_tail/common/textform_refac.dart';
-import 'package:paws_and_tail/screens/accessoriesPage_user.dart';
+import 'package:paws_and_tail/screens/accessoriespage_user.dart';
 import 'package:paws_and_tail/screens/foodpage_user.dart';
 import 'package:paws_and_tail/screens/iotdevicespage_user.dart';
 import 'package:paws_and_tail/screens/vetitemspage_user.dart';
@@ -14,8 +13,9 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  final TextEditingController searchController = TextEditingController();
   int selectedIndex = 0;
+  String searchQuery = '';
+  String priceFilter = '';
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +31,8 @@ class _ProductScreenState extends State<ProductScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 45,
-                child: SearchTextField(
-                  controller: searchController,
-                  labelText: 'Search',
-                  hintText: 'Search',
-                ),
-              ),
+              const SizedBox(height: 10),
+              buildSearchBar(context),
               const SizedBox(height: 10),
               buildCategoriesRow(context),
               const SizedBox(height: 20),
@@ -53,13 +47,13 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget buildContent(BuildContext context) {
     switch (selectedIndex) {
       case 0:
-        return const FoodPage();
+        return FoodPage(searchQuery: searchQuery, priceFilter: priceFilter);
       case 1:
-        return VetItemsPage();
+        return VetItemsPage(searchQuery: searchQuery, priceFilter: priceFilter);
       case 2:
-        return const AccessoriesPage();
+        return AccessoriesPage(searchQuery: searchQuery, priceFilter: priceFilter);
       case 3:
-        return const IotDevicesPage();
+        return IotDevicesPage(searchQuery: searchQuery, priceFilter: priceFilter);
       default:
         return Container();
     }
@@ -105,6 +99,93 @@ class _ProductScreenState extends State<ProductScreen> {
           buildCategoryButton(context, 'assets/button4.png', 'IOT device', 3),
         ],
       ),
+    );
+  }
+
+  Widget buildSearchBar(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: SizedBox(
+        height: 45,
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                onChanged: (value) {
+                  setState(() {
+                    searchQuery = value;
+                  });
+                },
+                decoration: InputDecoration(
+                  hintText: 'Search products...',
+                  prefixIcon: const Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.filter_list),
+              onPressed: () {
+                _showPriceFilterDialog(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showPriceFilterDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Filter by Price'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                title: const Text('Less than Rs 500'),
+                onTap: () {
+                  setState(() {
+                    priceFilter = '<500';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Less than Rs 1k'),
+                onTap: () {
+                  setState(() {
+                    priceFilter = '<1000';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('More than Rs 1.5k'),
+                onTap: () {
+                  setState(() {
+                    priceFilter = '>1500';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                title: const Text('Clear Filter'),
+                onTap: () {
+                  setState(() {
+                    priceFilter = '';
+                  });
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

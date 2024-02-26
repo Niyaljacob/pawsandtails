@@ -7,7 +7,9 @@ import 'package:paws_and_tail/common/stat.dart';
 import 'package:paws_and_tail/screens/accessories_popular_details_user.dart';
 import 'package:paws_and_tail/screens/accessories_recommended_user.dart';
 class AccessoriesPage extends StatelessWidget {
-  const AccessoriesPage({super.key});
+  final String searchQuery;
+  final String priceFilter;
+  const AccessoriesPage({super.key, required this.searchQuery, required this.priceFilter});
 
   @override
   Widget build(BuildContext context) {
@@ -208,108 +210,121 @@ class AccessoriesPage extends StatelessWidget {
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
         ),
-        StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('Accessories').snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+       StreamBuilder(
+  stream: FirebaseFirestore.instance.collection('Accessories').snapshots(),
+  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
 
-            if (snapshot.hasError) {
-              return Center(
-                child: Text('Error: ${snapshot.error}'),
-              );
-            }
+    if (snapshot.hasError) {
+      return Center(
+        child: Text('Error: ${snapshot.error}'),
+      );
+    }
 
-            return GridView.count(
-              crossAxisCount: 2,
-              padding: const EdgeInsets.all(8.0),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                Map<String, dynamic> data =
-                    document.data() as Map<String, dynamic>;
+    // Filter documents based on the search query
+    final List<DocumentSnapshot> filteredDocs = snapshot.data!.docs.where((doc) {
+      return doc['productName'].toString().toLowerCase().contains(searchQuery.toLowerCase());
+    }).toList();
 
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AccessoriesRecommendedDetailsUser(
-                          productId: document.id,
-                          productName: data['productName'] ?? '',
-                          imageURLs: data['imageURLs'] != null &&
-                                  data['imageURLs'] is List<dynamic>
-                              ? (data['imageURLs'] as List<dynamic>)
-                                  .cast<String>()
-                              : [], 
-                        ),
-                      ),
-                    );
-                  },
-                  child: Card(color: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16.0),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(16.0),
-                            topRight: Radius.circular(16.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Center(
-                              child:  CachedNetworkImage(
-                                imageUrl: data['imageURLs'] != null &&
-                                        data['imageURLs'] is List<dynamic>
-                                    ? (data['imageURLs'] as List<dynamic>)
-                                            .isNotEmpty
-                                        ? (data['imageURLs']
-                                            as List<dynamic>)[0]
-                                        : ''
-                                    : '',
-                                placeholder: (context, url) =>
-                                    const Center(child: CircularProgressIndicator()),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                                width: 90,
-                                height: 100,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data['productName'] ?? '',
-                                style: const TextStyle(fontWeight: FontWeight.bold),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              Text(
-                                'Rs ${data['price'] ?? ''}',
-                                style: const TextStyle(color: Colors.green),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
+    // Apply price filter
+    if (priceFilter == '<500') {
+      filteredDocs.retainWhere((doc) => (doc['price'] ?? 0) < 500);
+    } else if (priceFilter == '<1000') {
+      filteredDocs.retainWhere((doc) => (doc['price'] ?? 0) < 1000);
+    } else if (priceFilter == '>1500') {
+      filteredDocs.retainWhere((doc) => (doc['price'] ?? 0) > 1500);
+    }
+
+    if (filteredDocs.isEmpty) {
+      return const Center(
+        child: Text('No items found'),
+      );
+    }
+
+    return GridView.count(
+      crossAxisCount: 2,
+      padding: const EdgeInsets.all(8.0),
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      children: filteredDocs.map((DocumentSnapshot document) {
+        Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AccessoriesRecommendedDetailsUser(
+                  productId: document.id,
+                  productName: data['productName'] ?? '',
+                  imageURLs: data['imageURLs'] != null && data['imageURLs'] is List<dynamic>
+                      ? (data['imageURLs'] as List<dynamic>).cast<String>()
+                      : [], // Convert imageURLs to List<String>
+                ),
+              ),
             );
           },
-        ),
+          child: Card(
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(16.0),
+                    topRight: Radius.circular(16.0),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Center(
+                      child: CachedNetworkImage(
+                        imageUrl: data['imageURLs'] != null && data['imageURLs'] is List<dynamic>
+                            ? (data['imageURLs'] as List<dynamic>).isNotEmpty
+                                ? (data['imageURLs'] as List<dynamic>)[0]
+                                : ''
+                            : '',
+                        placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                        width: 90,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        data['productName'] ?? '',
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        'Rs ${data['price'] ?? ''}',
+                        style: const TextStyle(color: Colors.green),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  },
+),
       ],
     );
   }
