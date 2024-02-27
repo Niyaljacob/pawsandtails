@@ -7,6 +7,9 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:paws_and_tail/screens/login.dart';
+import 'package:paws_and_tail/screens/my_orders.dart';
+import 'package:paws_and_tail/screens/privacy_policies.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -120,6 +123,16 @@ class _AccountScreenState extends State<AccountScreen> {
       appBar: AppBar(
         title: const Text('Account'),
         backgroundColor: TColo.primaryColor1,
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -185,6 +198,78 @@ class _AccountScreenState extends State<AccountScreen> {
           ],
         ),
       ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: TColo.primaryColor1,
+              ),
+              child: const Text(
+                'Paws & Tails',
+                style: TextStyle(fontWeight: FontWeight.w800,
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              title: const Text('My Orders'),
+              onTap: () {
+                 Navigator.of(context).push(MaterialPageRoute(builder: (_){
+                  return const MyOrders();
+                }));
+              },
+            ),
+            ListTile(
+              title: const Text('Privacy Policies'),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_){
+                  return const PrivacyPolicies();
+                }));
+              },
+            ),
+            ListTile(
+              title: const Text('Log Out'),
+              onTap: () {
+                _showSignOutDialog(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+   void _showSignOutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Sign Out'),
+          content: const Text('Are you sure you want to sign out?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                    builder: (_) => LoginScreen(),
+                  ),
+                  (Route<dynamic> route) => false,
+                );
+              },
+              child: const Text('Sign Out'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

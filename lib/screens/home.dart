@@ -29,14 +29,6 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 237, 237, 237),
       appBar: AppBar(
         backgroundColor: TColo.primaryColor1,
-        actions: [
-          IconButton(
-            onPressed: () {
-              _showSignOutDialog(context);
-            },
-            icon: const Icon(Icons.exit_to_app),
-          )
-        ],
         title: Padding(
           padding: const EdgeInsets.only(top: 35),
           child: Image.asset('assets/logomini.png'),
@@ -233,35 +225,5 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  void _showSignOutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Sign Out'),
-          content: const Text('Are you sure you want to sign out?'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (_) => LoginScreen(),
-                  ),
-                  (Route<dynamic> route) => false,
-                );
-              },
-              child: const Text('Sign Out'),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  
 }
