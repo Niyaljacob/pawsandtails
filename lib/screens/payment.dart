@@ -207,6 +207,7 @@ class _PaymentState extends State<Payment>
                       ),
                       const SizedBox(height: 20),
                       CustomTextField(
+                        
                         controller: _addressController,
                         labelText: 'Address',
                         hintText: 'Enter your Address',
@@ -216,6 +217,7 @@ class _PaymentState extends State<Payment>
                           }
                           return null;
                         },
+                        
                       ),
                     ],
                   ),
@@ -223,7 +225,7 @@ class _PaymentState extends State<Payment>
                 Step(
                   title: const Text('Payment'),
                   isActive: _currentStep >= 1,
-                  content: Column(
+                  content: Column(crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Product Name: ${widget.dogName}',
@@ -263,7 +265,7 @@ class _PaymentState extends State<Payment>
                 Step(
                   title: const Text('Confirm'),
                   isActive: _currentStep >= 2,
-                  content: Column(
+                  content: Column(crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Product Name: ${widget.dogName}',
@@ -300,6 +302,8 @@ class _PaymentState extends State<Payment>
                         times: 50,
                         duration: Duration(seconds: 1),
                       ),
+                      const SizedBox(height: 16),
+                       const Text('The order will be delivered once the administrator approves it.',style: TextStyle(color: Colors.red),),
                     ],
                   ),
                 ),
@@ -317,7 +321,7 @@ class _PaymentState extends State<Payment>
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Confirmation'),
-          content: const Text('Are you sure you want to confirm the payment?'),
+          content: const Text('Are you sure you want to confirm the Order?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -325,7 +329,7 @@ class _PaymentState extends State<Payment>
                 _clearFields();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
-                    content: Text('Payment successful!'),
+                    content: Text('Order placed successfully!'),
                   ),
                 );
                 Navigator.of(context).pop(); 

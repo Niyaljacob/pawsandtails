@@ -13,6 +13,7 @@ class CustomTextField extends StatelessWidget {
   final Function(String)? onChanged;
   final FormFieldValidator<String>? validator;
 
+
   const CustomTextField({super.key, 
     required this.controller,
     required this.labelText,
@@ -39,6 +40,7 @@ class CustomTextField extends StatelessWidget {
         onFieldSubmitted: onFieldSubmitted,
         onChanged: onChanged,
         validator: validator,
+        
         decoration: InputDecoration(
           labelText: labelText,
           hintText: hintText,

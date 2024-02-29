@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:paws_and_tail/screens/dog_accepte.dart';
-import 'package:paws_and_tail/screens/dog_decline.dart';
-import 'package:paws_and_tail/screens/dog_oders.dart';
+import 'package:paws_and_tail/screens/product_acceptes.dart';
+import 'package:paws_and_tail/screens/product_decline.dart';
+import 'package:paws_and_tail/screens/product_oders.dart';
 
-class DogSales extends StatelessWidget {
-  const DogSales({Key? key}) : super(key: key);
+class ProductSale extends StatelessWidget {
+  const ProductSale({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +12,8 @@ class DogSales extends StatelessWidget {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          title: const Text('Product Sales'),
           backgroundColor: const Color.fromARGB(255, 96, 182, 252),
-          title: const Text('Dog Sales'),
           bottom: const TabBar(
             tabs: [
               Tab(text: 'Orders'),
@@ -22,11 +22,11 @@ class DogSales extends StatelessWidget {
             ],
           ),
         ),
-        body: const TabBarView(
+        body: TabBarView(
           children: [
-            DogOrders(),
-            DogAcceptes(),
-            DogDecline(),
+            ProductOrders(),
+           ProductAcceptes(),
+           ProductDecline(),
           ],
         ),
       ),

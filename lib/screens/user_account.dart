@@ -8,7 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:paws_and_tail/screens/login.dart';
-import 'package:paws_and_tail/screens/my_orders.dart';
+import 'package:paws_and_tail/screens/my_order.dart';
+import 'package:paws_and_tail/screens/my_products.dart';
 import 'package:paws_and_tail/screens/privacy_policies.dart';
 
 class AccountScreen extends StatefulWidget {
@@ -215,10 +216,18 @@ class _AccountScreenState extends State<AccountScreen> {
               ),
             ),
             ListTile(
-              title: const Text('My Orders'),
+              title: const Text('My Dogs'),
               onTap: () {
                  Navigator.of(context).push(MaterialPageRoute(builder: (_){
                   return const MyOrders();
+                }));
+              },
+            ),
+            ListTile(
+              title: const Text('My Products'),
+              onTap: () {
+                 Navigator.of(context).push(MaterialPageRoute(builder: (_){
+                  return const MyProducts();
                 }));
               },
             ),

@@ -29,37 +29,44 @@ class _AddDogShowState extends State<AddDogShow> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CarouselSlider(
-              options: CarouselOptions(
-                aspectRatio: 16 / 9,
-                viewportFraction: 1.0,
-                initialPage: 0,
-                enableInfiniteScroll: false,
-                autoPlay: false,
-              ),
-              items: selectedImages.map((image) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return Stack(
-                      children: [
-                        Image.file(File(image.path)),
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: IconButton(
-                            onPressed: () {
-                              deleteImage(image);
-                            },
-                            icon: const Icon(Icons.delete),
-                            color: Colors.red,
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              }).toList(),
-            ),
+           CarouselSlider(
+  options: CarouselOptions(
+    aspectRatio: 16 / 9,
+    viewportFraction: 1.0,
+    initialPage: 0,
+    enableInfiniteScroll: false,
+    autoPlay: false,
+  ),
+  items: selectedImages.isNotEmpty
+      ? selectedImages.map((image) {
+          return Builder(
+            builder: (BuildContext context) {
+              return Stack(
+                children: [
+                  Image.file(File(image.path)),
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: IconButton(
+                      onPressed: () {
+                        deleteImage(image);
+                      },
+                      icon: const Icon(Icons.delete),
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        }).toList()
+      : [
+          const Center(
+            child: Text('Select an image'),
+          ),
+        ],
+),
+
             ElevatedButton(style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.blue)),

@@ -9,7 +9,7 @@ import 'package:paws_and_tail/screens/advertisement.dart';
 import 'package:paws_and_tail/screens/dog_sales.dart';
 import 'package:paws_and_tail/screens/list_product_category.dart';
 import 'package:paws_and_tail/screens/login.dart';
-import 'package:paws_and_tail/screens/product_sale.dart';
+import 'package:paws_and_tail/screens/product_sales.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({Key? key}) : super(key: key);

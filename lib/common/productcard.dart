@@ -172,133 +172,133 @@ class _ProductCardViewMoreState extends State<ProductCardViewMore> {
           ],
         ),
         const SizedBox(height: 15),
-        StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance.collection('dogDetails').snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(color: TColo.gray);
-            }
+       StreamBuilder<QuerySnapshot>(
+  stream: FirebaseFirestore.instance.collection('dogDetails').snapshots(),
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return CircularProgressIndicator(color: TColo.gray);
+    }
 
-            final dogs = snapshot.data!.docs;
-            // Filter the list based on the search query and selected price filter
-            final filteredDogs = dogs.where((dog) {
-              final nameMatch = dog['name'].toString().toLowerCase().contains(_searchQuery.toLowerCase());
-              final priceMatch = _filterPrice(dog['price']);
-              return nameMatch && priceMatch;
-            }).toList();
+    final dogs = snapshot.data!.docs;
+    final filteredDogs = dogs.where((dog) {
+      final nameMatch = dog['name'].toString().toLowerCase().contains(_searchQuery.toLowerCase());
+      final priceMatch = _filterPrice(dog['price']);
+      return nameMatch && priceMatch;
+    }).toList();
 
-            return GridView.builder(
-  shrinkWrap: true,
-  physics: const NeverScrollableScrollPhysics(),
-  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-    crossAxisCount: 2,
-    crossAxisSpacing: 8,
-    mainAxisSpacing: 8,
-  ),
-  itemCount: filteredDogs.length,
-  itemBuilder: (context, index) {
     if (filteredDogs.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
           'No items found',
           style: TextStyle(fontSize: 16),
         ),
       );
     }
-    var dog = filteredDogs[index];
-    String dogId = dog.id;
-    String dogName = dog['name'];
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-          return DogDetails(
-            dogId: dogId,
-            dogName: dogName,
-          );
-        }));
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
-        ),
-        child: Column(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 5),
-                  child: CachedNetworkImage(
-                    imageUrl: dog['imageurls'][0],
-                    height: 80,
-                    width: 100,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
-                const SizedBox(height: 1),
-                Text(
-                  dogName,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  'Rs ${dog['price'] ?? 'N/A'}',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: TColo.primaryColor1,
-                  ),
-                ),
-                const Divider(),
-              ],
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 8,
+        mainAxisSpacing: 8,
+      ),
+      itemCount: filteredDogs.length,
+      itemBuilder: (context, index) {
+        var dog = filteredDogs[index];
+        String dogId = dog.id;
+        String dogName = dog['name'];
+
+        return GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+              return DogDetails(
+                dogId: dogId,
+                dogName: dogName,
+              );
+            }));
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
             ),
-            GestureDetector(
-              onTap: () {
-                // Handle onTap function here
-                // For example, add the product to the cart
-              },
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.03,
-                width: MediaQuery.of(context).size.width * 0.3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: const Row(
+            child: Column(
+              children: [
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
-                      Icons.shopping_bag_outlined,
-                      color: Colors.green,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: CachedNetworkImage(
+                        imageUrl: dog['imageurls'][0],
+                        height: 80,
+                        width: 100,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
+                      ),
                     ),
-                    SizedBox(width: 8),
+                    const SizedBox(height: 1),
                     Text(
-                      'Add to Cart',
-                      style: TextStyle(
-                        color: Colors.black,
+                      dogName,
+                      style: const TextStyle(
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    Text(
+                      'Rs ${dog['price'] ?? 'N/A'}',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: TColo.primaryColor1,
+                      ),
+                    ),
+                    const Divider(),
                   ],
                 ),
-              ),
+                GestureDetector(
+                  onTap: () {
+                    // Handle onTap function here
+                    // For example, add the product to the cart
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.03,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.shopping_bag_outlined,
+                          color: Colors.green,
+                        ),
+                        SizedBox(width: 8),
+                        Text(
+                          'Add to Cart',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   },
-);
+),
 
-          },
-        ),
       ],
     );
   }

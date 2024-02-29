@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:paws_and_tail/common/registraction_form_page.dart';
 import 'package:paws_and_tail/screens/login.dart';
 import 'package:paws_and_tail/common/button_refac.dart';
 
@@ -31,13 +30,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _register() async {
     try {
       if (_formKey.currentState!.validate()) {
+        print('Form validation successful');
+
         UserCredential userCredential =
             await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
 
+        print('User created successfully');
+
         String imageUrl = await _uploadImage();
+
+        print('Image uploaded successfully');
 
         await FirebaseFirestore.instance
             .collection('users')
@@ -48,9 +53,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           'phoneNumber': _phoneController.text,
           'age': _ageController.text,
           'gender': _genderController.text,
-          'address': _addressController.text,
+          'address':
+              _addressController.text, 
           'imageUrl': imageUrl,
         });
+
+        print('User data stored in Firestore');
 
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
@@ -64,6 +72,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
       }
+    } catch (error) {
+      print('Error during registration: $error');
     }
   }
 
@@ -92,40 +102,164 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.grey,
+    return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/register_img.png'),
-                fit: BoxFit.cover,
+          child: Column(
+            children: [
+              const Text(
+                'Create an Account',
+                style: TextStyle(fontSize: 25),
               ),
-            ),
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              children: [
-                const Text(
-                  'Create an Account',
-                  style: TextStyle(fontSize: 25),
+              GestureDetector(
+                onTap: _getImage,
+                child: CircleAvatar(
+                  backgroundColor: const Color.fromARGB(255, 228, 228, 228),
+                  radius: 60,
+                  backgroundImage: _image != null ? FileImage(_image!) : null,
+                  child: _image == null
+                      ? const Icon(Icons.add_a_photo, size: 40)
+                      : null,
                 ),
-                GestureDetector(
-                  onTap: _getImage,
-                  child: CircleAvatar(backgroundColor: const Color.fromARGB(255, 228, 228, 228),
-                    radius: 60,
-                    backgroundImage: _image != null ? FileImage(_image!) : null,
-                    child:
-                        _image == null ? const Icon(Icons.add_a_photo, size: 40) : null,
-                  ),
-                ),
-                const SizedBox(height: 20.0),
-                const SizedBox(height: 20.0),
-                const SizedBox(height: 15.0),
-                Form(
-                  key: _formKey,
+              ),
+              const SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
+              const SizedBox(height: 15.0),
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                     RegistrationFormPage(),
+                      // Username field
+                      TextFormField(
+                        controller: _usernameController,
+                        decoration: InputDecoration(
+                          labelText: 'Username',
+                          hintText: 'Enter your username',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your username';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15.0),
+                      // Email field
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          hintText: 'Enter your email',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          }
+                          // Add email validation if necessary
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15.0),
+                      // Password field
+                      TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          hintText: 'Enter your password',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          // Add password validation if necessary
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15.0),
+                      // Gender field
+                      TextFormField(
+                        controller: _genderController,
+                        decoration: InputDecoration(
+                          labelText: 'Gender',
+                          hintText: 'Enter your gender',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your gender';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15.0),
+                      // Phone number field
+                      TextFormField(
+                        controller: _phoneController,
+                        decoration: InputDecoration(
+                          labelText: 'Phone Number',
+                          hintText: 'Enter your phone number',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your phone number';
+                          }
+                          // Add phone number validation if necessary
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15.0),
+                      // Age field
+                      TextFormField(
+                        controller: _ageController,
+                        decoration: InputDecoration(
+                          labelText: 'Age',
+                          hintText: 'Enter your age',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your age';
+                          }
+                          // Add age validation if necessary
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 15.0),
+                      TextFormField(
+                        controller: _addressController,
+                        decoration: InputDecoration(
+                          labelText: 'Address',
+                          hintText: 'Enter your Address',
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your Address';
+                          }
+                          return null;
+                        },
+                      ),
                       const SizedBox(
                         height: 25,
                       ),
@@ -148,11 +282,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           const SizedBox(width: 4),
                           TextButton(
                             onPressed: () {
-                              Navigator.of(context).pushAndRemoveUntil(
+                              Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (_) => LoginScreen(),
                                 ),
-                                (Route<dynamic> route) => false,
                               );
                             },
                             child: const Text(
@@ -168,8 +301,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
