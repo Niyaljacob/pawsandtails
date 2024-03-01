@@ -21,7 +21,7 @@ class MyProducts extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             ProductsAcceptesUser(),
             ProductsDeclineUser(),

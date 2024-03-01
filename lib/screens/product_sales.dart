@@ -22,7 +22,7 @@ class ProductSale extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             ProductOrders(),
            ProductAcceptes(),

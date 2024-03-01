@@ -8,7 +8,7 @@ import 'package:paws_and_tail/screens/user_account.dart';
 
 class BottomNav extends StatefulWidget {
 
- BottomNav({super.key});
+ const BottomNav({super.key});
 
   @override
   State<BottomNav> createState() => _BottomNavState();
@@ -21,9 +21,9 @@ class _BottomNavState extends State<BottomNav> {
   Widget build(BuildContext context) {
     List pages = [
       HomeScreen(),
-      ProductScreen(),
-      DogShowList(),
-      AccountScreen(),
+      const ProductScreen(),
+      const DogShowList(),
+      const AccountScreen(),
     ];
     return Scaffold(
       body: pages[selectedTab],

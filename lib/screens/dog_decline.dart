@@ -6,7 +6,7 @@ class DogDecline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: DogDeclineProducts(),
     );
   }
@@ -67,7 +67,7 @@ class DogDeclineProducts extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
+                        child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.6,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

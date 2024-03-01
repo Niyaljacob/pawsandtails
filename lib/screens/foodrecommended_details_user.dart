@@ -143,6 +143,33 @@ class FoodRecommendedDetailsUser extends StatelessWidget {
                         style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: TColo.primaryColor1),
                       ),
                       const Divider(),
+                       SizedBox(
+      height: 80,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Icon(
+                  _getIconForIndex(index),
+                  size: 30,
+                  color:Color.fromARGB(255, 78, 172, 81), // Customize icon color here
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  _getTextForIndex(index),
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    ),
+    const Divider(),
                       _buildDetailItem('Brand Name', brandName),
                       _buildDetailItem('Details', details),
                       const SizedBox(height: 25),
@@ -205,3 +232,32 @@ class FoodRecommendedDetailsUser extends StatelessWidget {
   }
 }
 
+IconData _getIconForIndex(int index) {
+    switch (index) {
+      case 0:
+        return Icons.local_shipping; // Free Delivery icon
+      case 1:
+        return Icons.payment; // Pay on Delivery icon
+      case 2:
+        return Icons.block; // Non-returnable icon
+      case 3:
+        return Icons.delivery_dining; // Paws & Tails Delivered icon
+      default:
+        return Icons.error;
+    }
+  }
+
+  String _getTextForIndex(int index) {
+    switch (index) {
+      case 0:
+        return 'Free Delivery';
+      case 1:
+        return 'Pay on Delivery';
+      case 2:
+        return 'Non-returnable';
+      case 3:
+        return 'Paws & Tails Delivered';
+      default:
+        return '';
+    }
+  }

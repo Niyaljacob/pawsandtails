@@ -138,7 +138,7 @@ class _AdminHomeState extends State<AdminHome> {
               title: const Text('Dog Sales'),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                  return  DogSales();
+                  return  const DogSales();
                 }));
               },
             ),
@@ -147,7 +147,7 @@ class _AdminHomeState extends State<AdminHome> {
               title: const Text('Product Sales'),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                  return  ProductSale();
+                  return  const ProductSale();
                 }));
               },
             ),

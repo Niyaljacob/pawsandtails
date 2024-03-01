@@ -11,7 +11,7 @@ class DogAcceptes extends StatelessWidget {
         stream: FirebaseFirestore.instance.collection('accepted').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -36,7 +36,7 @@ class DogAcceptes extends StatelessWidget {
               final String address = document['address'];
 
               return Card(
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 child: ListTile(
                   leading: Image.network(
                     imageUrls[0],

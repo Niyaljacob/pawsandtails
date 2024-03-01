@@ -1,4 +1,5 @@
 import 'package:blinking_text/blinking_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/textform_refac.dart';
@@ -85,22 +86,17 @@ class _PaymentProductsState extends State<PaymentProducts>
                         : '';
 
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: imageUrl.isNotEmpty
-                          ? Image.network(
-                              imageUrl,
-                              errorBuilder: (context, error, stackTrace) {
-                                // Handle image loading errors
-                                print('Error loading image: $error');
-                                return const Icon(Icons.error);
-                              },
-                            )
-                          : Container(
-                              width: 100,
-                              height: 100,
-                              color: Colors.grey,
-                            ),
-                    );
+          padding: const EdgeInsets.all(8.0),
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            width: 100,
+            height: 100,
+            placeholder: (context, url) => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          ),
+        );
                   },
                 ),
               ),

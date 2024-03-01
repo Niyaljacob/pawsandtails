@@ -20,7 +20,7 @@ class AddViewDogShows extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             AddDogShow(),
             DogShowList(),

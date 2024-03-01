@@ -18,7 +18,7 @@ class DogDeclineUser extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -29,6 +29,16 @@ class DogDeclineUser extends StatelessWidget {
           }
 
           final List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
+
+          if (documents.isEmpty) {
+            return const Center(
+              child: Text(
+                'No items to display',
+                style: TextStyle(fontSize: 16),
+              ),
+            );
+          }
+
 
           return ListView.builder(
             itemCount: documents.length,
@@ -44,8 +54,8 @@ class DogDeclineUser extends StatelessWidget {
               final String address = document['address'];
 
               return Container(
-                margin: EdgeInsets.all(10),
-                padding: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(10),
@@ -54,7 +64,7 @@ class DogDeclineUser extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Left side: Image
-                    Container(
+                    SizedBox(
                       width: 100,
                       height: 100,
                       child: Image.network(
@@ -62,7 +72,7 @@ class DogDeclineUser extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     // Right side: Details
                     Expanded(
                       child: Column(
@@ -70,17 +80,17 @@ class DogDeclineUser extends StatelessWidget {
                         children: [
                           Text(
                             'Dog Name: $dogName',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text('Price: Rs $price'),
                               Text('Full Name: $fullName'),
                               Text('Email: $email'),
                               Text('Phone Number: $phoneNumber'),
                               Text('Address: $address'),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text(
                             'Message: $message',
-                            style: TextStyle(color: Colors.red),
+                            style: const TextStyle(color: Colors.red),
                           ),
                         ],
                       ),

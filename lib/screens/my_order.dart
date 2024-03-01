@@ -21,7 +21,7 @@ class MyOrders extends StatelessWidget {
             ],
           ),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             DogAcceptesUser(),
             DogDeclineUser(),

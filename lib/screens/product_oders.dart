@@ -6,7 +6,7 @@ class ProductOrders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: ProductSales(),
     );
   }
@@ -64,7 +64,7 @@ class ProductSales extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       const SizedBox(width: 10),
-                      Container(
+                      SizedBox(
                         width: MediaQuery.of(context).size.width * 0.6,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,7 +153,7 @@ class ProductSales extends StatelessWidget {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              TextEditingController _messageController =
+                              TextEditingController messageController =
                                   TextEditingController();
                               return AlertDialog(
                                 title: const Text('Decline Order'),
@@ -161,8 +161,8 @@ class ProductSales extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     TextField(
-                                      controller: _messageController,
-                                      decoration: InputDecoration(
+                                      controller: messageController,
+                                      decoration: const InputDecoration(
                                         labelText: 'Message',
                                         hintText: 'Enter your message here',
                                       ),
@@ -180,7 +180,7 @@ class ProductSales extends StatelessWidget {
                                   TextButton(
                                     onPressed: () {
                                       String message =
-                                          _messageController.text.trim();
+                                          messageController.text.trim();
                                       if (message.isNotEmpty) {
                                         // Move details to 'dog_decline' collection
                                         FirebaseFirestore.instance

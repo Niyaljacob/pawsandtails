@@ -30,6 +30,16 @@ class DogAcceptesUser extends StatelessWidget {
 
           final List<QueryDocumentSnapshot> documents = snapshot.data!.docs;
 
+          if (documents.isEmpty) {
+            return const Center(
+              child: Text(
+                'No items to display',
+                style: TextStyle(fontSize: 16),
+              ),
+            );
+          }
+
+
           return ListView.builder(
             itemCount: documents.length,
             itemBuilder: (context, index) {

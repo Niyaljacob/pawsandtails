@@ -187,7 +187,7 @@ class _ProductCardViewMoreState extends State<ProductCardViewMore> {
     }).toList();
 
     if (filteredDogs.isEmpty) {
-      return Center(
+      return const Center(
         child: Text(
           'No items found',
           style: TextStyle(fontSize: 16),

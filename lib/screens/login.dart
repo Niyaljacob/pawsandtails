@@ -34,7 +34,7 @@ class LoginScreen extends StatelessWidget {
       // ignore: use_build_context_synchronously
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (_) => BottomNav(),
+          builder: (_) => const BottomNav(),
         ),
       );
     }

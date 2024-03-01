@@ -2,14 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/footer_container.dart';
 import 'package:paws_and_tail/common/listview_horizontal.dart';
 import 'package:paws_and_tail/common/productcard.dart';
 import 'package:paws_and_tail/screens/events.dart';
 import 'package:paws_and_tail/screens/products.dart';
-import 'package:paws_and_tail/screens/login.dart';
 import 'package:paws_and_tail/screens/user_account.dart';
 import 'package:paws_and_tail/screens/view_more_dog.dart';
 

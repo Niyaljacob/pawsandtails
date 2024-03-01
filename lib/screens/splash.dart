@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen>
       if (user != null) {
         // User is logged in, navigate to Home
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => BottomNav()),
+          MaterialPageRoute(builder: (_) => const BottomNav()),
         );
       } else {
         // User is not logged in, navigate to Intro
