@@ -118,9 +118,9 @@ class _UpdateDogShowState extends State<UpdateDogShow> {
                 }),
               ],
             ),
-            ElevatedButton(
+            ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
               onPressed: getImage,
-              child: const Text('Select New Image'),
+              child: const Text('Select New Image',style: TextStyle(color: Colors.white),),
             ),
             TextFormField(
               controller: showNameController,
@@ -148,9 +148,9 @@ class _UpdateDogShowState extends State<UpdateDogShow> {
               keyboardType: TextInputType.number,
             ),
             const SizedBox(height: 20.0),
-            ElevatedButton(
+            ElevatedButton(style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
               onPressed: updateDogShowEvent,
-              child: const Text('Update'),
+              child: const Text('Update',style: TextStyle(color: Colors.white),),
             ),
           ],
         ),

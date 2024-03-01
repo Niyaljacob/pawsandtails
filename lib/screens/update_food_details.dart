@@ -1,25 +1,27 @@
 import 'dart:io';
 
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:paws_and_tail/common/color_extention.dart';
 
 class FoodDetails extends StatefulWidget {
   final String foodId;
   final String foodName;
 
-  const FoodDetails({Key? key, required this.foodId, required this.foodName}) : super(key: key);
+  const FoodDetails({Key? key, required this.foodId, required this.foodName})
+      : super(key: key);
 
   @override
   _FoodDetailsState createState() => _FoodDetailsState();
 }
 
 class _FoodDetailsState extends State<FoodDetails> {
-  List<String> imageURLs = []; 
-  List<XFile> selectedImages = []; 
+  List<String> imageURLs = [];
+  List<XFile> selectedImages = [];
   TextEditingController productNameController = TextEditingController();
   TextEditingController brandNameController = TextEditingController();
   TextEditingController priceController = TextEditingController();
@@ -52,7 +54,13 @@ class _FoodDetailsState extends State<FoodDetails> {
                     builder: (BuildContext context) {
                       return Stack(
                         children: [
-                          Image.network(url),
+                          CachedNetworkImage(
+                            imageUrl: url,
+                            placeholder: (context, url) =>
+                                const Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) =>
+                                 Icon(Icons.error,color: TColo.primaryColor1,),
+                          ),
                           Positioned(
                             top: 8,
                             right: 8,
@@ -93,14 +101,20 @@ class _FoodDetailsState extends State<FoodDetails> {
                 })
               ],
             ),
-
             ElevatedButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue)),
               onPressed: getImage,
-              child: const Text('Select New Image',style: TextStyle(color:Colors.white),),
+              child: const Text(
+                'Select New Image',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
             const Divider(),
-            const SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
             TextFormField(
               controller: productNameController,
               decoration: const InputDecoration(labelText: 'Product Name'),
@@ -112,7 +126,7 @@ class _FoodDetailsState extends State<FoodDetails> {
             TextFormField(
               controller: priceController,
               decoration: const InputDecoration(labelText: 'Price'),
-               keyboardType: TextInputType.number,
+              keyboardType: TextInputType.number,
             ),
             TextFormField(
               controller: detailsController,
@@ -129,9 +143,14 @@ class _FoodDetailsState extends State<FoodDetails> {
               },
             ),
             ElevatedButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.blue)),
               onPressed: updateFoodDetails,
-              child: const Text('Update',style: TextStyle(color: Colors.white),),
+              child: const Text(
+                'Update',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           ],
         ),
@@ -147,9 +166,12 @@ class _FoodDetailsState extends State<FoodDetails> {
 
   Future<void> fetchFoodDetails() async {
     try {
-      DocumentSnapshot documentSnapshot =
-          await FirebaseFirestore.instance.collection('Food').doc(widget.foodId).get();
-      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+      DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+          .collection('Food')
+          .doc(widget.foodId)
+          .get();
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
       setState(() {
         imageURLs = List<String>.from(data['imageURLs']);
         productNameController.text = data['productName'];
@@ -164,7 +186,8 @@ class _FoodDetailsState extends State<FoodDetails> {
 
   void getImage() async {
     final picker = ImagePicker();
-    final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final XFile? pickedFile =
+        await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
         selectedImages.add(pickedFile);
@@ -220,7 +243,10 @@ class _FoodDetailsState extends State<FoodDetails> {
         updatedImageURLs.add(imageURL);
       }
 
-      await FirebaseFirestore.instance.collection('Food').doc(widget.foodId).update({
+      await FirebaseFirestore.instance
+          .collection('Food')
+          .doc(widget.foodId)
+          .update({
         'productName': productNameController.text,
         'brandName': brandNameController.text,
         'price': double.parse(priceController.text),
@@ -228,10 +254,14 @@ class _FoodDetailsState extends State<FoodDetails> {
         'imageURLs': updatedImageURLs,
       });
 
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Food details updated')));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Food details updated')));
 
       if (addToPopularItems) {
-        await FirebaseFirestore.instance.collection('FoodPopular').doc(widget.foodId).set({
+        await FirebaseFirestore.instance
+            .collection('FoodPopular')
+            .doc(widget.foodId)
+            .set({
           'productName': productNameController.text,
           'brandName': brandNameController.text,
           'price': double.parse(priceController.text),
@@ -240,7 +270,8 @@ class _FoodDetailsState extends State<FoodDetails> {
         });
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to update food details')));
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update food details')));
     }
   }
 }

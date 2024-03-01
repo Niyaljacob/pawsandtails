@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
@@ -52,11 +53,16 @@ class IotDeviceList extends StatelessWidget {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    data['imageURLs'][0],
+                                  child: CachedNetworkImage(
+                                    imageUrl: data['imageURLs'][0],
                                     width: 150,
                                     height: 100,
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(
+                                        child:
+                                            CircularProgressIndicator()), // Placeholder widget
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error), // Error widget
                                   ),
                                 ),
                                 Positioned(
@@ -136,12 +142,17 @@ class IotDeviceList extends StatelessWidget {
                             ),
                           );
                         },
-                        leading: Image.network(
-                          data['imageURLs'][0],
-                          width: 50,
-                          height: 50,
-                          fit: BoxFit.cover,
-                        ),
+                        leading: CachedNetworkImage(
+                                    imageUrl: data['imageURLs'][0],
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(
+                                        child:
+                                            CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error), 
+                                  ),
                         title: Text(data['productName']),
                         subtitle: Text('Rs ${data['price']}'),
                       ),

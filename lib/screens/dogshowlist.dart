@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paws_and_tail/screens/update_dog_show.dart';
@@ -47,11 +48,13 @@ class DogShowList extends StatelessWidget {
                         _deleteDogShowEvent(document.id);
                       },
                       child: ListTile(
-                        leading: Image.network(
-                          data['imageUrls'][0], 
+                        leading:CachedNetworkImage(
+                          imageUrl: data['imageUrls'][0],
                           width: 50,
                           height: 50,
                           fit: BoxFit.cover,
+                          placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
                         ),
                         title: Text(data['showName']),
                         subtitle: Text('Posted on: ${data['postedOn']}'),

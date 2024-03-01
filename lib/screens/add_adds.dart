@@ -1,4 +1,5 @@
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -78,20 +79,30 @@ class _AddAddsState extends State<AddAdds> {
       height: 160,
       width: screenWidth * 0.9,
       margin: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
         color: Colors.grey,
-        image: DecorationImage(
-          image: NetworkImage(imageUrl),
-          fit: BoxFit.cover,
-        ),
       ),
-      child: Align(
-        alignment: Alignment.topRight,
-        child: IconButton(
-          onPressed: () => _deleteImage(index),
-          icon: const Icon(Icons.delete,color: Colors.red,),
-          color: Colors.white,
-        ),
+      child: Stack(
+        children: [
+          CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            placeholder: (context, url) => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
+          ),
+          Align(
+            alignment: Alignment.topRight,
+            child: IconButton(
+              onPressed: () => _deleteImage(index),
+              icon: const Icon(Icons.delete, color: Colors.red),
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
     );
   }

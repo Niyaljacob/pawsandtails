@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -60,11 +61,15 @@ class DogSaless extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Image.network(
-                        imageUrls[0],
+                      CachedNetworkImage(
+                        imageUrl: imageUrls[0],
                         width: 100,
                         height: 100,
                         fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -222,8 +227,8 @@ class DogSaless extends StatelessWidget {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                            content: Text(
-                                                'Please enter a message'),
+                                            content:
+                                                Text('Please enter a message'),
                                           ),
                                         );
                                       }

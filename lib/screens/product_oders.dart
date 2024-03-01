@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,7 +19,8 @@ class ProductSales extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('product_payment').snapshots(),
+      stream:
+          FirebaseFirestore.instance.collection('product_payment').snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -37,9 +39,11 @@ class ProductSales extends StatelessWidget {
           itemBuilder: (context, index) {
             final DocumentSnapshot document = documents[index];
             final List<dynamic>? imageURLs = document['imageURLs'];
-            final String productName = document['productName'] ?? 'Unknown Product';
+            final String productName =
+                document['productName'] ?? 'Unknown Product';
             final String priceString = document['price'] ?? '0.0';
-            final double price = double.tryParse(priceString.split(' ').last) ?? 0.0;
+            final double price =
+                double.tryParse(priceString.split(' ').last) ?? 0.0;
             final String fullName = document['fullName'] ?? 'Unknown';
             final String email = document['email'] ?? 'Unknown';
             final String phoneNumber = document['phoneNumber'] ?? 'Unknown';
@@ -57,11 +61,15 @@ class ProductSales extends StatelessWidget {
                   Row(
                     children: [
                       if (imageURLs != null && imageURLs.isNotEmpty)
-                        Image.network(
-                          imageURLs[0],
+                        CachedNetworkImage(
+                          imageUrl: imageURLs[0],
                           width: 100,
                           height: 100,
                           fit: BoxFit.cover,
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
                         ),
                       const SizedBox(width: 10),
                       SizedBox(
@@ -217,8 +225,8 @@ class ProductSales extends StatelessWidget {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
-                                            content: Text(
-                                                'Please enter a message'),
+                                            content:
+                                                Text('Please enter a message'),
                                           ),
                                         );
                                       }
@@ -238,7 +246,6 @@ class ProductSales extends StatelessWidget {
                           style: TextStyle(color: Colors.white),
                         ),
                       )
-
                     ],
                   ),
                 ],

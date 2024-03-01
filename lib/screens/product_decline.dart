@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,7 +19,8 @@ class ProductDeclineProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('product_decline').snapshots(),
+      stream:
+          FirebaseFirestore.instance.collection('product_decline').snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
@@ -59,11 +61,15 @@ class ProductDeclineProducts extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Image.network(
-                        imageURLs[0],
+                      CachedNetworkImage(
+                        imageUrl: imageURLs[0],
                         width: 100,
                         height: 100,
                         fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) =>
+                            const Icon(Icons.error),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -101,5 +107,3 @@ class ProductDeclineProducts extends StatelessWidget {
     );
   }
 }
-
-

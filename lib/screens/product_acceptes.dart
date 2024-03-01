@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -8,7 +9,9 @@ class ProductAcceptes extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('product_accepted').snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('product_accepted')
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -38,11 +41,15 @@ class ProductAcceptes extends StatelessWidget {
               return Card(
                 margin: const EdgeInsets.all(10),
                 child: ListTile(
-                  leading: Image.network(
-                    imageURLs[0],
-                    width: 80,
-                    height: 80,
+                  leading: CachedNetworkImage(
+                    imageUrl: imageURLs[0],
+                    width: 100,
+                    height: 100,
                     fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                   title: Text('Product Name: $productName'),
                   subtitle: Column(
@@ -64,4 +71,3 @@ class ProductAcceptes extends StatelessWidget {
     );
   }
 }
-

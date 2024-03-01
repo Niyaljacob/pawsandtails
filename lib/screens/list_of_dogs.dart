@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paws_and_tail/screens/update_dog.dart';
@@ -80,14 +81,21 @@ class ListOfDogs extends StatelessWidget {
                           }));
                         },
                         child: ListTile(
-                          title: Text(name),
-                          subtitle: Text(price),
-                          leading: SizedBox(
-                            height: 100,
-                            width: 100,
-                            child: imageUrl.isNotEmpty ? Image.network(imageUrl, fit: BoxFit.cover) : const Placeholder(),
-                          ),
-                        ),
+      title: Text(name),
+      subtitle: Text(price),
+      leading: SizedBox(
+        height: 100,
+        width: 100,
+        child: imageUrl.isNotEmpty
+            ? CachedNetworkImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+              )
+            : const Placeholder(), 
+      ),
+    )
                       ),
                     );
                   },

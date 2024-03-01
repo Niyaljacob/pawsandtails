@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
@@ -21,9 +22,13 @@ class FoodList extends StatelessWidget {
               ),
             ),
             StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('FoodPopular').snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('FoodPopular')
+                  .snapshots(),
               builder: (context, snapshot) {
-                if (snapshot.hasError || !snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                if (snapshot.hasError ||
+                    !snapshot.hasData ||
+                    snapshot.data!.docs.isEmpty) {
                   return const Center(
                     child: Text('No popular items available'),
                   );
@@ -36,7 +41,8 @@ class FoodList extends StatelessWidget {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       DocumentSnapshot document = snapshot.data!.docs[index];
-                      Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                      Map<String, dynamic> data =
+                          document.data() as Map<String, dynamic>;
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -46,18 +52,26 @@ class FoodList extends StatelessWidget {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    data['imageURLs'][0],
+                                  child: CachedNetworkImage(
+                                    imageUrl: data['imageURLs'][0],
                                     width: 150,
                                     height: 100,
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(
+                                        child:
+                                            CircularProgressIndicator()), // Placeholder widget
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error), // Error widget
                                   ),
                                 ),
                                 Positioned(
                                   top: 0,
                                   right: 0,
                                   child: IconButton(
-                                    icon: const Icon(Icons.delete, color: Colors.red,),
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
                                     onPressed: () {
                                       _deletePopularItem(document.id);
                                     },
@@ -68,7 +82,8 @@ class FoodList extends StatelessWidget {
                             const SizedBox(height: 4),
                             Text(data['productName']),
                             Text(data['brandName']),
-                            Text('Rs ${data['price']}', style: TextStyle(color: TColo.primaryColor1)),
+                            Text('Rs ${data['price']}',
+                                style: TextStyle(color: TColo.primaryColor1)),
                           ],
                         ),
                       );
@@ -79,9 +94,12 @@ class FoodList extends StatelessWidget {
             ),
             const Padding(
               padding: EdgeInsets.all(8.0),
-              child: Text('Food Products', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              child: Text('Food Products',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
-            const Center(child: Text('<<<<< Swipe Left to Delete <<<<<', style: TextStyle(color: Colors.blue))),
+            const Center(
+                child: Text('<<<<< Swipe Left to Delete <<<<<',
+                    style: TextStyle(color: Colors.blue))),
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance.collection('Food').snapshots(),
               builder: (context, snapshot) {
@@ -100,8 +118,10 @@ class FoodList extends StatelessWidget {
                 return ListView(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  children: snapshot.data!.docs.map((DocumentSnapshot document) {
-                    Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+                  children:
+                      snapshot.data!.docs.map((DocumentSnapshot document) {
+                    Map<String, dynamic> data =
+                        document.data() as Map<String, dynamic>;
                     return Dismissible(
                       key: Key(document.id),
                       direction: DismissDirection.endToStart,
@@ -115,18 +135,27 @@ class FoodList extends StatelessWidget {
                         _deleteItem(document.id);
                       },
                       child: ListTile(
-                        leading: Image.network(
-                          data['imageURLs'][0],
-                          width: 50,
-                          height: 50,
-                          fit: BoxFit.cover,
-                        ),
+                        leading: CachedNetworkImage(
+                                    imageUrl: data['imageURLs'][0],
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                    placeholder: (context, url) => const Center(
+                                        child:
+                                            CircularProgressIndicator()),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error), 
+                                  ),
                         title: Text(data['productName']),
-                        subtitle: Text('Rs ${data['price']}', style: TextStyle(color: TColo.primaryColor1)),
+                        subtitle: Text('Rs ${data['price']}',
+                            style: TextStyle(color: TColo.primaryColor1)),
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => FoodDetails(foodId: document.id, foodName: data['productName'])),
+                            MaterialPageRoute(
+                                builder: (context) => FoodDetails(
+                                    foodId: document.id,
+                                    foodName: data['productName'])),
                           );
                         },
                       ),
@@ -143,8 +172,14 @@ class FoodList extends StatelessWidget {
 
   Future<void> _deleteItem(String documentId) async {
     try {
-      await FirebaseFirestore.instance.collection('Food').doc(documentId).delete();
-      await FirebaseFirestore.instance.collection('FoodPopular').doc(documentId).delete(); 
+      await FirebaseFirestore.instance
+          .collection('Food')
+          .doc(documentId)
+          .delete();
+      await FirebaseFirestore.instance
+          .collection('FoodPopular')
+          .doc(documentId)
+          .delete();
       print('Item deleted successfully');
     } catch (e) {
       print('Error deleting item: $e');
@@ -153,7 +188,10 @@ class FoodList extends StatelessWidget {
 
   Future<void> _deletePopularItem(String documentId) async {
     try {
-      await FirebaseFirestore.instance.collection('FoodPopular').doc(documentId).delete();
+      await FirebaseFirestore.instance
+          .collection('FoodPopular')
+          .doc(documentId)
+          .delete();
       print('Popular item deleted successfully');
     } catch (e) {
       print('Error deleting popular item: $e');

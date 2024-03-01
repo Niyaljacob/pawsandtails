@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
@@ -78,15 +79,18 @@ class ProductItem extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Image.network(
-              data['imageURLs'] != null && data['imageURLs'].isNotEmpty
+            child: CachedNetworkImage(
+              imageUrl: data['imageURLs'] != null && data['imageURLs'].isNotEmpty
                   ? data['imageURLs'][0]
                   : 'https://via.placeholder.com/150',
               width: 80,
               height: 80,
               fit: BoxFit.cover,
+              placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

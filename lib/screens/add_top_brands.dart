@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -74,7 +75,7 @@ class _AddTopBrandsState extends State<AddTopBrands> {
         ),
         const SizedBox(height: 10),
         StreamBuilder<QuerySnapshot>(
-          stream: _firestore.collection('$_selectedBrandType' + '_brands').snapshots(),
+          stream: _firestore.collection('$_selectedBrandType' '_brands').snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
@@ -97,12 +98,13 @@ class _AddTopBrandsState extends State<AddTopBrands> {
                     padding: const EdgeInsets.all(8.0),
                     child: Stack(
                       children: [
-                        Image.network(
-                          imageUrl,
-                          height: 150,
-                          width: 150,
-                          fit: BoxFit.cover,
-                        ),
+                        CachedNetworkImage(
+                  placeholder: (context, url) => const Center(child: CircularProgressIndicator()), // Placeholder widget
+                  imageUrl: imageUrl,
+                  height: 150,
+                  width: 150,
+                  fit: BoxFit.cover,
+                ),
                         Positioned(
                           top: 0,
                           right: 0,

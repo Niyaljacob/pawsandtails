@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -123,10 +124,12 @@ class _UpdateDogState extends State<UpdateDog> {
   Widget _buildImageCarouselItem(int index) {
     return Stack(
       children: [
-        Image.network(
-          _imageUrls[index],
+         CachedNetworkImage(
+          imageUrl: _imageUrls[index],
           fit: BoxFit.cover,
           width: double.infinity,
+          placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
         Positioned(
           top: 8,

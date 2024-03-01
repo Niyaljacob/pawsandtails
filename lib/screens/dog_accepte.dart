@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -38,11 +39,15 @@ class DogAcceptes extends StatelessWidget {
               return Card(
                 margin: const EdgeInsets.all(10),
                 child: ListTile(
-                  leading: Image.network(
-                    imageUrls[0],
+                  leading: CachedNetworkImage(
+                    imageUrl: imageUrls[0],
                     width: 80,
                     height: 80,
                     fit: BoxFit.cover,
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                   title: Text('Dog Name: $dogName'),
                   subtitle: Column(
