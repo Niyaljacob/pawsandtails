@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -134,13 +135,33 @@ class FoodRecommendedDetailsUser extends StatelessWidget {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        productName,
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        price,
-                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: TColo.primaryColor1),
+                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                productName,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                price,
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500,
+                                    color: TColo.primaryColor1),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            iconSize: 30,
+                            icon: Icon(Icons.shopping_bag_outlined,color: TColo.primaryColor1,),
+                            onPressed: () {
+                               _addToCart(context, productId, productName, imageURLs, price);
+                            },
+                          ),
+                        ],
                       ),
                       const Divider(),
                        SizedBox(
@@ -156,7 +177,7 @@ class FoodRecommendedDetailsUser extends StatelessWidget {
                 Icon(
                   _getIconForIndex(index),
                   size: 30,
-                  color:Color.fromARGB(255, 78, 172, 81), // Customize icon color here
+                  color:const Color.fromARGB(255, 78, 172, 81), // Customize icon color here
                 ),
                 const SizedBox(height: 5),
                 Text(
@@ -209,6 +230,59 @@ class FoodRecommendedDetailsUser extends StatelessWidget {
       ),
     );
   }
+
+  void _addToCart(
+  BuildContext context,
+  String productId,
+  String productName,
+  List<String> imageURLs,
+  String price, // Adding price parameter
+) async {
+  try {
+    // Get the current user
+    User? user = FirebaseAuth.instance.currentUser;
+
+    // Get the user's email
+    String? userEmail = user?.email;
+
+    if (userEmail != null) {
+      // Store product details in the product_cart collection
+      await FirebaseFirestore.instance.collection('product_cart').add({
+        'userId': userEmail, // Store user's email as userId
+        'productId': productId,
+        'productName': productName,
+        'imageURLs': imageURLs,
+        'price': price, // Storing the price
+        // Add more fields if needed
+      });
+
+      // Show a confirmation snackbar
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Product added to cart successfully'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      // Show an error snackbar if user email is null
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error: User email is null'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  } catch (e) {
+    // Show an error snackbar if adding to cart fails
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error adding product to cart: $e'),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+}
+
 
   Widget _buildDetailItem(String title, String value) {
     return Padding(

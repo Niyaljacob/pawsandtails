@@ -1,10 +1,10 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
-import 'package:paws_and_tail/screens/payment_product.dart'; 
+import 'package:paws_and_tail/screens/payment_product.dart';
 
 class VetPopularDetailsUser extends StatelessWidget {
   final String productId;
@@ -32,7 +32,10 @@ class VetPopularDetailsUser extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               StreamBuilder<DocumentSnapshot>(
-                stream: FirebaseFirestore.instance.collection('VetPopular').doc(productId).snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('VetPopular')
+                    .doc(productId)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
@@ -52,9 +55,10 @@ class VetPopularDetailsUser extends StatelessWidget {
                     );
                   }
 
-                  var productDetails = snapshot.data!.data() as Map<String, dynamic>;
+                  var productDetails =
+                      snapshot.data!.data() as Map<String, dynamic>;
                   List<dynamic> imageURLs = productDetails['imageURLs'] ?? [];
-                  
+
                   if (imageURLs.isEmpty) {
                     return const Center(
                       child: Text('No images available'),
@@ -96,9 +100,14 @@ class VetPopularDetailsUser extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 18,),
+              const SizedBox(
+                height: 18,
+              ),
               StreamBuilder<DocumentSnapshot>(
-                stream: FirebaseFirestore.instance.collection('VetPopular').doc(productId).snapshots(),
+                stream: FirebaseFirestore.instance
+                    .collection('VetPopular')
+                    .doc(productId)
+                    .snapshots(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Center(
@@ -118,51 +127,79 @@ class VetPopularDetailsUser extends StatelessWidget {
                     );
                   }
 
-                  var productDetails = snapshot.data!.data() as Map<String, dynamic>;
+                  var productDetails =
+                      snapshot.data!.data() as Map<String, dynamic>;
                   String productName = productDetails['productName'] ?? '';
                   String brandName = productDetails['brandName'] ?? '';
-                  String price = productDetails['price'] != null ? 'Rs ${productDetails['price']}' : '';
+                  String price = productDetails['price'] != null
+                      ? 'Rs ${productDetails['price']}'
+                      : '';
                   String details = productDetails['details'] ?? '';
 
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        productName,
-                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                      ),
-                      Text(
-                        price,
-                        style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, color: TColo.primaryColor1),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Text(
+                                productName,
+                                style: const TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.w500),
+                              ),
+                              Text(
+                                price,
+                                style: TextStyle(
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w500,
+                                    color: TColo.primaryColor1),
+                              ),
+                            ],
+                          ),
+                          IconButton(
+                            iconSize: 30,
+                            icon: Icon(
+                              Icons.shopping_bag_outlined,
+                              color: TColo.primaryColor1,
+                            ),
+                            onPressed: () {
+                              _addToCart(context, productId, productName,
+                                  imageURLs, price);
+                            },
+                          ),
+                        ],
                       ),
                       const Divider(),
-                       SizedBox(
-      height: 80,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: 4,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Icon(
-                  _getIconForIndex(index),
-                  size: 30,
-                  color:Color.fromARGB(255, 78, 172, 81), // Customize icon color here
-                ),
-                const SizedBox(height: 5),
-                Text(
-                  _getTextForIndex(index),
-                  style: const TextStyle(fontSize: 12),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
-    ),
-    const Divider(),
+                      SizedBox(
+                        height: 80,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 4,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    _getIconForIndex(index),
+                                    size: 30,
+                                    color: Color.fromARGB(255, 78, 172,
+                                        81), // Customize icon color here
+                                  ),
+                                  const SizedBox(height: 5),
+                                  Text(
+                                    _getTextForIndex(index),
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const Divider(),
                       _buildDetailItem('Brand Name', brandName),
                       _buildDetailItem('Details', details),
                       const SizedBox(height: 25),
@@ -170,11 +207,13 @@ class VetPopularDetailsUser extends StatelessWidget {
                         width: MediaQuery.of(context).size.width * 1.1,
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (_) {
                               return PaymentProducts(
                                 productName: productName,
                                 price: price,
-                                imageURLs: imageURLs.cast<String>(), // Convert to String List
+                                imageURLs: imageURLs
+                                    .cast<String>(), // Convert to String List
                               );
                             }));
                           },
@@ -203,6 +242,58 @@ class VetPopularDetailsUser extends StatelessWidget {
     );
   }
 
+  void _addToCart(
+    BuildContext context,
+    String productId,
+    String productName,
+    List<String> imageURLs,
+    String price, // Adding price parameter
+  ) async {
+    try {
+      // Get the current user
+      User? user = FirebaseAuth.instance.currentUser;
+
+      // Get the user's email
+      String? userEmail = user?.email;
+
+      if (userEmail != null) {
+        // Store product details in the product_cart collection
+        await FirebaseFirestore.instance.collection('product_cart').add({
+          'userId': userEmail, // Store user's email as userId
+          'productId': productId,
+          'productName': productName,
+          'imageURLs': imageURLs,
+          'price': price, // Storing the price
+          // Add more fields if needed
+        });
+
+        // Show a confirmation snackbar
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Product added to cart successfully'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        // Show an error snackbar if user email is null
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: User email is null'),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      // Show an error snackbar if adding to cart fails
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error adding product to cart: $e'),
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
   Widget _buildDetailItem(String title, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
@@ -225,33 +316,32 @@ class VetPopularDetailsUser extends StatelessWidget {
   }
 }
 
-
 IconData _getIconForIndex(int index) {
-    switch (index) {
-      case 0:
-        return Icons.local_shipping; // Free Delivery icon
-      case 1:
-        return Icons.payment; // Pay on Delivery icon
-      case 2:
-        return Icons.block; // Non-returnable icon
-      case 3:
-        return Icons.delivery_dining; // Paws & Tails Delivered icon
-      default:
-        return Icons.error;
-    }
+  switch (index) {
+    case 0:
+      return Icons.local_shipping; // Free Delivery icon
+    case 1:
+      return Icons.payment; // Pay on Delivery icon
+    case 2:
+      return Icons.block; // Non-returnable icon
+    case 3:
+      return Icons.delivery_dining; // Paws & Tails Delivered icon
+    default:
+      return Icons.error;
   }
+}
 
-  String _getTextForIndex(int index) {
-    switch (index) {
-      case 0:
-        return 'Free Delivery';
-      case 1:
-        return 'Pay on Delivery';
-      case 2:
-        return 'Non-returnable';
-      case 3:
-        return 'Paws & Tails Delivered';
-      default:
-        return '';
-    }
+String _getTextForIndex(int index) {
+  switch (index) {
+    case 0:
+      return 'Free Delivery';
+    case 1:
+      return 'Pay on Delivery';
+    case 2:
+      return 'Non-returnable';
+    case 3:
+      return 'Paws & Tails Delivered';
+    default:
+      return '';
   }
+}
