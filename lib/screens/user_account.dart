@@ -11,7 +11,7 @@ import 'package:paws_and_tail/screens/login.dart';
 import 'package:paws_and_tail/screens/my_order.dart';
 import 'package:paws_and_tail/screens/my_products.dart';
 import 'package:paws_and_tail/screens/privacy_policies.dart';
-import 'package:paws_and_tail/screens/product_cart.dart';
+import 'package:paws_and_tail/screens/product_cart_user.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
@@ -236,7 +236,7 @@ class _AccountScreenState extends State<AccountScreen> {
               title: const Text('Product Cart'),
               onTap: () {
                  Navigator.of(context).push(MaterialPageRoute(builder: (_){
-                  return const ProductCart();
+                  return const ProductCartUser();
                 }));
               },
             ),

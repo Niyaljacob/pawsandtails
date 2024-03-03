@@ -151,6 +151,15 @@ class _AdminHomeState extends State<AdminHome> {
                 }));
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.sell),
+              title: const Text('Product Cart Sales'),
+              onTap: () {
+                // Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                //   return  const ProductSale();
+                // }));
+              },
+            ),
           ],
         ),
       ),
