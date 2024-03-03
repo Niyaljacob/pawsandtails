@@ -9,6 +9,7 @@ import 'package:paws_and_tail/screens/advertisement.dart';
 import 'package:paws_and_tail/screens/dog_sales.dart';
 import 'package:paws_and_tail/screens/list_product_category.dart';
 import 'package:paws_and_tail/screens/login.dart';
+import 'package:paws_and_tail/screens/product_cart_sale.dart';
 import 'package:paws_and_tail/screens/product_sales.dart';
 
 class AdminHome extends StatefulWidget {
@@ -155,9 +156,9 @@ class _AdminHomeState extends State<AdminHome> {
               leading: const Icon(Icons.sell),
               title: const Text('Product Cart Sales'),
               onTap: () {
-                // Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                //   return  const ProductSale();
-                // }));
+                Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                  return  const ProductCartSale();
+                }));
               },
             ),
           ],
