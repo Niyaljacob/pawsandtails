@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProductCartSaleAccept extends StatelessWidget {
-  const ProductCartSaleAccept({Key? key}) : super(key: key);
+class DogCartSaleAcceptAdmin extends StatelessWidget {
+  const DogCartSaleAcceptAdmin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('product_cart_payment_accept').snapshots(),
+        stream: FirebaseFirestore.instance.collection('dog_cart_payment_accept').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -78,5 +78,3 @@ class ProductCartSaleAccept extends StatelessWidget {
 }
 
 }
-
-

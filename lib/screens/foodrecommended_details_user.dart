@@ -266,9 +266,9 @@ class FoodRecommendedDetailsUser extends StatelessWidget {
     } else {
       // Show an error snackbar if user email is null
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Error: User email is null'),
-          duration: const Duration(seconds: 2),
+          duration: Duration(seconds: 2),
         ),
       );
     }

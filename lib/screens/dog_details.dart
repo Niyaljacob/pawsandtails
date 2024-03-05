@@ -4,6 +4,7 @@ import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:paws_and_tail/screens/payment.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class DogDetails extends StatelessWidget {
   final String dogId;
@@ -49,26 +50,26 @@ class DogDetails extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CarouselSlider(
-  options: CarouselOptions(
-    height: 200.0,
-    enableInfiniteScroll: false,
-    enlargeCenterPage: true,
-  ),
-  items: imageUrls.map((imageUrl) {
-    return Builder(
-      builder: (BuildContext context) {
-        return CachedNetworkImage(
-          imageUrl: imageUrl,
-          placeholder: (context, url) => const Center(
-            child: CircularProgressIndicator(),
-          ),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-          fit: BoxFit.cover,
-        );
-      },
-    );
-  }).toList(),
-),
+                  options: CarouselOptions(
+                    height: 200.0,
+                    enableInfiniteScroll: false,
+                    enlargeCenterPage: true,
+                  ),
+                  items: imageUrls.map((imageUrl) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
 
                 const Divider(),
                 Row(
@@ -94,7 +95,13 @@ class DogDetails extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Icon(Icons.add_shopping_cart),
+                    IconButton(
+  onPressed: () {
+    addToCart(imageUrls, dogName, price, context);
+  },
+  icon: Icon(Icons.shopping_bag_outlined,color: TColo.primaryColor1,size: 30,),
+),
+
                   ],
                 ),
                 const SizedBox(height: 35.0),
@@ -175,5 +182,53 @@ class DogDetails extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void addToCart(List<String> imageUrls, String dogName, String price, BuildContext context) {
+  String userId = getCurrentUserId();
+  String? userEmail = getCurrentUserEmail();
+  // Here you can add the details to the 'dog_cart' collection in Firestore
+  FirebaseFirestore.instance.collection('dog_cart').add({
+    'imageUrls': imageUrls,
+    'dogName': dogName,
+    'price': price,
+    'userId': userId,
+    'userEmail': userEmail,
+    // You can add more fields as needed
+  }).then((value) {
+    // Successfully added to cart
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Item added to cart successfully!'),
+      ),
+    );
+  }).catchError((error) {
+    // Handle error
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to add item to cart: $error'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  });
+}
+
+
+  String getCurrentUserId() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.uid;
+    } else {
+      throw Exception('User is not logged in.');
+    }
+  }
+
+  String? getCurrentUserEmail() {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      return user.email;
+    } else {
+      throw Exception('User is not logged in.');
+    }
   }
 }

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProductCartSaleOrder extends StatelessWidget {
-  const ProductCartSaleOrder({Key? key}) : super(key: key);
+class DogCartSaleOrderAdmin extends StatelessWidget {
+  const DogCartSaleOrderAdmin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('product_cart_payment')
+            .collection('dog_cart_payment')
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -146,7 +146,7 @@ class ProductCartSaleOrder extends StatelessWidget {
       DocumentReference documentReference, Map<String, dynamic> data) async {
     await documentReference.delete();
     FirebaseFirestore.instance
-        .collection('product_cart_payment_accept')
+        .collection('dog_cart_payment_accept')
         .add(data);
   }
 
@@ -196,7 +196,7 @@ class ProductCartSaleOrder extends StatelessWidget {
   Future<void> _declineOrder(DocumentReference documentReference, Map<String, dynamic> data, String reason) async {
     data['reason'] = reason; // Add reason to data
     await documentReference.delete();
-    FirebaseFirestore.instance.collection('product_cart_payment_decline').add(data);
+    FirebaseFirestore.instance.collection('dog_cart_payment_decline').add(data);
   }
 
 }

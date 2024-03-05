@@ -1,15 +1,16 @@
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProductCartSaleAccept extends StatelessWidget {
-  const ProductCartSaleAccept({Key? key}) : super(key: key);
+class DogCartSaleDeclineAdmin extends StatelessWidget {
+  const DogCartSaleDeclineAdmin({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       
       body: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('product_cart_payment_accept').snapshots(),
+        stream: FirebaseFirestore.instance.collection('dog_cart_payment_decline').snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(
@@ -47,8 +48,8 @@ class ProductCartSaleAccept extends StatelessWidget {
   final List<dynamic> products = data['products'];
 
   return Container(
-    margin: const EdgeInsets.all(10.0),
-    padding: const EdgeInsets.all(10.0),
+    margin: EdgeInsets.all(10.0),
+    padding: EdgeInsets.all(10.0),
     decoration: BoxDecoration(
       border: Border.all(color: Colors.grey),
       borderRadius: BorderRadius.circular(10.0),
@@ -71,6 +72,7 @@ class ProductCartSaleAccept extends StatelessWidget {
           }).toList(),
         ),
         Text('Total Price: Rs ${data['totalPrice']}'),
+	Text('Reason:${data['reason']}',style: const TextStyle(color: Colors.red,fontWeight: FontWeight.bold),),
 
       ],
     ),
@@ -78,5 +80,3 @@ class ProductCartSaleAccept extends StatelessWidget {
 }
 
 }
-
-
