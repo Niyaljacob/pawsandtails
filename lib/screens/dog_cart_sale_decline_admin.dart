@@ -48,8 +48,8 @@ class DogCartSaleDeclineAdmin extends StatelessWidget {
   final List<dynamic> products = data['products'];
 
   return Container(
-    margin: EdgeInsets.all(10.0),
-    padding: EdgeInsets.all(10.0),
+    margin: const EdgeInsets.all(10.0),
+    padding: const EdgeInsets.all(10.0),
     decoration: BoxDecoration(
       border: Border.all(color: Colors.grey),
       borderRadius: BorderRadius.circular(10.0),

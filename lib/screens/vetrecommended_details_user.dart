@@ -249,6 +249,7 @@ final List<String> imageURLs;
         });
 
         // Show a confirmation snackbar
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Product added to cart successfully'),
@@ -266,6 +267,7 @@ final List<String> imageURLs;
       }
     } catch (e) {
       // Show an error snackbar if adding to cart fails
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error adding product to cart: $e'),

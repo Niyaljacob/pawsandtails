@@ -16,6 +16,7 @@ class IotDeviceDetails extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _IotDeviceDetailsState createState() => _IotDeviceDetailsState();
 }
 
@@ -167,7 +168,12 @@ class _IotDeviceDetailsState extends State<IotDeviceDetails> {
         detailsController.text = data['details'];
       });
     } catch (e) {
-      print('Error fetching details: $e');
+       // ignore: use_build_context_synchronously
+       ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to fetch details: $e'),
+      ),
+    );
     }
   }
 
@@ -224,8 +230,10 @@ class _IotDeviceDetailsState extends State<IotDeviceDetails> {
         });
       }
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Details updated')));
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to update details')));
     }
   }

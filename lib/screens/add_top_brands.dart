@@ -10,6 +10,7 @@ class AddTopBrands extends StatefulWidget {
   const AddTopBrands({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddTopBrandsState createState() => _AddTopBrandsState();
 }
 
@@ -142,14 +143,16 @@ class _AddTopBrandsState extends State<AddTopBrands> {
         final ref = _storage.ref().child('$_selectedBrandType/${DateTime.now().millisecondsSinceEpoch}.jpg');
         await ref.putFile(_imageFile);
         final url = await ref.getDownloadURL();
-        await _firestore.collection('$_selectedBrandType' + '_brands').add({'image_url': url});
+        await _firestore.collection('$_selectedBrandType' '_brands').add({'image_url': url});
         // Show a success snackbar
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
           content: Text('Image uploaded successfully'),
           duration: Duration(seconds: 2),
         ));
       } catch (error) {
         // Show an error snackbar
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Error uploading image: $error'),
           duration: const Duration(seconds: 2),
@@ -166,14 +169,14 @@ class _AddTopBrandsState extends State<AddTopBrands> {
 
   Future<void> _deleteImage(String docId) async {
     try {
-      await _firestore.collection('$_selectedBrandType' + '_brands').doc(docId).delete();
-      // Show a success snackbar
+      await _firestore.collection('$_selectedBrandType' '_brands').doc(docId).delete();
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Image deleted successfully'),
         duration: Duration(seconds: 2),
       ));
     } catch (error) {
-      // Show an error snackbar
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Error deleting image: $error'),
         duration: const Duration(seconds: 2),

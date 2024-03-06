@@ -9,6 +9,7 @@ class DogCartSaleOrder extends StatefulWidget {
   const DogCartSaleOrder({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _DogCartSaleOrderState createState() => _DogCartSaleOrderState();
 }
 
@@ -38,7 +39,7 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              print('Error: ${snapshot.error}');
+              // print('Error: ${snapshot.error}');
               return Center(
                 child: Text('Error: ${snapshot.error}'),
               );
@@ -76,7 +77,11 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
                 });
               } catch (e) {
                 // Handle parsing error gracefully
-                print('Error parsing price: $e');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error parsing price: $e'),
+                  ),
+                );
               }
             }
 
@@ -102,9 +107,19 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
                             .collection('dog_cart')
                             .doc(document.id)
                             .delete()
-                            .then((value) => print('Item deleted'))
-                            .catchError((error) =>
-                                print('Failed to delete item: $error'));
+                            .then((value) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Item deleted'),
+                            ),
+                          );
+                        }).catchError((error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Failed to delete item: $error'),
+                            ),
+                          );
+                        });
                       },
                       confirmDismiss: (direction) async {
                         return await showDialog(
@@ -164,7 +179,8 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
                             if (!_cashOnDeliveryChecked) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
-                                  content: Text('Please select Cash on Delivery'),
+                                  content:
+                                      Text('Please select Cash on Delivery'),
                                 ),
                               );
                             } else {
@@ -376,7 +392,8 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                           // Place the order
-                                          _placeOrder(productsInCart, totalPrice);
+                                          _placeOrder(
+                                              productsInCart, totalPrice);
                                           setState(() {
                                             _orderConfirmed = true;
                                           });
@@ -389,8 +406,8 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
                               );
                             },
                             style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all<Color>(Colors.green),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Colors.green),
                             ),
                             child: const Text(
                               'Place Order',
@@ -420,6 +437,7 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
     return _orderConfirmed;
   }
 
+  // ignore: unused_element
   Future<void> _storeOrderDetails(
       List<Map<String, dynamic>> productsInCart, double totalPrice) async {
     // Get the current user
@@ -454,6 +472,7 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
       });
 
       // Show success message
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Order placed successfully!'),
@@ -461,6 +480,7 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
         ),
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to place order. Please try again later.'),
@@ -470,7 +490,7 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
     }
   }
 
- Future<void> _placeOrder(
+  Future<void> _placeOrder(
       List<Map<String, dynamic>> productsInCart, double totalPrice) async {
     // Get the current user
     User? user = FirebaseAuth.instance.currentUser;
@@ -509,6 +529,7 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
       });
 
       // Show success message
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Order placed successfully!'),
@@ -516,6 +537,7 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
         ),
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to place order. Please try again later.'),
@@ -524,5 +546,4 @@ class _DogCartSaleOrderState extends State<DogCartSaleOrder> {
       );
     }
   }
-
 }

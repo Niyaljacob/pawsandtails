@@ -9,6 +9,7 @@ class AddDogShow extends StatefulWidget {
   const AddDogShow({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddDogShowState createState() => _AddDogShowState();
 }
 
@@ -160,8 +161,10 @@ class _AddDogShowState extends State<AddDogShow> {
         contactController.clear();
       });
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Dog show event added')));
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to add dog show event')));
     }
   }

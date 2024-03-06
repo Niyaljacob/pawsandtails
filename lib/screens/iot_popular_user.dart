@@ -249,6 +249,7 @@ class IotPopularDetailsUser extends StatelessWidget {
         });
 
         // Show a confirmation snackbar
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Product added to cart successfully'),
@@ -266,6 +267,7 @@ class IotPopularDetailsUser extends StatelessWidget {
       }
     } catch (e) {
       // Show an error snackbar if adding to cart fails
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error adding product to cart: $e'),
@@ -297,6 +299,7 @@ class IotPopularDetailsUser extends StatelessWidget {
 }
 
 
+  // ignore: unused_element
   Widget _buildDetailItem(String title, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),

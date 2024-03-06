@@ -85,7 +85,7 @@ class VetItemList extends StatelessWidget {
                               right: 0,
                               child: IconButton(
                                 icon: const Icon(Icons.delete),
-                                onPressed: () => _deletePopularItem(document.id),
+                                onPressed: () => _deletePopularItem(context, document.id),
                                 color: Colors.red,
                               ),
                             ),
@@ -132,7 +132,7 @@ class VetItemList extends StatelessWidget {
                         child: const Icon(Icons.delete, color: Colors.white),
                       ),
                       onDismissed: (direction) {
-                        _deleteItem(document.id);
+                        _deleteItem(context, document.id);
                       },
                       child: ListTile(
                         leading: CachedNetworkImage(
@@ -166,21 +166,42 @@ class VetItemList extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteItem(String documentId) async {
+  Future<void> _deleteItem(BuildContext context, String documentId) async {
     try {
       await FirebaseFirestore.instance.collection('Vet Items').doc(documentId).delete();
       await FirebaseFirestore.instance.collection('VetPopular').doc(documentId).delete();
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Item deleted successfully'),
+        ),
+      );
     } catch (e) {
-      print('Error deleting item: $e');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting item: $e'),
+        ),
+      );
     }
   }
 
-  Future<void> _deletePopularItem(String documentId) async {
+  Future<void> _deletePopularItem(BuildContext context, String documentId) async {
     try {
       await FirebaseFirestore.instance.collection('VetPopular').doc(documentId).delete();
-      print('Popular item deleted successfully');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Popular item deleted successfully'),
+        ),
+      );
     } catch (e) {
-      print('Error deleting popular item: $e');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting popular item: $e'),
+        ),
+      );
     }
   }
 }

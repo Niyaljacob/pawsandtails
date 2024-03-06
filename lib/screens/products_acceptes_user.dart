@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ProductsAcceptesUser extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const ProductsAcceptesUser({Key? key});
 
   @override
@@ -66,8 +67,8 @@ class ProductsAcceptesUser extends StatelessWidget {
                       children: [
                          CachedNetworkImage(
                           imageUrl: imageURLs[0],
-                          width: 100,
-                          height: 100,
+                          width: 90,
+                          height: 90,
                           fit: BoxFit.cover,
                           placeholder: (context, url) => const Center(child: CircularProgressIndicator()),
                           errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -75,7 +76,7 @@ class ProductsAcceptesUser extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: SizedBox(
-                            width: MediaQuery.of(context).size.width *0.6,
+                            width: MediaQuery.of(context).size.width *0.5,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

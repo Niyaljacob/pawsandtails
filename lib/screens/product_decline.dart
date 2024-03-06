@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductDecline extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const ProductDecline({Key? key});
 
   @override
@@ -14,6 +15,7 @@ class ProductDecline extends StatelessWidget {
 }
 
 class ProductDeclineProducts extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const ProductDeclineProducts({Key? key});
 
   @override
@@ -63,8 +65,8 @@ class ProductDeclineProducts extends StatelessWidget {
                     children: [
                       CachedNetworkImage(
                         imageUrl: imageURLs[0],
-                        width: 100,
-                        height: 100,
+                        width: 90,
+                        height: 90,
                         fit: BoxFit.cover,
                         placeholder: (context, url) =>
                             const Center(child: CircularProgressIndicator()),
@@ -74,7 +76,7 @@ class ProductDeclineProducts extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.6,
+                          width: MediaQuery.of(context).size.width * 0.5,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

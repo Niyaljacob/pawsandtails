@@ -1,10 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/screens/update_iot_details.dart';
 
 class IotDeviceList extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const IotDeviceList({Key? key});
 
   @override
@@ -71,7 +72,7 @@ class IotDeviceList extends StatelessWidget {
                                   child: IconButton(
                                     icon: const Icon(Icons.delete),
                                     onPressed: () {
-                                      _deletePopularItem(document.id);
+                                      _deletePopularItem(context, document.id);
                                     },
                                     color: Colors.red,
                                   ),
@@ -128,7 +129,7 @@ class IotDeviceList extends StatelessWidget {
                         child: const Icon(Icons.delete, color: Colors.white),
                       ),
                       onDismissed: (direction) {
-                        _deleteItem(document.id);
+                        _deleteItem(context, document.id);
                       },
                       child: ListTile(
                         onTap: () {
@@ -167,21 +168,41 @@ class IotDeviceList extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteItem(String documentId) async {
+  Future<void> _deleteItem(BuildContext context, String documentId) async {
     try {
       await FirebaseFirestore.instance.collection('IOT Device').doc(documentId).delete();
-      print('Item deleted from IOT Device successfully');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Item deleted from IOT Device successfully'),
+        ),
+      );
     } catch (e) {
-      print('Error deleting item: $e');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting item: $e'),
+        ),
+      );
     }
   }
 
-  Future<void> _deletePopularItem(String documentId) async {
+  Future<void> _deletePopularItem(BuildContext context, String documentId) async {
     try {
       await FirebaseFirestore.instance.collection('IOTPopular').doc(documentId).delete();
-      print('Item deleted from IOTPopular successfully');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Item deleted from IOTPopular successfully'),
+        ),
+      );
     } catch (e) {
-      print('Error deleting popular item: $e');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting popular item: $e'),
+        ),
+      );
     }
   }
 }

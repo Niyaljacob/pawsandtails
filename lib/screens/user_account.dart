@@ -18,6 +18,7 @@ class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AccountScreenState createState() => _AccountScreenState();
 }
 
@@ -89,9 +90,11 @@ class _AccountScreenState extends State<AccountScreen> {
         });
       }
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profile updated successfully')));
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Error updating profile')));
     }
@@ -148,6 +151,7 @@ class _AccountScreenState extends State<AccountScreen> {
               child: CircleAvatar(
                 radius: 50,
                 backgroundImage: _image != null
+                    // ignore: unnecessary_cast
                     ? FileImage(_image!) as ImageProvider<Object>?
                     : (_imageUrl.isNotEmpty
                             ? CachedNetworkImageProvider(_imageUrl)
@@ -285,6 +289,7 @@ class _AccountScreenState extends State<AccountScreen> {
             TextButton(
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
+                // ignore: use_build_context_synchronously
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (_) => LoginScreen(),

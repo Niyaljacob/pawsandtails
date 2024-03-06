@@ -82,10 +82,12 @@ class AddProductCategoryState extends State<AddProductCategory> {
         selectedImages.clear();
       });
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Product uploaded successfully')));
     } catch (e) {
-      print('Error uploading product: $e');
+      
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to upload product')));
     }
   }

@@ -9,6 +9,7 @@ class ProductScreen extends StatefulWidget {
   const ProductScreen({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProductScreenState createState() => _ProductScreenState();
 }
 
@@ -35,7 +36,7 @@ class _ProductScreenState extends State<ProductScreen> {
               buildSearchBar(context),
               const SizedBox(height: 10),
               buildCategoriesRow(context),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               SingleChildScrollView(child: buildContent(context)),
             ],
           ),
@@ -88,7 +89,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Widget buildCategoriesRow(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.11,
+      height: MediaQuery.of(context).size.height * 0.15,
       width: MediaQuery.of(context).size.width * 0.9,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

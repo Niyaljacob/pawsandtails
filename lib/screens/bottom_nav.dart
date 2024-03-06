@@ -20,7 +20,7 @@ class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     List pages = [
-      HomeScreen(),
+      const HomeScreen(),
       const ProductScreen(),
       const DogShowList(),
       const AccountScreen(),

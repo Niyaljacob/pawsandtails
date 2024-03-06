@@ -18,6 +18,7 @@ class PaymentProducts extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _PaymentProductsState createState() => _PaymentProductsState();
 }
 
@@ -319,7 +320,7 @@ class _PaymentProductsState extends State<PaymentProducts>
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                _storePaymentData();
+                _storePaymentData(context);
                 _clearFields();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
@@ -342,22 +343,31 @@ class _PaymentProductsState extends State<PaymentProducts>
     );
   }
 
-  void _storePaymentData() {
-    // Store payment data in the Firestore collection
-    FirebaseFirestore.instance.collection('product_payment').add({
-      'productName': widget.productName,
-      'price': widget.price,
-      'fullName': _fullNameController.text,
-      'email': _emailController.text,
-      'phoneNumber': _phoneNumberController.text,
-      'address': _addressController.text,
-      'imageURLs': widget.imageURLs,
-    }).then((value) {
-      print('Payment data stored successfully');
-    }).catchError((error) {
-      print('Failed to store payment data: $error');
-    });
-  }
+  void _storePaymentData(BuildContext context) {
+  // Store payment data in the Firestore collection
+  FirebaseFirestore.instance.collection('product_payment').add({
+    'productName': widget.productName,
+    'price': widget.price,
+    'fullName': _fullNameController.text,
+    'email': _emailController.text,
+    'phoneNumber': _phoneNumberController.text,
+    'address': _addressController.text,
+    'imageURLs': widget.imageURLs,
+  }).then((value) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Payment data stored successfully'),
+      ),
+    );
+  }).catchError((error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to store payment data: $error'),
+      ),
+    );
+  });
+}
+
 
   bool _validateStep() {
     switch (_currentStep) {

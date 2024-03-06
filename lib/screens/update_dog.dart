@@ -15,6 +15,7 @@ class UpdateDog extends StatefulWidget {
       : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _UpdateDogState createState() => _UpdateDogState();
 }
 
@@ -214,6 +215,7 @@ Future<void> _uploadImage(String imagePath) async {
         .collection('dogDetails')
         .doc(widget.dogId)
         .update(updatedData);
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Dog details updated successfully'),
@@ -221,7 +223,12 @@ Future<void> _uploadImage(String imagePath) async {
       ),
     );
   } catch (error) {
-    print('Error updating dog details: $error');
+     // ignore: use_build_context_synchronously
+     ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error updating dog details: $error'),
+      ),
+    );
   }
 }
 

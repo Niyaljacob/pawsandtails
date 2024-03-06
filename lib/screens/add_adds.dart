@@ -10,6 +10,7 @@ class AddAdds extends StatefulWidget {
   const AddAdds({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddAddsState createState() => _AddAddsState();
 }
 
@@ -166,6 +167,7 @@ Future<void> _confirmDeleteImage(int index) async {
     _imageUrls.removeAt(index);
   });
 
+  // ignore: use_build_context_synchronously
   ScaffoldMessenger.of(context).showSnackBar(
     const SnackBar(
       content: Text('Image deleted successfully'),

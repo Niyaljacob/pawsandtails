@@ -13,6 +13,7 @@ class VetItemsDetails extends StatefulWidget {
   const VetItemsDetails({Key? key, required this.vetId, required this.vetName}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _VetItemsDetailsState createState() => _VetItemsDetailsState();
 }
 
@@ -157,7 +158,12 @@ class _VetItemsDetailsState extends State<VetItemsDetails> {
         detailsController.text = data['details'];
       });
     } catch (e) {
-      print('Error fetching vet details: $e');
+       // ignore: use_build_context_synchronously
+       ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to fetch details: $e'),
+      ),
+    );
     }
   }
 
@@ -237,8 +243,10 @@ class _VetItemsDetailsState extends State<VetItemsDetails> {
         });
       }
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Vet Items details updated')));
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to update Vet Item details')));
     }
   }

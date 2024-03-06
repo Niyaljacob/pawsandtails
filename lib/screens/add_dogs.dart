@@ -8,6 +8,7 @@ class AddDogs extends StatefulWidget {
   const AddDogs({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddDogsState createState() => _AddDogsState();
 }
 
@@ -194,6 +195,7 @@ class _AddDogsState extends State<AddDogs> {
     _imageUrls.clear();
 
     
+    // ignore: use_build_context_synchronously
     showDialog(
       context: context,
       builder: (context) {

@@ -5,6 +5,7 @@ import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/screens/update_accessories_details.dart';
 
 class AccessoriesList extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const AccessoriesList({Key? key});
 
   @override
@@ -57,16 +58,16 @@ class AccessoriesList extends StatelessWidget {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(8.0),
                                     child: CachedNetworkImage(
-                                    imageUrl: data['imageURLs'][0],
-                                    width: 150,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) => const Center(
-                                        child:
-                                            CircularProgressIndicator()), 
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error), 
-                                  ),
+                                      imageUrl: data['imageURLs'][0],
+                                      width: 150,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) => const Center(
+                                          child:
+                                              CircularProgressIndicator()), 
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error), 
+                                    ),
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
@@ -83,7 +84,7 @@ class AccessoriesList extends StatelessWidget {
                               right: 8,
                               child: IconButton(
                                 onPressed: () {
-                                  _deletePopularItem(document.id);
+                                  _deletePopularItem(context, document.id);
                                 },
                                 icon: const Icon(Icons.delete, color: Colors.red),
                               ),
@@ -133,7 +134,7 @@ class AccessoriesList extends StatelessWidget {
                           child: const Icon(Icons.delete, color: Colors.white),
                         ),
                         onDismissed: (direction) {
-                          _deleteItem(document.id, data['addToPopularItems']);
+                          _deleteItem(context, document.id, data['addToPopularItems']);
                         },
                         child: ListTile(
                           leading: CachedNetworkImage(
@@ -173,26 +174,51 @@ class AccessoriesList extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteItem(String documentId, bool addToPopularItems) async {
+  Future<void> _deleteItem(BuildContext context, String documentId, bool addToPopularItems) async {
     try {
       await FirebaseFirestore.instance.collection('Accessories').doc(documentId).delete();
-      print('Item deleted successfully');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Item deleted successfully'),
+        ),
+      );
     
       if (addToPopularItems) {
         await FirebaseFirestore.instance.collection('AccessoriesPopular').doc(documentId).delete();
-        print('Item deleted from AccessoriesPopular successfully');
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Item deleted from AccessoriesPopular successfully'),
+          ),
+        );
       }
     } catch (e) {
-      print('Error deleting item: $e');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting item: $e'),
+        ),
+      );
     }
   }
 
-  Future<void> _deletePopularItem(String documentId) async {
+  Future<void> _deletePopularItem(BuildContext context, String documentId) async {
     try {
       await FirebaseFirestore.instance.collection('AccessoriesPopular').doc(documentId).delete();
-      print('Popular item deleted successfully');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Popular item deleted successfully'),
+        ),
+      );
     } catch (e) {
-      print('Error deleting popular item: $e');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting popular item: $e'),
+        ),
+      );
     }
   }
 }

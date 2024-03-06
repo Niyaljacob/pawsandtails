@@ -9,6 +9,7 @@ class ProductCartOrdersUser extends StatefulWidget {
   const ProductCartOrdersUser({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProductCartOrdersUserState createState() => _ProductCartOrdersUserState();
 }
 
@@ -38,7 +39,7 @@ class _ProductCartOrdersUserState extends State<ProductCartOrdersUser> {
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
-              print('Error: ${snapshot.error}');
+              // print('Error: ${snapshot.error}');
               return Center(
                 child: Text('Error: ${snapshot.error}'),
               );
@@ -76,7 +77,11 @@ class _ProductCartOrdersUserState extends State<ProductCartOrdersUser> {
                 });
               } catch (e) {
                 // Handle parsing error gracefully
-                print('Error parsing price: $e');
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Error parsing price: $e'),
+                  ),
+                );
               }
             }
 
@@ -102,9 +107,20 @@ class _ProductCartOrdersUserState extends State<ProductCartOrdersUser> {
                             .collection('product_cart')
                             .doc(document.id)
                             .delete()
-                            .then((value) => print('Item deleted'))
-                            .catchError((error) =>
-                                print('Failed to delete item: $error'));
+                            .then((value) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Item deleted'),
+                            ),
+                          );
+                        })
+                            .catchError((error) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('Failed to delete item: $error'),
+                            ),
+                          );
+                        });
                       },
                       confirmDismiss: (direction) async {
                         return await showDialog(
@@ -420,6 +436,7 @@ class _ProductCartOrdersUserState extends State<ProductCartOrdersUser> {
     return _orderConfirmed;
   }
 
+  // ignore: unused_element
   Future<void> _storeOrderDetails(
       List<Map<String, dynamic>> productsInCart, double totalPrice) async {
     // Get the current user
@@ -454,6 +471,7 @@ class _ProductCartOrdersUserState extends State<ProductCartOrdersUser> {
       });
 
       // Show success message
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Order placed successfully!'),
@@ -461,6 +479,7 @@ class _ProductCartOrdersUserState extends State<ProductCartOrdersUser> {
         ),
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to place order. Please try again later.'),
@@ -504,6 +523,7 @@ class _ProductCartOrdersUserState extends State<ProductCartOrdersUser> {
       });
 
       // Show success message
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Order placed successfully!'),
@@ -511,6 +531,7 @@ class _ProductCartOrdersUserState extends State<ProductCartOrdersUser> {
         ),
       );
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Failed to place order. Please try again later.'),

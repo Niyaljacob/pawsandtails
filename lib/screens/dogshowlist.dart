@@ -45,7 +45,8 @@ class DogShowList extends StatelessWidget {
                         child: const Icon(Icons.delete, color: Colors.white),
                       ),
                       onDismissed: (direction) {
-                        _deleteDogShowEvent(document.id);
+                        _deleteDogShowEvent(context, document.id);
+
                       },
                       child: ListTile(
                         leading:CachedNetworkImage(
@@ -76,12 +77,23 @@ class DogShowList extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteDogShowEvent(String documentId) async {
+ Future<void> _deleteDogShowEvent(BuildContext context, String documentId) async {
     try {
       await FirebaseFirestore.instance.collection('dog_shows').doc(documentId).delete();
-      print('Dog show event deleted successfully');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Dog show event deleted successfully'),
+        ),
+      );
     } catch (e) {
-      print('Error deleting dog show event: $e');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting dog show event: $e'),
+        ),
+      );
     }
   }
+
 }

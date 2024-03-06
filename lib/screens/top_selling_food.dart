@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:paws_and_tail/common/color_extention.dart';
 
 class TopSellingFood extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const TopSellingFood({Key? key});
 
   @override

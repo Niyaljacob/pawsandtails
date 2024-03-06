@@ -14,12 +14,14 @@ class DogShowList extends StatelessWidget {
         title: const Text('Dog Show Events'),
         backgroundColor: TColo.primaryColor1,
       ),
-      body: DogShowListBody(),
+      body: const DogShowListBody(),
     );
   }
 }
 
 class DogShowListBody extends StatelessWidget {
+  const DogShowListBody({super.key});
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<QuerySnapshot>(

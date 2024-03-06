@@ -6,6 +6,7 @@ import 'package:paws_and_tail/screens/dog_details.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ProductCard extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const ProductCard({Key? key});
 
   @override
@@ -168,6 +169,7 @@ class ProductCardViewMore extends StatefulWidget {
   const ProductCardViewMore({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProductCardViewMoreState createState() => _ProductCardViewMoreState();
 }
 

@@ -16,6 +16,7 @@ class FoodDetails extends StatefulWidget {
       : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _FoodDetailsState createState() => _FoodDetailsState();
 }
 
@@ -180,7 +181,12 @@ class _FoodDetailsState extends State<FoodDetails> {
         detailsController.text = data['details'];
       });
     } catch (e) {
-      print('Error fetching food details: $e');
+       // ignore: use_build_context_synchronously
+       ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error fetching food details: $e'),
+      ),
+    );
     }
   }
 
@@ -254,6 +260,7 @@ class _FoodDetailsState extends State<FoodDetails> {
         'imageURLs': updatedImageURLs,
       });
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Food details updated')));
 
@@ -270,6 +277,7 @@ class _FoodDetailsState extends State<FoodDetails> {
         });
       }
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to update food details')));
     }

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class ProductsDeclineUser extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const ProductsDeclineUser({Key? key});
 
   @override

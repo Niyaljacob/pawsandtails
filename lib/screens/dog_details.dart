@@ -10,6 +10,7 @@ class DogDetails extends StatelessWidget {
   final String dogId;
   final String dogName;
 
+  // ignore: use_key_in_widget_constructors
   const DogDetails({Key? key, required this.dogId, required this.dogName});
 
   @override

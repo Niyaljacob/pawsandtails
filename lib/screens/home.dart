@@ -6,20 +6,14 @@ import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/common/footer_container.dart';
 import 'package:paws_and_tail/common/listview_horizontal.dart';
 import 'package:paws_and_tail/common/productcard.dart';
-import 'package:paws_and_tail/screens/events.dart';
 import 'package:paws_and_tail/screens/products.dart';
-import 'package:paws_and_tail/screens/user_account.dart';
+
 import 'package:paws_and_tail/screens/view_more_dog.dart';
 
+// ignore: must_be_immutable
 class HomeScreen extends StatelessWidget {
-  int _currentIndex = 0;
-  final List<Widget> _screens = [
-    const ProductScreen(),
-    const DogShowList(),
-    const AccountScreen(),
-  ];
 
-  HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

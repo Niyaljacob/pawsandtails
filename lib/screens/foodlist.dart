@@ -5,6 +5,7 @@ import 'package:paws_and_tail/common/color_extention.dart';
 import 'package:paws_and_tail/screens/update_food_details.dart';
 
 class FoodList extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const FoodList({Key? key});
 
   @override
@@ -73,7 +74,7 @@ class FoodList extends StatelessWidget {
                                       color: Colors.red,
                                     ),
                                     onPressed: () {
-                                      _deletePopularItem(document.id);
+                                      _deletePopularItem(context, document.id);
                                     },
                                   ),
                                 ),
@@ -132,7 +133,7 @@ class FoodList extends StatelessWidget {
                         child: const Icon(Icons.delete, color: Colors.white),
                       ),
                       onDismissed: (direction) {
-                        _deleteItem(document.id);
+                        _deleteItem(context, document.id);
                       },
                       child: ListTile(
                         leading: CachedNetworkImage(
@@ -170,7 +171,7 @@ class FoodList extends StatelessWidget {
     );
   }
 
-  Future<void> _deleteItem(String documentId) async {
+  Future<void> _deleteItem(BuildContext context, String documentId) async {
     try {
       await FirebaseFirestore.instance
           .collection('Food')
@@ -180,21 +181,41 @@ class FoodList extends StatelessWidget {
           .collection('FoodPopular')
           .doc(documentId)
           .delete();
-      print('Item deleted successfully');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Item deleted successfully'),
+        ),
+      );
     } catch (e) {
-      print('Error deleting item: $e');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting item: $e'),
+        ),
+      );
     }
   }
 
-  Future<void> _deletePopularItem(String documentId) async {
+  Future<void> _deletePopularItem(BuildContext context, String documentId) async {
     try {
       await FirebaseFirestore.instance
           .collection('FoodPopular')
           .doc(documentId)
           .delete();
-      print('Popular item deleted successfully');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Popular item deleted successfully'),
+        ),
+      );
     } catch (e) {
-      print('Error deleting popular item: $e');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error deleting popular item: $e'),
+        ),
+      );
     }
   }
 }

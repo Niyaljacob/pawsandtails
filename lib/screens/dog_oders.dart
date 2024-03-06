@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DogOrders extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const DogOrders({Key? key});
 
   @override
@@ -14,6 +15,7 @@ class DogOrders extends StatelessWidget {
 }
 
 class DogSaless extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const DogSaless({Key? key});
 
   @override
@@ -63,8 +65,8 @@ class DogSaless extends StatelessWidget {
                     children: [
                       CachedNetworkImage(
                         imageUrl: imageUrls[0],
-                        width: 100,
-                        height: 100,
+                        width: 90,
+                        height: 90,
                         fit: BoxFit.cover,
                         placeholder: (context, url) =>
                             const Center(child: CircularProgressIndicator()),
@@ -74,7 +76,7 @@ class DogSaless extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.6,
+                          width: MediaQuery.of(context).size.width * 0.5,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -137,8 +139,13 @@ class DogSaless extends StatelessWidget {
                                           ),
                                         );
                                       }).catchError((error) {
-                                        print(
-                                            'Error accepting payment: $error');
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'Error accepting payment: $error'),
+                                          ),
+                                        );
                                       });
                                       Navigator.of(context).pop();
                                     },
@@ -219,8 +226,13 @@ class DogSaless extends StatelessWidget {
                                             ),
                                           );
                                         }).catchError((error) {
-                                          print(
-                                              'Error declining payment: $error');
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                  'Error accepting payment: $error'),
+                                            ),
+                                          );
                                         });
                                         Navigator.of(context).pop();
                                       } else {

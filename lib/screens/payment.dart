@@ -18,6 +18,7 @@ class Payment extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _PaymentState createState() => _PaymentState();
 }
 
@@ -355,10 +356,18 @@ class _PaymentState extends State<Payment>
       'address': _addressController.text,
       'imageUrls': widget.imageUrls,
     }).then((value) {
-      print('Payment data stored successfully');
-    }).catchError((error) {
-      print('Failed to store payment data: $error');
-    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Payment data stored successfully'),
+      ),
+    );
+  }).catchError((error) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to store payment data: $error'),
+      ),
+    );
+  });
   }
 
   bool _validateStep() {

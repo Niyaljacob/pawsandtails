@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductOrders extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const ProductOrders({Key? key});
 
   @override
@@ -14,6 +15,7 @@ class ProductOrders extends StatelessWidget {
 }
 
 class ProductSales extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const ProductSales({Key? key});
 
   @override
@@ -63,8 +65,8 @@ class ProductSales extends StatelessWidget {
                       if (imageURLs != null && imageURLs.isNotEmpty)
                         CachedNetworkImage(
                           imageUrl: imageURLs[0],
-                          width: 100,
-                          height: 100,
+                          width: 90,
+                          height: 90,
                           fit: BoxFit.cover,
                           placeholder: (context, url) =>
                               const Center(child: CircularProgressIndicator()),
@@ -73,7 +75,7 @@ class ProductSales extends StatelessWidget {
                         ),
                       const SizedBox(width: 10),
                       SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.6,
+                        width: MediaQuery.of(context).size.width * 0.5,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -135,8 +137,13 @@ class ProductSales extends StatelessWidget {
                                           ),
                                         );
                                       }).catchError((error) {
-                                        print(
-                                            'Error accepting payment: $error');
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'Error accepting payment: $error'),
+                                          ),
+                                        );
                                       });
                                       Navigator.of(context).pop();
                                     },
@@ -217,9 +224,14 @@ class ProductSales extends StatelessWidget {
                                             ),
                                           );
                                         }).catchError((error) {
-                                          print(
-                                              'Error declining payment: $error');
-                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                                'Error Declining payment: $error'),
+                                          ),
+                                        );
+                                      });
                                         Navigator.of(context).pop();
                                       } else {
                                         ScaffoldMessenger.of(context)

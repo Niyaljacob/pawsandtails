@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DogDecline extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const DogDecline({Key? key});
 
   @override
@@ -14,6 +15,7 @@ class DogDecline extends StatelessWidget {
 }
 
 class DogDeclineProducts extends StatelessWidget {
+  // ignore: use_key_in_widget_constructors
   const DogDeclineProducts({Key? key});
 
   @override

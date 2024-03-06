@@ -12,6 +12,7 @@ class UpdateDogShow extends StatefulWidget {
   const UpdateDogShow({Key? key, required this.showId, required this.showName}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _UpdateDogShowState createState() => _UpdateDogShowState();
 }
 
@@ -47,7 +48,12 @@ class _UpdateDogShowState extends State<UpdateDogShow> {
         showImageUrls = List<String>.from(data['imageUrls']);
       });
     } catch (e) {
-      print('Error fetching dog show details: $e');
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to fetch details: $e'),
+      ),
+    );
     }
   }
 
@@ -205,8 +211,10 @@ class _UpdateDogShowState extends State<UpdateDogShow> {
         'imageUrls': imageUrls,
       });
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Dog show event updated')));
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to update dog show event')));
     }
   }

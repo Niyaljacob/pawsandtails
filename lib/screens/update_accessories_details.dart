@@ -16,6 +16,7 @@ class AccessoriesDetails extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _AccessoriesDetailsState createState() => _AccessoriesDetailsState();
 }
 
@@ -174,7 +175,12 @@ class _AccessoriesDetailsState extends State<AccessoriesDetails> {
         addToPopularItems = data['addToPopularItems'] ?? false;
       });
     } catch (e) {
-      print('Error fetching details: $e');
+       // ignore: use_build_context_synchronously
+       ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Failed to fetch details: $e'),
+      ),
+    );
     }
   }
 
@@ -238,9 +244,11 @@ class _AccessoriesDetailsState extends State<AccessoriesDetails> {
         await FirebaseFirestore.instance.collection('AccessoriesPopular').doc(widget.productId).delete();
       }
 
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Details updated')));
     } catch (e) {
+      // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to update details')));
     }
