@@ -14,14 +14,23 @@ class HorizontalItemList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height*.2,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: itemCount,
-        itemBuilder: (context, index) {
-          return buildItem(context, index);
-        },
-      ),
+      height: MediaQuery.of(context).size.height*.15,
+      child: ListView.separated(
+      scrollDirection: Axis.horizontal,
+      itemCount: itemCount,
+      separatorBuilder: (context, index) {
+        // Use MediaQuery to get the screen width
+        final screenWidth = MediaQuery.of(context).size.width;
+        final spacing = screenWidth * 0.09; 
+    
+        return SizedBox(width: spacing);
+      },
+      itemBuilder: (context, index) {
+        return buildItem(context, index);
+      },
+    ),
+    
+    
     );
   }
 
@@ -39,12 +48,9 @@ class HorizontalItemList extends StatelessWidget {
       },
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: CircleAvatar(backgroundColor: Colors.white,
-              radius: 30,
-              backgroundImage: AssetImage(assetPaths[index]),
-            ),
+          CircleAvatar(backgroundColor: Colors.white,
+            radius: 30,
+            backgroundImage: AssetImage(assetPaths[index]),
           ),
         
           Text(getItemText(index)),
