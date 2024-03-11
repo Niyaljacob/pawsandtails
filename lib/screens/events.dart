@@ -30,6 +30,7 @@ class DogShowListBody extends StatefulWidget {
   const DogShowListBody({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _DogShowListBodyState createState() => _DogShowListBodyState();
 }
 

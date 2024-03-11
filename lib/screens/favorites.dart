@@ -15,6 +15,7 @@ class FavoriteUser extends StatefulWidget {
   const FavoriteUser({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _FavoriteUserState createState() => _FavoriteUserState();
 }
 

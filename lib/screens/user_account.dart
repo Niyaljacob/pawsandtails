@@ -43,22 +43,29 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   fetchUserData() async {
-    User? user = FirebaseAuth.instance.currentUser;
-    DocumentSnapshot snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user?.uid)
-        .get();
-    Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-    setState(() {
-      _usernameController.text = data['username'];
-      _emailController.text = data['email'];
-      _phoneController.text = data['phoneNumber'];
-      _ageController.text = data['age'];
-      _genderController.text = data['gender'];
-      _addressController.text = data['address'];
-      _imageUrl = data['imageUrl'];
-    });
+  User? user = FirebaseAuth.instance.currentUser;
+  DocumentSnapshot snapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(user?.uid)
+      .get();
+  
+  if (snapshot.exists) {
+    Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+
+    if (data != null) {
+      setState(() {
+        _usernameController.text = data['username'] ?? '';
+        _emailController.text = data['email'] ?? '';
+        _phoneController.text = data['phoneNumber'] ?? '';
+        _ageController.text = data['age'] ?? '';
+        _genderController.text = data['gender'] ?? '';
+        _addressController.text = data['address'] ?? '';
+        _imageUrl = data['imageUrl'] ?? '';
+      });
+    }
   }
+}
+
 
   Future<void> _updateProfile() async {
     User? user = FirebaseAuth.instance.currentUser;

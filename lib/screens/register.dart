@@ -15,6 +15,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  bool _obscureText = true;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -38,12 +39,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
           password: _passwordController.text,
         );
 
-         // ignore: use_build_context_synchronously
-         ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('User created successfully'),
-      ),
-    );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('User created successfully'),
+          ),
+        );
 
         String imageUrl = await _uploadImage();
 
@@ -60,7 +61,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           'imageUrl': imageUrl,
         });
 
-
         // ignore: use_build_context_synchronously
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
@@ -71,27 +71,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-       // ignore: use_build_context_synchronously
-       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('The password provided is too weak.'),
-        ),
-      );
+        // ignore: use_build_context_synchronously
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('The password provided is too weak.'),
+          ),
+        );
       } else if (e.code == 'email-already-in-use') {
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('The account already exists for that email.'),
-        ),
-      );
+          const SnackBar(
+            content: Text('The account already exists for that email.'),
+          ),
+        );
       }
     } catch (error) {
       // ignore: use_build_context_synchronously
       ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Error during registration: $error'),
-      ),
-    );
+        SnackBar(
+          content: Text('Error during registration: $error'),
+        ),
+      );
     }
   }
 
@@ -114,10 +114,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _image = File(pickedFile.path);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('No image Selected'),
-      ),
-    );
+          const SnackBar(
+            content: Text('No image Selected'),
+          ),
+        );
       }
     });
   }
@@ -198,12 +198,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         // Password field
                         TextFormField(
                           controller: _passwordController,
-                          obscureText: true,
+                          obscureText: _obscureText,
                           decoration: InputDecoration(
                             labelText: 'Password',
                             hintText: 'Enter your password',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  _obscureText = !_obscureText;
+                                });
+                              },
+                              child: Icon(
+                                _obscureText
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                              ),
                             ),
                           ),
                           validator: (value) {
@@ -214,6 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                         ),
+
                         const SizedBox(height: 15.0),
                         // Gender field
                         TextFormField(
