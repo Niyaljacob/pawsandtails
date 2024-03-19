@@ -107,7 +107,7 @@ class _AddDogsState extends State<AddDogs> {
             const SizedBox(height: 20),
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue), // Change color as per your requirement
+                backgroundColor: MaterialStateProperty.all<Color>(Colors.blue), 
               ),
               onPressed: _saveDogDetails,
               child: const Text('Save Dog Details', style: TextStyle(color: Colors.white)),
@@ -139,6 +139,10 @@ class _AddDogsState extends State<AddDogs> {
   }
 
   Future<void> _fetchImageUrls() async {
+    setState(() {
+      _imageUrls.clear(); 
+    });
+
     final snapshot = await _firestore.collection('dogDetails').get();
     setState(() {
       _imageUrls = snapshot.docs.map((doc) => doc['imageurls'][0] as String).toList();
@@ -152,17 +156,16 @@ class _AddDogsState extends State<AddDogs> {
       final ref = _storage.ref().child('images/${DateTime.now().millisecondsSinceEpoch}.jpg');
       await ref.putFile(File(image.path));
       final url = await ref.getDownloadURL();
-      _imageUrls.add(url);
+      setState(() {
+        _imageUrls.add(url);
+      });
     }
-    setState(() {});
-    }
+  }
 
   Future<void> _deleteImage(String imageUrl) async {
-    _imageUrls.remove(imageUrl);
-    setState(() {});
-
-    // You may want to also delete the image from Firebase Storage and Firestore here
-    // Depending on your application's requirements
+    setState(() {
+      _imageUrls.remove(imageUrl);
+    });
   }
 
   Future<void> _saveDogDetails() async {
@@ -179,10 +182,8 @@ class _AddDogsState extends State<AddDogs> {
       'imageurls': _imageUrls
     };
 
-    
     await _firestore.collection('dogDetails').add(dogDetails);
 
-  
     _nameController.clear();
     _priceController.clear();
     _overviewController.clear();
@@ -192,9 +193,10 @@ class _AddDogsState extends State<AddDogs> {
     _momWeightController.clear();
     _dadWeightController.clear();
     _colorController.clear();
-    _imageUrls.clear();
+    setState(() {
+      _imageUrls.clear();
+    });
 
-    
     // ignore: use_build_context_synchronously
     showDialog(
       context: context,
